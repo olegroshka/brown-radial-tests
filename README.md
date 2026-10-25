@@ -72,10 +72,17 @@ Saved outputs of record are in `code/results/`.
 ## Companion
 
 `companion/explainer.html` is a self-contained reader's guide to the paper at the
-level of a first mathematics degree. It builds up the background first (priors and
-Gaussian blur, random walks and the three kinds of Brownian motion, weighted
-spaces and the electrical reading of recurrence) and then explains the results,
-with interactive figures and simulations. Open it in a web browser.
+level of a first mathematics degree, written for statisticians, geometers and
+physicists, and people who build models. It opens with the whole story on one
+page and three reading routes, and each Part starts with its idea in plain words.
+It builds up the background (priors and Gaussian blur, random walks, weighted
+spaces, the electrical reading of recurrence), explains step by step what Brown's
+two radial tests compute, states the results, and adds a Part on where the
+microstructure matters in practice (expected-return shrinkage, Langevin samplers,
+regime priors), with each link labelled by how firm it is. Live demos, computed in
+the browser: the resistance sandwich (an exact network solve with Brown's two
+bounds), a probe that tells walls from threads, and a sampler on regime priors.
+Open it in a web browser.
 
 ## Author and license
 
