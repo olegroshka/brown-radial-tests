@@ -22,6 +22,7 @@ figures/        the two computed figures used in the paper (PDF + PNG)
 code/           Python scripts that reproduce the numbers of Section 6
 code/results/   saved output of those scripts (the runs of record)
 companion/      a self-contained HTML reader's guide to the paper
+arxiv/          flattened copy for an arXiv upload (the .tex + the two figure PDFs in one folder)
 ```
 
 ## Build the paper
@@ -34,6 +35,22 @@ pdflatex radial-tests.tex
 
 The bibliography is inlined in `radial-tests.tex`, so no BibTeX pass is needed;
 `references.bib` is kept for provenance.
+
+## Uploading to arXiv
+
+arXiv compiles from the top level of the uploaded archive and will not follow a
+`../` path outside it, so the `paper/` + `figures/` split cannot be uploaded as
+is (the two figures come back as "missing from the source"). The `arxiv/` folder
+is a flattened copy for exactly this: `radial-tests.tex` and both figure PDFs in a
+single directory, with `\graphicspath` pointing at `./`. Zip its *contents* -- the
+files must sit at the archive's top level, not inside a subfolder:
+
+```
+cd arxiv
+zip ../radial-tests-arxiv.zip radial-tests.tex fig2_undecided.pdf fig3_lattice_vs_wall.pdf
+```
+
+No BibTeX pass or `.bbl` is needed; arXiv runs pdflatex itself.
 
 ## Reproduce the numbers
 
