@@ -1,0 +1,76 @@
+AR-029 A2: scattered co-dimension-two lattice weight on R^3, alpha = 6.0, shells k = 4..11
+==============================================================================================================
+D1  lattice geometry (s_k = 2^(k/2))
+     k      N_k     L_k    M_k   dr/s_k   r*dth/s_k (r=2^k..2^(k+1))   NN dist/s_k (min)   max dist(shell pt, Gamma)/s_k   smallest circle radius
+     4       64      4     16    1.00     0.79 ..  1.57                 0.784               1.122                          0.39
+     5      128      8     16    0.71     1.11 ..  2.22                 0.722               1.320                          0.39
+     6      256      8     32    1.00     0.79 ..  1.57                 0.785               1.214                          0.39
+     7      512     16     32    0.71     1.11 ..  2.22                 0.711               1.537                          0.39
+     8     1024     16     64    1.00     0.79 ..  1.57                 0.785               1.166                          0.39
+     9     2048     32     64    0.71     1.11 ..  2.22                 0.708               1.111                          0.39
+    10     4096     32    128    1.00     0.79 ..  1.57                 0.785               0.957                          0.39
+    11     8192     64    128    0.71     1.11 ..  2.22                 0.707               1.129                          0.39
+  => a sheared rectangular lattice of circles in the meridian half-plane with spacing ~ s_k in both directions;
+     every point of the shell is within ~s_k of Gamma and no closer pattern exists: the low-weight set is a
+     union of tubes of radius ~1 around circles ~s_k apart (no co-dimension-one wall at any scale).
+
+D2  sphere mean fbar(r) (Brown 6.4.3 needs Int dr/(r^2 fbar) = inf; bounded-below fbar makes it converge)
+     k      r = r_0 (layer)   fbar     r = r_0 + dr/2 (between)   fbar     r = r_{L/2}   fbar
+     4           16.0     0.0015           18.0              0.0127           24.0     0.0020
+     5           32.0     0.0032           34.0              0.0070           48.0     0.0067
+     6           64.0     0.0006           68.0              0.0113           96.0     0.0013
+     7          128.0     0.0025          132.0              0.0069          192.0     0.0060
+     8          256.0     0.0004          264.0              0.0116          384.0     0.0011
+     9          512.0     0.0023          520.0              0.0073          768.0     0.0058
+    10         1024.0     0.0004         1040.0              0.0121         1536.0     0.0011
+    11         2048.0     0.0022         2064.0              0.0076         3072.0     0.0058
+  => fbar bounded below by a k-independent constant: Brown 6.4.3 silent.
+
+D3  ray integrals per block, I_k(phi) = Int_{2^k}^{2^(k+1)} dr/(r^2 w(r phi)); Brown 6.4.4 fires iff sup over a
+     positive-measure set of directions of the FULL integral is finite; here every direction pays >= c per block
+     k    min I_k   median I_k   max I_k   I_k(pole)   I_k(equator)   worst-case midpoints: min   [directions sampled]
+     4    17.121     36.197      49.645     26.114       41.972            17.121           [802]
+     5    27.989     68.873     113.528     48.201       75.420            27.989           [802]
+     6    53.536    127.234     183.249     91.887      145.089            53.536           [802]
+     7   181.172    253.163     425.463    181.172      280.975           198.573           [802]
+     8   357.098    490.826     720.598    357.098      554.331           400.742           [802]
+     9   715.007    992.118    1665.882    715.007     1099.702           794.715           [802]
+    10   766.731   1936.635    2891.962   1424.375     2191.085           766.731           [802]
+    11   2857.117   3915.006    6604.270   2857.117     4374.344          3100.156           [802]
+  => min over directions bounded below (alpha = 4) or growing (alpha > 4): sum over k diverges for every ray;
+     Brown 6.4.4 silent.
+
+D4  volume growth mu(B_r) / (4 pi r^3 / 3) at r = 2^k (quadrature, resolution 0.5)
+     k         r        mu(B_r)        mu/(4/3 pi r^3)    shell mass / shell volume
+     4       16.0     4.4923e+03         0.2618
+     5       32.0     5.0309e+03         0.0367                0.0045
+     6       64.0     1.1015e+04         0.0100                0.0062
+     7      128.0     3.7149e+04         0.0042                0.0034
+     8      256.0     4.7027e+05         0.0067                0.0070
+     9      512.0     2.0476e+06         0.0036                0.0032
+    10     1024.0     3.2176e+07         0.0072                0.0077
+    11     2048.0     1.3189e+08         0.0037                0.0032
+  => mu(B_r) ~ c r^3 with c bounded above and below: Int r dr / mu(B_r) < inf (volume test => transient under D+P).
+
+D5  doubling ratios mu(B(x, 2 rho)) / mu(B(x, rho)) in shell k = 8 (s_k = 16.0); MC 200000 points per ball
+     rho/s_k    rho      on a circle    bulk point    axis point    (Lebesgue: 8)
+    0.062       1.0       68.754         6.989         6.079
+    0.125       2.0      230.856         5.719         4.920
+    0.250       4.0      323.323         4.038         5.403
+    0.250       4.0      324.672         4.034         5.380
+    0.500       8.0       51.602         3.858         5.309
+    1.000      16.0        6.958         9.314        15.425
+    2.000      32.0        7.920         8.004         8.930
+    4.000      64.0        8.328         8.248         7.895
+    8.000     128.0        9.804         9.748         9.725
+  => bounded ratios at every scale (the on-circle small-scale ratio is the co-dimension-two power-weight value).
+
+D6  sup |grad log w| by central differences at random shell points (Lemma K12 constant L)
+     k     max |grad log w|    99th pct    analytic bound (alpha/2)(1 + 1.618) = 7.854
+     6         2.9769            2.9382
+     8         2.9938            2.9054
+    10         2.9981            2.3278
+  => log w is Lipschitz with a k-independent constant L (<= alpha/2 + o(1) in practice):
+     f* = phi * w is a Gaussian marginal with c_L w <= f* <= C_L w and |grad log f*| <= L (Lemma K12).
+
+elapsed 56 s

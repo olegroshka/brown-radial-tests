@@ -1,0 +1,44 @@
+================================================================================================
+G0 CORRECTION CHECK: doubling / Poincare / log-gradient / spherical A2 / Lemma K9, 1-D weights
+================================================================================================
+weight    dbl(1e4)   dbl(1e8)  PI/|I|^2   sup|w'/w|       Q(1e8)      K9(1e8)
+         sup ratio  sup ratio       sup                mu nu/r^2    nu mu/L^2
+w_log        4.851      9.161    0.4899      0.6314        4.773        13.09
+        worst doubling I = [5e+07, 1.5e+08];  worst Poincare I = [1.31e+03, 1.13e+04]
+w_one        8.597       17.4    0.4759       0.999         9.21        26.59
+        worst doubling I = [5e+07, 1.5e+08];  worst Poincare I = [3.29, 28.4]
+w_half       2.708      2.732    0.4742      0.4995        1.333        2.438
+        worst doubling I = [5e+07, 1.5e+08];  worst Poincare I = [-4.06, 35.8]
+w_grow       7.998          8 2.223e+07       1.998    3.333e+07       0.1667
+        worst doubling I = [-5e+07, 5e+07];  worst Poincare I = [-4.37e+07, 5.63e+07]
+w_two         4734    7.5e+07     0.443       1.998    3.333e+07    1.167e+08
+        worst doubling I = [5e+07, 1.5e+08];  worst Poincare I = [3.15, 9.46]
+w_exp          inf        inf    0.3764           1    6.194e+60    2.478e+61
+        worst doubling I = [31.9, 47.7];  worst Poincare I = [0.792, 2.38]
+
+Scale dependence of the doubling ratio and of K9 (growth => not doubling / rays expensive):
+weight        r=1e2       r=1e3       r=1e4       r=1e5       r=1e6       r=1e7       r=1e8
+w_log dbl       3.142       4.063       5.052       6.067       7.092       8.125       9.161
+w_log K9       3.568       5.149       6.806       8.491       10.19        11.9       13.61
+w_one dbl       4.886       6.927       9.016       11.11       13.21        15.3        17.4
+w_one K9       6.969       10.37       13.82       17.27       20.72       24.18       27.63
+w_half dbl        2.56       2.673       2.713       2.726        2.73       2.731       2.732
+w_half K9       2.214       2.363       2.414        2.43       2.435       2.437       2.438
+w_grow dbl       2.453       2.461       2.461       2.462       2.462       2.462       2.462
+w_grow K9      0.1692      0.1669      0.1667      0.1667      0.1667      0.1667      0.1667
+
+(f) volume heuristic vs product-kernel numbers (w_log on R^3; informational, w_log is not doubling):
+         t     p_t(0,0)      V(sqrt t) p_t(0,0)*V(sqrt t)
+     1e+03    4.303e-06      3.661e+04             0.1575
+     1e+04    2.767e-07        6.2e+05             0.1716
+     1e+05    1.909e-08      9.574e+06             0.1828
+     1e+06    1.388e-09      1.379e+08             0.1914
+     1e+07    1.054e-10      1.883e+09             0.1985
+
+Reading.  w_log and w_one: doubling ratio grows like log r (not doubling) -> outside T1's class;
+w_half: doubling, Poincare, A2 (Q bounded).  w_grow: doubling + Poincare with Q ~ r/3 unbounded ->
+the packet's assertion 'T1-class => bounded spherical A2 ratio' is FALSE as stated.  The K9 quantity
+is bounded exactly for the doubling + Poincare weights, as Lemma K9 predicts.
+Part A at R = 1e8 for the two extra weights (I_S sphere test, M mean ray integral, I_V volume test):
+w_grow=(1+|t|)^2 R=1e+02: I_S=0.01747 M=0.3068 I_V=0.08302 R=1e+04: I_S=0.01747 M=0.3069 I_V=0.08302 R=1e+06: I_S=0.01747 M=0.3069 I_V=0.08302 R=1e+08: I_S=0.01747 M=0.3069 I_V=0.08302
+w_two=(1+|t|)^-2 R=1e+02: I_S=0.445 M=38.48 I_V=0.922 R=1e+04: I_S=0.8123 M=3336 I_V=1.658 R=1e+06: I_S=1.179 M=3.33e+05 I_V=2.391 R=1e+08: I_S=1.545 M=3.333e+07 I_V=3.125

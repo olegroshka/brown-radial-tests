@@ -1,0 +1,49 @@
+==============================================================================
+G0 PART A: sphere-average / ray / volume integrals, m = 3, weights w(x_1)
+==============================================================================
+predictions: w_log -> Q ~ log r/4 (unbounded), I_S converges, M diverges, I_V converges => Brown silent
+             w_half -> Q bounded, I_S converges, M converges => Brown 6.4.4 decides (transient)
+             w_one  -> Q ~ log r (unbounded), I_S diverges => Brown 6.4.3 decides (recurrent)
+--- w_log = (1+|t|)^-1 log(e+|t|) ---
+       R  Q(R)=fbar*A     I_S(R)  M(R) rays     I_V(R)
+   1e+02         1.49      0.136      1.865     0.3565
+   1e+03        1.978     0.1466      2.092     0.3815
+   1e+04        2.518     0.1522      2.246      0.394
+   1e+05        3.074     0.1555      2.364     0.4014
+   1e+06        3.637     0.1578      2.459     0.4063
+   1e+07        4.204     0.1594      2.539     0.4098
+   1e+08        4.772     0.1607      2.608     0.4124
+--- w_half = (1+|t|)^-1/2 ---
+       R  Q(R)=fbar*A     I_S(R)  M(R) rays     I_V(R)
+   1e+02        1.223     0.1227      1.623     0.3299
+   1e+03        1.294     0.1286      1.715     0.3447
+   1e+04         1.32     0.1303      1.744     0.3491
+   1e+05        1.329     0.1309      1.753     0.3505
+   1e+06        1.332      0.131      1.756     0.3509
+   1e+07        1.333     0.1311      1.757      0.351
+   1e+08        1.333     0.1311      1.757     0.3511
+--- w_one = (1+|t|)^-1 ---
+       R  Q(R)=fbar*A     I_S(R)  M(R) rays     I_V(R)
+   1e+02        2.352     0.1961      3.291     0.4739
+   1e+03         3.46     0.2284      4.451     0.5447
+   1e+04        4.605     0.2513      5.604     0.5936
+   1e+05        5.756     0.2691      6.756     0.6309
+   1e+06        6.907     0.2836      7.907     0.6612
+   1e+07        8.059     0.2959      9.059     0.6866
+   1e+08        9.208     0.3065      10.21     0.7084
+
+==============================================================================
+G0 PART B: 1-D on-diagonal heat kernel p_t(0,0) (density w.r.t. w dx), Crank-Nicolson
+==============================================================================
+control w == 1: sqrt(t) p_t(0,0) -> (4 pi)^-1/2 = 0.28209
+  t=      101  sqrt(t)*p =  0.28213   mass=1.0000  edge/centre=3.9e-321
+  t=    1e+03  sqrt(t)*p =  0.28209   mass=1.0000  edge/centre=9.4e-320
+  t= 1.02e+04  sqrt(t)*p =  0.28209   mass=1.0000  edge/centre=1.4e-318
+  t= 1.01e+05  sqrt(t)*p =  0.28209   mass=1.0000  edge/centre=4.8e-86
+w_log: prediction p_t(0,0) ~ c log^2(t)/t  =>  t*p/log^2 t -> const;  Green integral Int p/(4 pi t) dt converges
+  t=      101  p= 9.224e-02  t*p=   9.3055  t*p/log^2 t= 0.43710  log^2(t)*p (naive)=1.964e+00  Green(1..t)=0.07367  mass=1.0000  edge/centre=1.2e-321
+  t=    1e+03  p= 5.396e-02  t*p=  54.1382  t*p/log^2 t= 1.13346  log^2(t)*p (naive)=2.577e+00  Green(1..t)=0.08661  mass=1.0000  edge/centre=1.5e-320
+  t= 1.02e+04  p= 3.460e-02  t*p= 352.1839  t*p/log^2 t= 4.13573  log^2(t)*p (naive)=2.947e+00  Green(1..t)=0.09458  mass=1.0000  edge/centre=1.1e-319
+  t= 1.01e+05  p= 2.393e-02  t*p=2421.9271  t*p/log^2 t=18.23348  log^2(t)*p (naive)=3.178e+00  Green(1..t)=0.09985  mass=1.0000  edge/centre=9.8e-86
+  t= 1.01e+06  p= 1.745e-02  t*p=17566.5179  t*p/log^2 t=91.94523  log^2(t)*p (naive)=3.334e+00  Green(1..t)=0.10358  mass=1.0000  edge/centre=5.0e-11
+  t=    1e+07  p= 1.325e-02  t*p=132701.9994  t*p/log^2 t=510.72019  log^2(t)*p (naive)=3.444e+00  Green(1..t)=0.10636  mass=1.0000  edge/centre=1.7e-01
