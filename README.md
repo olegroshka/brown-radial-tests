@@ -17,7 +17,7 @@ inadmissible although neither of Brown's radial tests decides it.
 ## Layout
 
 ```
-paper/          LaTeX source (main.tex), bibliography, and the compiled PDF
+paper/          LaTeX source (radial-tests.tex), bibliography, and the compiled PDF
 figures/        the two computed figures used in the paper (PDF + PNG)
 code/           Python scripts that reproduce the numbers of Section 6
 code/results/   saved output of those scripts (the runs of record)
@@ -27,11 +27,11 @@ code/results/   saved output of those scripts (the runs of record)
 
 ```
 cd paper
-pdflatex main.tex
-pdflatex main.tex
+pdflatex radial-tests.tex
+pdflatex radial-tests.tex
 ```
 
-The bibliography is inlined in `main.tex`, so no BibTeX pass is needed;
+The bibliography is inlined in `radial-tests.tex`, so no BibTeX pass is needed;
 `references.bib` is kept for provenance.
 
 ## Reproduce the numbers
