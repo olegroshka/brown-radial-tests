@@ -21,6 +21,7 @@ paper/          LaTeX source (radial-tests.tex), bibliography, and the compiled 
 figures/        the two computed figures used in the paper (PDF + PNG)
 code/           Python scripts that reproduce the numbers of Section 6
 code/results/   saved output of those scripts (the runs of record)
+companion/      a self-contained HTML reader's guide to the paper
 ```
 
 ## Build the paper
@@ -50,6 +51,14 @@ The scripts need NumPy, SciPy, and Matplotlib. Run them from `code/`.
 | `make_fig_lattice_wall.py` | regenerates `figures/fig3_lattice_vs_wall.*` |
 
 Saved outputs of record are in `code/results/`.
+
+## Companion
+
+`companion/explainer.html` is a self-contained reader's guide to the paper at the
+level of a first mathematics degree. It builds up the background first (priors and
+Gaussian blur, random walks and the three kinds of Brownian motion, weighted
+spaces and the electrical reading of recurrence) and then explains the results,
+with interactive figures and simulations. Open it in a web browser.
 
 ## Author and license
 
