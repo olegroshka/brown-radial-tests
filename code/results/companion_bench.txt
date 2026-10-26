@@ -1,0 +1,37 @@
+Companion guide, Section 15: the test bench on the paper's two priors
+==============================================================================
+B1  lattice: min fbar on [16, 512] = 0.0042; sphere sum from 8 to 2^K:
+    K=4 0.0412  K=5 0.1623  K=6 0.2122  K=7 0.2575  K=8 0.2705  K=9 0.2832
+B2  lattice: ray toll per shell over 721 directions (min / median / max):
+    k=4  1.390 / 2.845 / 3.053
+    k=5  1.099 / 2.832 / 3.624
+    k=6  1.117 / 2.873 / 3.175
+    k=7  0.987 / 2.893 / 3.514
+    k=8  0.993 / 2.810 / 3.361
+B3  lattice: V(r)/(4/3 pi r^3): r=32 0.0637  r=64 0.0319  r=128 0.0206  r=256 0.0279  r=512 0.0193
+B1  ring: min fbar on [16, 512] = 0.0197; sphere sum from 8 to 2^K:
+    K=4 0.0052  K=5 0.0558  K=6 0.0902  K=7 0.1082  K=8 0.1173  K=9 0.1219
+B2  ring: ray toll per shell over 721 directions (min / median / max):
+    k=4  0.533 / 1.749 / 2.894
+    k=5  0.842 / 1.959 / 3.160
+    k=6  0.897 / 2.031 / 3.203
+    k=7  0.925 / 2.065 / 3.236
+    k=8  0.939 / 2.088 / 3.201
+B3  ring: V(r)/(4/3 pi r^3): r=32 0.2989  r=64 0.0693  r=128 0.0393  r=256 0.0351  r=512 0.0345
+B4  lattice: lambda_1 rho^2 on balls centred on the axis at z = 96, rho = 8, 16, 32, 64: 1.525, 2.480, 2.658, 2.283   (empty ball 4.333)
+B4  ring: lambda_1 rho^2 on balls centred on the axis at z = 128, rho = 8, 16, 32, 64: 0.981, 0.496, 0.257, 0.168   (empty ball 4.333)
+B5  lattice: resistance from B_8 to the sphere of radius 2^K   (sphere bound <= true <= ray bound)
+    K= 5  sphere 0.1621   true 0.1674   ray 0.2731   (0 s)
+    K= 6  sphere 0.2118   true 0.2221   ray 0.5008   (0 s)
+    K= 7  sphere 0.2572   true 0.2701   ray 0.7253   (1 s)
+    K= 8  sphere 0.2702   true 0.2839   ray 0.9495   (3 s)
+    K= 9  sphere 0.2829   true 0.2974   ray 1.1702   (6 s)
+    K=10  sphere 0.2861   true 0.3007   ray 1.3901   (21 s)
+B5  ring: resistance from B_8 to the sphere of radius 2^K   (sphere bound <= true <= ray bound)
+    K= 5  sphere 0.0558   true 0.1299   ray 0.1411   (0 s)
+    K= 6  sphere 0.0902   true 0.2674   ray 0.3041   (0 s)
+    K= 7  sphere 0.1082   true 0.4082   ray 0.4728   (1 s)
+    K= 8  sphere 0.1173   true 0.5503   ray 0.6432   (3 s)
+    K= 9  sphere 0.1219   true 0.6931   ray 0.8141   (7 s)
+    K=10  sphere 0.1242   true 0.8361   ray 0.9853   (23 s)
+elapsed 82 s

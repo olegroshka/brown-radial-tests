@@ -66,6 +66,7 @@ The scripts need NumPy, SciPy, and Matplotlib. Run them from `code/`.
 | `one_dim_weights.py` | doubling ratios and spherical A₂ ratios of one-dimensional weights (Lemma 3.3) |
 | `make_fig_undecided.py` | regenerates `figures/fig2_undecided.*` |
 | `make_fig_lattice_wall.py` | regenerates `figures/fig3_lattice_vs_wall.*` |
+| `companion_bench.py` | the numbers of the companion guide's test bench (Section 15): Brown's two tests, the ball probe and the true resistance on the lattice and wall priors |
 
 Saved outputs of record are in `code/results/`.
 
@@ -77,11 +78,14 @@ physicists, and people who build models. It opens with the whole story on one
 page and three reading routes, and each Part starts with its idea in plain words.
 It builds up the background (priors and Gaussian blur, random walks, weighted
 spaces, the electrical reading of recurrence), explains step by step what Brown's
-two radial tests compute, states the results, and adds a Part on where the
+two radial tests compute, runs both tests and the ball probe side by side on the
+paper's two priors (a test bench, with the true resistance for comparison), states
+the results, and adds a Part on where the
 microstructure matters in practice (expected-return shrinkage, Langevin samplers,
 regime priors), with each link labelled by how firm it is. Live demos, computed in
 the browser: the resistance sandwich (an exact network solve with Brown's two
-bounds), a probe that tells walls from threads, and a sampler on regime priors.
+bounds), a probe that tells walls from threads, a sampler on regime priors, and
+the test bench, where Brown's instruments and the probe run on the paper's priors.
 Open it in a web browser.
 
 ## Author and license
