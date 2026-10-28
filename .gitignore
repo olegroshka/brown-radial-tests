@@ -16,3 +16,7 @@ __pycache__/
 
 # Submission archives
 *.zip
+
+# Local working notes and development history (kept on this machine only, not published)
+history/
+notes/
