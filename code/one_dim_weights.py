@@ -24,7 +24,7 @@ and doubling / Poincare on cubes of R^3 follow from the 1-D properties by tensor
 Weights: w_log  = (1+|t|)^-1 log(e+|t|)   Brown-undecided example of the G0 packet
          w_one  = (1+|t|)^-1                borderline
          w_half = (1+|t|)^-1/2              A2
-         w_grow = (1+|t|)^2                 doubling + Poincare but NOT A2 (Q ~ r/3): refutes the assertion
+         w_grow = (1+|t|)^2                 doubling but NOT Poincare (Hardy bound unbounded), Q ~ r/3
          w_two  = (1+|t|)^-2                finite measure (not doubling at large scale)
          w_exp  = exp(-|t|)                 not doubling (control; grid capped at |t| <= 600)
 Precision: for intervals much shorter than their distance to 0 the cumulative-difference mu, nu are
@@ -166,6 +166,6 @@ if __name__ == "__main__":
         print("%10.0e %12.4g %14.4g %18.4g" % (t, p, V, p * V))
     print()
     print("Reading.  w_log and w_one: doubling ratio grows like log r (not doubling) -> outside T1's class;")
-    print("w_half: doubling, Poincare, A2 (Q bounded).  w_grow: doubling + Poincare with Q ~ r/3 unbounded ->")
-    print("the packet's assertion 'T1-class => bounded spherical A2 ratio' is FALSE as stated.  The K9 quantity")
-    print("is bounded exactly for the doubling + Poincare weights, as Lemma K9 predicts.")
+    print("w_half: doubling, Poincare, A2 (Q bounded).  w_grow: doubling but NOT Poincare (its Hardy bound PI/|I|^2")
+    print("is unbounded), with Q ~ r/3: consistent with Lemma 3.3 of the paper (doubling + Poincare forces bounded Q).")
+    print("The K9 quantity is bounded for w_half and w_grow and grows for the non-doubling weights.")

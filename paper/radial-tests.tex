@@ -46,8 +46,9 @@
 
 \begin{abstract}
 For the estimation of a normal mean in $\R^m$ under quadratic loss, Brown (1971)
-proved that a generalized Bayes estimator $\delta_F$ is admissible if and only if
-a diffusion attached to the marginal $f^*$ of the prior $F$ is recurrent, and
+proved that a generalized Bayes estimator $\delta_F$ with bounded drift is
+admissible if and only if a diffusion attached to the marginal $f^*$ of the
+prior $F$ is recurrent, and
 gave two radial tests: a sphere-average test for recurrence and a ray test for
 transience. He observed that both tests can be silent. We read his theory as the
 potential theory of the weighted Euclidean space $(\R^m,f^*\dd x)$ and ask what
@@ -131,8 +132,8 @@ reading, and the tests it brings, are the subject of this note.
 \node at (7.5,0.15) {\large$\Longleftrightarrow$};
 \end{tikzpicture}
 \caption{Brown's dictionary: one fact in three languages
-(Theorem~\ref{thm:brown}). A generalized Bayes estimator is admissible exactly
-when its weighted Brownian motion is recurrent, exactly when the unit ball has
+(Theorem~\ref{thm:brown}). A generalized Bayes estimator with bounded drift is
+admissible exactly when its weighted Brownian motion is recurrent, exactly when the unit ball has
 zero capacity, that is, infinite resistance to infinity. The negations are
 equivalent too: transient, inadmissible, positive capacity, current escapes.}
 \label{fig:dictionary}
@@ -404,9 +405,12 @@ Let $w$ be D+P on $\R^m$. Then $(\R^m,w\dd x)$ is parabolic if and only if
 \end{theorem}
 
 \begin{proof}[Sources]
-By Lemma~\ref{lem:lip} we may take $w$ smooth, so that $-w^{-1}\divg(w\nabla\cdot)$
-is a uniformly elliptic operator with smooth coefficients, symmetric with
-respect to $\mu$. For such operators Saloff-Coste proved that doubling together
+For the weights of this note, which have Lipschitz logarithm, Lemma~\ref{lem:lip}
+lets us take $w$ smooth with bounded logarithmic gradient, so that
+$-w^{-1}\divg(w\nabla\cdot)$ is a locally uniformly elliptic operator with smooth
+coefficients, symmetric with respect to $\mu$; for general D+P weights the same
+chain of results holds for strongly local Dirichlet spaces \cite{sturm1996}.
+For such operators Saloff-Coste proved that doubling together
 with the Poincar\'e inequality is equivalent to the parabolic Harnack inequality
 \cite[Thm.~3.1]{saloffcoste1992} and implies two-sided Gaussian bounds for the
 heat kernel \cite[Thm.~4.2]{saloffcoste1992}; see also \cite{grigoryan1991}
@@ -511,7 +515,8 @@ $\int_I\abs{u-u_I}^2\dd\mu_1\le C\abs I^2\int_I\abs{u'}^2\dd\mu_1$ for all
 intervals. Then, with $\nu_1=v^{-1}\dd t$,
 $\mu_1([-r,r])\,\nu_1([-r,r])\le32\,CD^3r^2$ for every $r>0$. Consequently the
 product weight $w(x)=v(x_1)$ on $\R^m$, $m\ge3$, has bounded spherical $A_2$
-ratio, and $\delta_F$ is inadmissible for every such prior. That one-dimensional
+ratio, and $\delta_F$ is inadmissible for every such prior whose marginal is
+comparable to $w$ (Lemma~\ref{lem:lip}; e.g.\ $\log v$ Lipschitz). That one-dimensional
 $p$-admissible measures are exactly the Muckenhoupt $A_p$ weights is due to
 Bj\"orn, Buckley and Keith \cite{bbk2006}; we record the case $p=2$ with the
 explicit constant used below.
@@ -537,9 +542,9 @@ gives inadmissibility.
 
 Both hypotheses are needed: $v(t)=(1+\abs t)^2$ is doubling but fails the
 Poincar\'e inequality, because the valley at $0$ is a bottleneck between two
-heavy sides, and $v(t)=(1+\abs t)^{-2}$ satisfies the Poincar\'e inequality
-but is not doubling; in both cases $\mu_1\nu_1/r^2$ grows like $r$
-(Figure~\ref{fig:oned}b,c). The mechanism of Lemma~\ref{lem:1d} is that a valley
+heavy sides, and $v(t)=(1+\abs t)^{-1}$ satisfies the Poincar\'e inequality
+but is not doubling; $\mu_1\nu_1/r^2$ grows like $r$ in the first case and like
+$\log r$ in the second (Figure~\ref{fig:oned}b,c). The mechanism of Lemma~\ref{lem:1d} is that a valley
 in one dimension has co-dimension one and disconnects the interval. In $\R^m$,
 $m\ge3$, a valley along a curve has co-dimension two, does not disconnect, and
 the lemma fails:
@@ -624,10 +629,14 @@ that misses a circle by a bounded distance still pays a constant per shell, see
 
 The function $\log w$ is Lipschitz: $\nabla\log w=\frac{\alpha}{2}\bigl[
 2d\nabla d/(1+d^2)-(\nabla\abs x+2d\nabla d)/(1+\abs x+d^2)\bigr]$ with
-$\abs{\nabla d}\le1$ almost everywhere, so $\abs{\nabla\log w}\le
-\frac{\alpha}{2}(1+1.62)$, and in fact $\sup\abs{\nabla\log w}=\alpha/2+o(1)$.
-By Lemma~\ref{lem:lip}, $f^*=\varphi*w$ is a smooth Gaussian marginal comparable
-to $w$ with drift bounded by $\alpha/2+o(1)$.
+$\abs{\nabla d}=\abs{\nabla\abs x}=1$ almost everywhere, so, writing $A=1+d^2$
+and $B=1+\abs x+d^2$,
+\[
+\abs{\nabla\log w}\le\frac{\alpha}{2}\bigl[2d(A^{-1}-B^{-1})+B^{-1}\bigr]
+=\frac{\alpha}{2}\,\frac{2d\abs x+1+d^2}{(1+d^2)(1+\abs x+d^2)}\le\frac{\alpha}{2},
+\]
+as $2d\le1+d^2$. By Lemma~\ref{lem:lip}, $f^*=\varphi*w$ is a smooth Gaussian
+marginal comparable to $w$ with drift bounded by $\alpha/2$.
 
 \begin{figure}[t]
 \centering
@@ -684,7 +693,7 @@ although neither of Brown's radial tests applies.
 \end{theorem}
 
 \begin{proof}[Proof of (b), (c) and of the consequence]
-Fix a direction $\varphi$ and a shell $k$. Some $\theta_n$ is within
+Fix a direction $\varphi$ and a shell $k\ge5$. Some $\theta_n$ is within
 $\pi/(2N_k)$ of the polar angle of $\varphi$, so the ray passes within
 distance $r\pi/(2N_k)\le\pi/4$ of a circle of shell $k$ at some radius
 $r_0\le2^{k+1}$. For $r\in[r_0-1,r_0+1]$ one has $d^2\le1+\pi^2/16<1.62$ and
@@ -699,9 +708,12 @@ for $\alpha=4$ and grows like $2^{k(\alpha/2-2)}$ for
 $\alpha>4$. Summing over $k$ the ray integral diverges, for every $\varphi$. For
 the sphere test, on each sphere $\{\abs x=r\}$ with $r$ in shell $k$ the set of
 points at distance $\ge s_k/4$ from $\Gamma$ has a surface-measure fraction
-bounded below by a constant $c_0$ (the tubes of radius $s_k/4$ around circles
-that are at least $0.7\,s_k$ apart cover a bounded fraction of any sphere);
-there, since $w$ is increasing in $d$ and $r<2s_k^2$,
+bounded below by a constant $c_0$: the layers of circles are $\ge s_k/2$ apart
+radially (including those of the neighbouring shells), so the tubes of radius
+$s_k/4$ of at most one layer meet the sphere in positive area, and the circles of
+that layer, at angular spacing $\pi L_k/N_k$, meet it in bands of angular width
+$\le s_k/(2r)$, which cover an angular fraction $\le s_kN_k/(2\pi rL_k)\le2/\pi$;
+hence $c_0\ge1-2/\pi-o(1)$. There, since $w$ is increasing in $d$ and $r<2s_k^2$,
 $w\ge\bigl((s_k/4)^2/(1+r+s_k^2/16)\bigr)^{\alpha/2}\ge34^{-\alpha/2}$.
 So $\fbar(r)\ge c_034^{-\alpha/2}$ and the sphere integral $\int\dd r/(r^2\fbar)$
 converges. For (c), $w\le1$ gives $V(r)\le\frac43\pi r^3$, and the same
@@ -721,10 +733,12 @@ assembly lemma and then the inequality for one circle.
 \begin{lemma}[gluing]\label{lem:glue}
 Let $\mu$ and $\nu$ be measures on $\R^n$ with $\nu$ D+P, and let $B=B(x_0,\rho)$.
 Suppose that $2B$ is covered by cubes $Q_j$ with bounded overlap and side
-lengths $s_j\le\rho/2$ such that $s_j\asymp s_{j'}$ whenever $Q_j\cap Q_{j'}\ne
-\emptyset$, and that for each $j$ there is a ball $B_j\supset\bigcup_{Q_{j'}\cap
-Q_j\ne\emptyset}Q_{j'}$ of radius $\le Cs_j$, the balls $B_j$ lying in $4B$ with
-bounded overlap, such that
+lengths $s_j$ with $\operatorname{diam}Q_j=\sqrt n\,s_j\le\rho$; write $Q_j^*$
+for the concentric $1.01$-fold enlargement of $Q_j$ and $j'\sim j$ if
+$Q_{j'}^*\cap Q_j^*\ne\emptyset$. Suppose that $s_j\asymp s_{j'}$ whenever
+$j'\sim j$, and that for each $j$ there is a ball $B_j\supset\bigcup_{j'\sim j}
+Q_{j'}^*$ of radius $\le Cs_j$, the balls $B_j$ lying in $4B$ with bounded
+overlap, such that
 \begin{enumerate}[label=\textup{(G\arabic*)},leftmargin=2.6em,itemsep=1pt]
 \item $\mu(Q_j)\asymp\nu(Q_j)$ for all $j$, and
 \item $\mu$ is doubling at scales $\le Cs_j$ around $B_j$ and satisfies
@@ -737,7 +751,7 @@ depending only on the constants above.
 
 \begin{proof}
 Let $\bar u_j$ be the $\mu$-mean of $u$ on $Q_j$, let $\{\psi_j\}$ be a
-partition of unity subordinate to slight enlargements of the $Q_j$ with
+partition of unity subordinate to the $Q_j^*$ with
 $\abs{\nabla\psi_j}\lesssim1/s_j$, and let $U=\sum_j\bar u_j\psi_j$. For any
 constant $m$, $\int_B\abs{u-m}^2\dd\mu\le2\int_B\abs{u-U}^2\dd\mu+2\int_B\abs{U-m}^2\dd\mu$.
 On $Q_j$, $\abs{u-U}\le\sum_{j'\sim j}\psi_{j'}\abs{u-\bar u_{j'}}$, and by (G2)
@@ -751,14 +765,17 @@ $\abs{U-\bar u_j}\le\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}$, so by (G1)
 \int_B\abs{U-m}^2\dd\mu\ \lesssim\ \sum_j\nu(Q_j)\abs{\bar u_j-m}^2+
 \sum_j\nu(Q_j)\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}^2 .
 \]
-Choosing $m$ to be the $\nu$-mean of $U$ on $2B$ and using
-$\nu(Q_j)\abs{\bar u_j-m}^2\le2\int_{Q_j}\abs{U-m}^2\dd\nu+2\nu(Q_j)\abs{U-\bar u_j}^2$
+The sums run over the cubes meeting $B$, which lie in $2B$ since
+$\operatorname{diam}Q_j\le\rho$. Choosing $m$ to be the $\nu$-mean of $U$ on $2B$
+and using
+$\nu(Q_j)\abs{\bar u_j-m}^2\le2\int_{Q_j}\abs{U-m}^2\dd\nu+2\nu(Q_j)\sup_{Q_j}\abs{U-\bar u_j}^2$
 together with the Poincar\'e inequality for $\nu$ on $2B$ and
 $\abs{\nabla U}^2\lesssim s_j^{-2}\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}^2$ on
 $Q_j$, everything is bounded by
-$\rho^2\sum_j\nu(Q_j)s_j^{-2}\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}^2$ (the
-factor $\rho^2$ absorbs the second sum since $s_j\le\rho$). Finally, for
-$Q_{j'}\cap Q_j\ne\emptyset$ both cubes lie in $B_j$, and by (G2)
+$\rho^2\sum_j\nu(Q_j)s_j^{-2}\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}^2$, now
+summed over the cubes meeting $2B$ (the factor $\rho^2$ absorbs the second sum
+since $s_j\le\rho$). Finally, for
+$j'\sim j$ both cubes lie in $B_j$, and by (G2)
 $\abs{\bar u_{j'}-\bar u_j}^2\lesssim\mu(Q_j)^{-1}\int_{B_j}\abs{u-u_{B_j}}^2\dd\mu
 \lesssim s_j^2\mu(Q_j)^{-1}\int_{B_j}\abs{\nabla u}^2\dd\mu$ (local doubling makes
 $\mu(B_j)\lesssim\mu(Q_j)$). With $\nu(Q_j)\asymp\mu(Q_j)$ the factors $s_j^{\pm2}$
@@ -808,8 +825,10 @@ $p_c(x)=(1+\abs{x-c}^2)^{\alpha/2}$, D+P by \cite[Prop.~6]{bjorn2001} with
 $k=n=3$. If $R\le16$, then $\abs{\abs{x-c}-R}\le\dist(x,C_R)\le\abs{x-c}+R$ gives
 $1+\dist(x,C_R)^2\asymp1+\abs{x-c}^2$ with absolute constants, so $w_R\asymp p_c$
 and $w_R\dd x$ is D+P; assume $R>16$. Apply Lemma~\ref{lem:glue} with
-$\nu=p_c\dd x$ and cubes of side $R/16\le\rho/2$. Each ball $B_j$ has radius
-$\le3\sqrt3R/32<R/6$, so (G2) holds by the first part. For (G1) we show
+$\nu=p_c\dd x$ and cubes of side $R/16$, of diameter $\sqrt3R/16<\rho$. Each ball
+$B_j$ (the $1.01$-fold enlargements of a cube and of its $26$ neighbours lie in a
+concentric cube of side $3.01R/16$) has radius $\le0.163R<R/6$, so (G2) holds by
+the first part. For (G1) we show
 $\mu_R(B')\asymp\nu(B')$ for every ball $B'=B(x,\rho')$ with $\rho'\ge R/16$;
 since a cube of side $R/16$ lies between the balls of radii $R/32$ and $R/16$
 about its centre and both measures are doubling at the scale $R/32$ (the first
@@ -837,8 +856,11 @@ are at distance $\ge0.7\,s_k$, while every circle of a shell $<k$ lies in
 $\{\abs x\le2^k-s_k/2\}$ (the radial gap $2^{k-1}/L_{k-1}$ below shell $k$ can be
 as small as $s_k/2$). On $\{\abs x\le32\}$ one has $34^{-\alpha/2}\le w\le1$, so
 $\mu$ is comparable to Lebesgue measure on every ball of radius $\le8$ centred in
-$\{\abs x<16\}$; below, $x_0$ lies in a shell $k\ge4$. We first fix the local
-form of $w$ and the cell mass, then treat small and large balls.
+$\{\abs x<16\}$, and cells centred there satisfy (G1) and (G2) below trivially;
+balls of radius $>8$ centred in $\{\abs x<16\}$ are covered by the large-ball
+argument, which uses only $\sigma_0<10\rho$. In the rest of the proof $x_0$ lies
+in a shell $k\ge4$. We first fix the local form of $w$ and the cell mass, then
+treat small and large balls.
 
 \emph{Local comparison.} Let $B=B(x_0,\rho)$ with $\rho\le\sigma_0/10$ in shell
 $k$, where $\sigma_0=\sigma(x_0)$; note $\rho\le0.15\,s_k$. Then $1+\abs x$ changes
@@ -865,8 +887,8 @@ w\ \asymp\ \sigma_0^{-\alpha}\,(1+d_C^2)^{\alpha/2}\qquad\text{on }B
 a \emph{bounded-factor} comparison with constants depending only on $\alpha$.
 (The second factor $(1+\abs x+d^2)^{-\alpha/2}$ varies on $B$ by a bounded
 factor, not by $1+O(1/s)$, because $d^2$ as well as $\abs x$ varies across $B$.)
-No bound on $d$ in terms of $\sigma_0$ holds in general (on the axis $d$ exceeds
-$\sigma$), and none is needed: in the case $\tau>2\rho$ we use instead that
+The bound $d\le\sigma_0$ need not hold (on the axis $d$ exceeds $\sigma$), and
+is not needed: in the case $\tau>2\rho$ we use instead that
 $w=(1-\abs x/(1+\abs x+d^2))^{\alpha/2}$ is increasing in $d$ and decreasing in
 $\abs x$. Since $d\in[\tau/2,3\tau/2]$ on $B$, $d\le2\tau$ on $2B$, and $\abs x$
 changes by at most $4\rho\le0.4\,\sigma_0$ across $2B$ against $1+\abs x\ge
@@ -916,13 +938,15 @@ straight-cylinder approximation at the scale $\sqrt R$.
 Lebesgue measure and a covering of $2B$ by cubes $Q_j$ of side
 $\ell_j=\sigma(y_j)/32$, $y_j$ the centre of $Q_j$; adjacent cubes have
 comparable sides since $\sigma$ varies by a bounded factor over distances
-$\le\sigma$ (indeed $\abs{\nabla\sigma}\le\tfrac12$, so touching cubes have
-sides within a factor $1.03$ of each other, and $\ell_j\le0.35\,\rho$ because
-$\sigma_0<10\rho$); each ball $B_j\supset\bigcup_{Q_{j'}\cap Q_j\ne\emptyset}Q_{j'}$
+$\le\sigma$ (indeed $\abs{\nabla\sigma}\le\tfrac12$, so cubes with $j'\sim j$ have
+sides within a factor $1.03$ of each other, and $\ell_j\le0.35\,\rho$, whence
+$\operatorname{diam}Q_j<\rho$, because $\sigma_0<10\rho$); each ball
+$B_j\supset\bigcup_{j'\sim j}Q_{j'}^*$
 can be taken of radius $\le2.7\,\ell_j<\sigma(y_j)/10$, so it is a small ball
 and (G2) holds on it by the previous paragraph. (G1),
 $\mu(Q_j)\asymp\nu(Q_j)=\abs{Q_j}$, is
-\eqref{eq:cellmass}. Lemma~\ref{lem:glue} gives the weak Poincar\'e inequality on
+\eqref{eq:cellmass} (trivial for cells centred in $\{\abs x<16\}$).
+Lemma~\ref{lem:glue} gives the weak Poincar\'e inequality on
 $B$ with energy over $4B$; doubling of $\mu$ at scales $\ge\sigma/32$ follows
 from \eqref{eq:cellmass} and, above the cell scale, from (G1) with the doubling
 of $\nu$, and at smaller scales from the small-ball case; the
@@ -1021,12 +1045,12 @@ $\Sigma_k:\ r=\rho_k(\theta)=2^k(1+\theta/\pi)-\tfrac12$, $\theta\in[0,\pi]$, a
 closed graph over the sphere running from $r=2^k-\frac12$ at the north pole to
 $r=2^{k+1}-\frac12$ at the south pole; consecutive surfaces reach the common
 radius $2^{k+1}-\frac12$ at antipodal poles, not at a shared point. Along
-$\Sigma_k$ consecutive circles are at distance between $3.3$ and $6.4$ (radial
+$\Sigma_k$ consecutive circles are at distance between $3.29$ and $6.37$ (radial
 step $1$, meridian step $r\pi/2^k\in[\pi,2\pi]$), so every point of $\Sigma_k$ is
 within $3.2$ of $\Gamma'$. On the layer $\{r=\rho_k(\theta)+s,\ \abs s\le1\}$
-therefore $d'\le4.2$ and $w'\le(19/4^k)^{\alpha/2}$, while the weighted area
-$\tilde F_k(s)\le(19/4^k)^{\alpha/2}\,C\,4^k$ since $\mathrm{Area}(\Sigma_k)\asymp4^k$
-and $\cos(\mathrm{tilt})\ge0.95$. Apply Lemma~\ref{lem:thomson} to the layers of
+therefore $d'\le4.2$ and $w'\le(23/4^k)^{\alpha/2}$, while the weighted area
+$\tilde F_k(s)\le(23/4^k)^{\alpha/2}\,C\,4^k$ since $\mathrm{Area}(\Sigma_k)\asymp4^k$
+and $\cos(\mathrm{tilt})\ge0.94$. Apply Lemma~\ref{lem:thomson} to the layers of
 the even shells, which are pairwise disjoint: each contributes
 $\int_{-1}^1\dd s/\tilde F_k(s)\ge c\,4^{k(\alpha/2-1)}$, a constant for $\alpha=2$
 and geometrically growing for $\alpha>2$. The sum diverges, so $\capa(B_1)=0$.
@@ -1039,22 +1063,26 @@ $\Var_\mu(u;B)\asymp\rho^3(\rho/2^k)^\alpha$, whereas the energy is carried by
 the layer $\abs s\le1$ and is $\asymp\rho^2\,4^{-k\alpha/2}$. Hence
 $\Var_\mu(u;B)/(\rho^2\int_B\abs{\nabla u}^2\dd\mu)\asymp\rho^{\alpha-1}$ is
 unbounded. For doubling, the circles cover $\Sigma$ up to the mesh $\le3.2$, so
-$\dist(\cdot,\Gamma')\asymp\max(1,\dist(\cdot,\Sigma))$ and
+$1+\dist(\cdot,\Gamma')^2\asymp\max(1,\dist(\cdot,\Sigma))^2$ and
 $w'\asymp(\max(1,\dist(\cdot,\Sigma))/2^k)^\alpha$ in shell $k$, with $\Sigma$ a
-Lipschitz surface of co-dimension one (with boundary on the axis). For a ball
+Lipschitz surface of co-dimension one (with conical points on the axis). For a ball
 $B=B(x,\rho)$: if $\rho\le\dist(x,\Sigma)/2$ the weight varies on $B$ by a
 bounded factor, so $\mu$ is comparable to Lebesgue measure; if
 $\rho>\dist(x,\Sigma)/2$ the ball straddles $\Sigma$, and the slab bound
 $\abs{\{\dist(\cdot,\Sigma)\in[\sigma,2\sigma]\}\cap B}\asymp\rho^2\sigma$ summed
 over dyadic $\sigma\le\rho$ gives $\int_B\dist(\cdot,\Sigma)^\alpha\asymp
 \rho^{\alpha+3}$, uniformly including near the boundary of $\Sigma$; for
-$\rho\le1$ the weight is $\asymp2^{-k\alpha}$ near $\Sigma$. In every case
+$\rho\le1$ the weight is $\asymp2^{-k\alpha}$ near $\Sigma$. In every case with
+$\rho\le\abs x/2$,
 \[
 V(x,\rho)\ \asymp\ \rho^3\Bigl(\tfrac{\max(1,\rho,\dist(x,\Sigma))}{2^k}\Bigr)^\alpha,
 \]
-so $V(x,2\rho)\le2^{\alpha+3}V(x,\rho)$, uniformly in $x$ and across shell
-boundaries (where $1+\abs x^2$ and $\dist(\cdot,\Sigma)$ change by bounded
-factors): $w'$ is doubling, but by the two-region quotient above not Poincar\'e.
+uniformly in $x$ and across shell boundaries (where $1+\abs x^2$ and
+$\dist(\cdot,\Sigma)$ change by bounded factors), while for $\rho\ge\abs x/2$ one
+has $V(x,\rho)\asymp\rho^3$, since the layers near the surfaces $\Sigma_{k'}$
+occupy a bounded fraction of such a ball and $w'\asymp1$ off them. Hence
+$V(x,2\rho)\le C_\alpha V(x,\rho)$: $w'$ is doubling, but by the two-region
+quotient above not Poincar\'e.
 \end{proof}
 
 Above its mesh scale the set $\Gamma'$ is a surface of small weight: a valley of
@@ -1073,10 +1101,17 @@ inadmissible.
 \begin{proof}
 $\log v$ is Lipschitz, so we may work with $w=v(x_1)$. The sphere mean is
 $\fbar(r)\asymp\mu_1([-r,r])/r\asymp\log^2r/r$, and $\int\dd r/(r^2\fbar)$
-converges. Along a direction with $\cos\varphi\ne0$ the ray integral equals
-$\abs{\cos\varphi}$ times $\int^\infty\dd r/(r\log r)=\infty$, and the
+converges. Along a direction with $\cos\varphi\ne0$ the ray integrand is
+asymptotically $\abs{\cos\varphi}/(r\log r)$, whose integral diverges, and the
 equatorial directions form a null set, so the ray test is silent. The doubling ratio
-$\mu_1([0,2r])/\mu_1([r/2,3r/2])\asymp\log r$ is unbounded. For transience, the
+$\mu_1([0,2r])/\mu_1([r/2,3r/2])\asymp\log r$ is unbounded. On the other hand $v$
+is even and decreasing on $[0,\infty)$, so for $0\le\xi\le x\le b$ one has
+$\mu_1([x,b])\,\nu_1([\xi,x])\le(b-x)(x-\xi)$, and Muckenhoupt's weighted Hardy
+inequality gives $\int_I\abs{u-u_I}^2\dd\mu_1\le\abs I^2\int_I\abs{u'}^2\dd\mu_1$
+on every interval $I$ (split $I$ at $0$ when it contains $0$); by tensorization
+the Poincar\'e inequality holds on cubes of $\R^3$. The inequality on balls, which
+is what \eqref{eq:poincare} asks, is not needed here and is not claimed. For
+transience, the
 weighted Brownian motion is the product of the one-dimensional diffusion $W$
 with generator $v^{-1}(vu')'$ and a standard Brownian motion on $\R^2$, and it
 is transient if and only if $\int^\infty p^W_t(0,0)\,t^{-1}\dd t<\infty$,
@@ -1097,10 +1132,9 @@ $p^W_t(0,0)\sim c'/\widetilde M(t)\asymp1/\log^2t$, hence
 The same asymptotic is given by Shimizu and Nakano
 \cite[Thm.~1.3]{shimizunakano2017}, for a reflected Bessel-like diffusion on
 $[0,\infty)$ in the boundary case $\rho=0$ with speed measure of infinite mass.
-The constant is $4$ for the full-line kernel $p^W_t(0,0)$ used here (equivalently
-$8$ for the reflected half-line, in their normalization $m(\dd x)=2W\dd x$); it
-is confirmed numerically in Section~\ref{sec:numerics}, and the transience
-conclusion is the same for either normalization.
+The constant is $4$ for the full-line kernel $p^W_t(0,0)$ with respect to
+$v\dd t$ used here; it is confirmed numerically in Section~\ref{sec:numerics},
+and the transience conclusion does not depend on it.
 \end{proof}
 
 This is an instance of the phenomenon of Johnstone and Lalley
@@ -1120,7 +1154,7 @@ non-radial argument.}
 \toprule
 weight & doubling & Poincar\'e & $W_F$; $\delta_F$ & decided by \\
 \midrule
-$(1+\abs{x_1})^{-1}\log(e+\abs{x_1})$ (Prop.~\ref{prop:log}) & no & yes & transient; inadmissible & product heat kernels \\
+$(1+\abs{x_1})^{-1}\log(e+\abs{x_1})$ (Prop.~\ref{prop:log}) & no & yes (on cubes) & transient; inadmissible & product heat kernels \\
 circles on one surface per shell (Prop.~\ref{prop:wall}) & yes & no & parabolic; admissible & flux bound along the surfaces (Lemma~\ref{lem:thomson}) \\
 scattered circles, spacing $2^{k/2}$ (Thm.~\ref{thm:B}) & yes & yes & transient; inadmissible & volume test under D+P (Thm.~\ref{thm:volume}) \\
 \bottomrule
@@ -1150,7 +1184,8 @@ scattered circles, spacing $2^{k/2}$ (Thm.~\ref{thm:B}) & yes & yes & transient;
 doubling--Poincar\'e cell (bold) is governed by Theorem~\ref{thm:A}, and there
 the verdict is always transient; each of the other occupied cells is settled by
 a different non-radial argument (Section~\ref{sec:zone}), and the fourth is
-open.}
+open. For the log-product weight the Poincar\'e inequality is established on
+cubes (Proposition~\ref{prop:log}).}
 \label{fig:zonemap}
 \end{figure}
 
@@ -1169,7 +1204,9 @@ the geometric mean of the weight on the two adjacent cells, cell mass equal to
 the weight times the cell volume) and solve the generalized eigenproblem by
 shift-invert Lanczos. The Lebesgue controls, $\lambda_1R^2=\pi^2/4=2.467$ on the
 square $[-R,R]^2$ and $\lambda_1\rho^2=4.333$ for the axisymmetric modes on a
-ball in $\R^3$, are reproduced to three digits. For a ball centred on the
+ball in $\R^3$, are reproduced to three digits on the square and, on the ball,
+to within $2\%$ at the meshes of Table~\ref{tab:eigen} and to three digits at the
+finest mesh. For a ball centred on the
 symmetry axis of an axisymmetric weight, the azimuthal modes $e^{im\phi}g(s,z)$,
 $m\ge1$, satisfy $\int\abs{\nabla u}^2\dd\mu\ge\int\abs{u}^2s^{-2}\dd\mu\ge
 \rho^{-2}\int\abs u^2\dd\mu$ with mean zero, so they obey \eqref{eq:poincare}
@@ -1203,7 +1240,7 @@ ring weight, $\rho=8,16,32,64$ & $0.975$ & $0.497$ & $0.256$ & $0.129$ \\
 Table~\ref{tab:eigen} and Figure~\ref{fig:lattice}b show the outcome. For the
 lattice weight $\lambda_1\rho^2$ stays between $1.5$ and $3.1$ from one spacing
 to eight spacings and across two shells, about two thirds of the Lebesgue
-value, with no downward trend; the values are converged to three digits under
+value, with no downward trend; the values are converged to two digits under
 mesh refinement. For the one-circle weight of Lemma~\ref{lem:circle} the
 eigenvalue is bounded below uniformly in $R$ and in $\rho/R$, with a dip at
 $\rho=2R$ that is the same for $R=4$ and $R=16$, as the scaling argument in the
@@ -1212,25 +1249,27 @@ eigenvalue halves with every doubling of $\rho$, i.e.\ decays like
 $\rho^{-(\alpha-1)}$, the two-region quotient of the proof. For the
 two-dimensional factor $(1+\abs y^2)^2$ of Theorem~\ref{thm:cyl},
 $\lambda_1R^2$ on $[-R,R]^2$ decreases from $1.01$ at $R=2$ to $0.770$ at $R=64$
-and is flat thereafter. Off the axis the reduction is unavailable and a full
+and is flat from $R=16$ on ($0.774$, $0.771$, $0.770$). Off the axis the reduction is unavailable and a full
 three-dimensional computation is needed: on cubes of half-side $s_8$ and
 $2s_8$ centred on a point of a mid-shell circle, which contain the strand and
 its nearest neighbours, $\lambda_1\rho^2=0.94$ and $1.16$; centred in the bulk
 between circles, $1.57$ and $1.42$; centred on the axis, $1.34$ and $1.69$
-(control for a cube, $\pi^2/4=2.47$); all values are unchanged to two digits
-under mesh refinement to $2.6\cdot10^5$ cells.
+(control for a cube, $\pi^2/4=2.47$); where two meshes were run, up to
+$2.6\cdot10^5$ cells, the values agree to within $0.3\%$.
 
 \paragraph{Brown's tests and the volume.}
 For the lattice weight with $\alpha=4$, the smallest of $802$ ray integrals
 per shell, over random directions, the directions exactly between consecutive
 $\theta_n$, the poles and the equator, is between $0.94$ and $1.92$ for
 $k=4,\dots,11$ (the bound \eqref{eq:raybound} gives $\ge0.14$); for $\alpha=6$
-it doubles per shell. The sphere mean lies between $0.0039$ and $0.052$, and
-$V(r)/(\frac43\pi r^3)$ between $0.019$ and $0.029$, both alternating with the
-parity of $k$. Doubling ratios $\mu(B(x,2\rho))/\mu(B(x,\rho))$ at centres on a
-circle, in the bulk and on the axis lie between $4$ and $13$ for $\rho\ge s_k/4$
-and reach the co-dimension-two power-weight values (up to $94$) at the tube
-scale. For the ring weight with $\alpha=2$ the per-shell flux terms of
+it doubles per shell. The sphere mean lies between $0.0039$ and $0.054$, and
+$V(r)/(\frac43\pi r^3)$ between $0.019$ and $0.029$ for $r\ge2^7$, both
+alternating with the parity of $k$. Doubling ratios
+$\mu(B(x,2\rho))/\mu(B(x,\rho))$ at centres on a circle, in the bulk and on the
+axis lie between $4$ and $13$ for $\rho\ge s_k$ (and at every scale tested for the
+bulk and axis centres), while at the centre on a circle they reach the
+co-dimension-two power-weight values (up to $94$) at scales $\le s_k/2$. For the
+ring weight with $\alpha=2$ the per-shell flux terms of
 Lemma~\ref{lem:thomson} are flat at $0.047$ and for $\alpha=3$ they double per
 shell, as in the proof of Proposition~\ref{prop:wall}; the two-region quotient
 divided by $\rho^{\alpha-1}$ is flat at $0.041$ ($\alpha=2$) and $0.013$

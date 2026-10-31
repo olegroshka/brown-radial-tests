@@ -36,9 +36,9 @@ w_grow K9      0.1692      0.1669      0.1667      0.1667      0.1667      0.166
      1e+07    1.054e-10      1.883e+09             0.1985
 
 Reading.  w_log and w_one: doubling ratio grows like log r (not doubling) -> outside T1's class;
-w_half: doubling, Poincare, A2 (Q bounded).  w_grow: doubling + Poincare with Q ~ r/3 unbounded ->
-the packet's assertion 'T1-class => bounded spherical A2 ratio' is FALSE as stated.  The K9 quantity
-is bounded exactly for the doubling + Poincare weights, as Lemma K9 predicts.
+w_half: doubling, Poincare, A2 (Q bounded).  w_grow: doubling but NOT Poincare (its Hardy bound PI/|I|^2
+is unbounded), with Q ~ r/3: consistent with Lemma 3.3 of the paper (doubling + Poincare forces bounded Q).
+The K9 quantity is bounded for w_half and w_grow and grows for the non-doubling weights.
 Part A at R = 1e8 for the two extra weights (I_S sphere test, M mean ray integral, I_V volume test):
 w_grow=(1+|t|)^2 R=1e+02: I_S=0.01747 M=0.3068 I_V=0.08302 R=1e+04: I_S=0.01747 M=0.3069 I_V=0.08302 R=1e+06: I_S=0.01747 M=0.3069 I_V=0.08302 R=1e+08: I_S=0.01747 M=0.3069 I_V=0.08302
 w_two=(1+|t|)^-2 R=1e+02: I_S=0.445 M=38.48 I_V=0.922 R=1e+04: I_S=0.8123 M=3336 I_V=1.658 R=1e+06: I_S=1.179 M=3.33e+05 I_V=2.391 R=1e+08: I_S=1.545 M=3.333e+07 I_V=3.125
