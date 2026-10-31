@@ -805,8 +805,8 @@ $k=n=3$. Apply Lemma~\ref{lem:glue} with $\nu=p_c\dd x$ and cubes of side $R/12$
 $R/12\le\rho'\le R$, which also gives doubling of $\mu_R$ there; write
 $D=\abs{x-c}$, so $R\le12\rho'$. Both measures are
 $\lesssim\rho'^3\max(1,\rho',D)^\alpha$ since $\dist(y,C_R)\le\abs{y-c}+R\le
-D+13\rho'$ on $B'$. For the lower bound, if $D\ge8\rho'$ then
-$\dist(y,C_R)\ge D-\rho'-R\ge D/2$ on $B'$; if $D\le8\rho'$ then the tube
+D+13\rho'$ on $B'$. For the lower bound, if $D\ge26\rho'$ then
+$\dist(y,C_R)\ge D-\rho'-R\ge D/2$ on $B'$; if $D\le26\rho'$ then the tube
 $\{\dist(\cdot,C_R)\le\varepsilon\rho'\}$ has volume $\lesssim(R+\varepsilon
 \rho')(\varepsilon\rho')^2\le C\varepsilon^2\rho'^3$, so for $\varepsilon$ small
 a fixed fraction of $B'$ lies at distance $\ge\varepsilon\rho'$ from $C_R$, where
@@ -822,14 +822,18 @@ $\ge0.79\,s_k$ apart, and the distance between two coaxial circles equals the
 distance between their generating points. We first fix the local form of $w$
 and the cell mass, then treat small and large balls.
 
-\emph{Local comparison.} Let $B=B(x_0,\rho)$ with $\rho\le\sigma_0/4$ in shell
-$k$, where $\sigma_0=\sigma(x_0)$. Then $1+\abs x$ changes on $B$ by $\le2\rho\le
-\sigma_0/2$ against $1+\abs{x_0}\ge2^k$, so $\sigma\asymp\sigma_0$ and
-$1+\abs x\ge\tfrac12\sigma_0^2$ there. Since $\rho<0.35\,s_k$, $B$ meets at most
-one circle $C$; let $d_C=\dist(\cdot,C)$. Where $d_C\le0.2\,s_k$ the distance
-$d=\dist(\cdot,\Gamma)$ equals $d_C$ (every other circle is $\ge0.7\,s_k-3\rho\ge
-0.45\,s_k$ away on $B$), and elsewhere both $d$ and $d_C$ are $\asymp s_k$, so
-$(1+d^2)^{\alpha/2}\asymp(1+d_C^2)^{\alpha/2}$ on all of $B$. As $d\le\sigma_0$ on
+\emph{Local comparison.} Let $B=B(x_0,\rho)$ with $\rho\le\sigma_0/10$ in shell
+$k$, where $\sigma_0=\sigma(x_0)$; note $\rho\le0.15\,s_k$. Then $1+\abs x$ changes
+on $B$ by $\le2\rho\le\sigma_0/5$ against $1+\abs{x_0}\ge2^k$, so
+$\sigma\asymp\sigma_0$ and $1+\abs x\ge\tfrac12\sigma_0^2$ there. Let $C$ be a
+circle nearest to $x_0$, $\tau=\dist(x_0,C)$, and $d_C=\dist(\cdot,C)$. If
+$\tau\le2\rho$, every other circle $C'$ has $\dist(x_0,C')\ge0.7\,s_k-\tau$, hence
+$\dist(y,C')\ge0.7\,s_k-3\rho\ge0.25\,s_k$ for $y\in B$: $C$ is the only circle
+within $\rho$ of $B$, the distance $d=\dist(\cdot,\Gamma)$ equals $d_C$ where
+$d_C\le0.25\,s_k$, and elsewhere on $B$ both $d$ and $d_C$ lie in
+$[0.25\,s_k,\,3\rho]\subset[0.25\,s_k,\,0.45\,s_k]$. If $\tau>2\rho$, then on $B$,
+$d\ge\tau-\rho$ and $d_C\le\tau+\rho\le3(\tau-\rho)$, so $d\le d_C\le3d$. In either
+case $(1+d^2)^{\alpha/2}\asymp(1+d_C^2)^{\alpha/2}$ on all of $B$. As $d\le\sigma_0$ on
 $B$, $1+\abs x+d^2\asymp\sigma_0^2$ (both $\ge\tfrac12\sigma_0^2$ and
 $\le2\sigma_0^2$), whence
 \begin{equation}\label{eq:wcompare}
@@ -853,10 +857,11 @@ With $w\le1$,
 \mu(Q)\asymp\abs Q\qquad\text{uniformly in such }Q.
 \end{equation}
 
-\emph{Small balls $(\rho\le\sigma_0/4)$.} If no circle lies within $\rho$ of $B$,
+\emph{Small balls $(\rho\le\sigma_0/10)$.} If no circle lies within $\rho$ of $B$,
 then $d\ge\rho$ on $B$ and $w$ varies by a bounded factor by \eqref{eq:wcompare},
 so $\mu$ is comparable to Lebesgue measure and \eqref{eq:poincare} and doubling
-hold. Otherwise $B$ meets the tube of one circle $C$, whose Euclidean radius
+hold. Otherwise the nearest circle $C$ is the only one within $\rho$ of $B$ (the
+case $\tau\le2\rho$ above), and its Euclidean radius
 $R_C$ may be as small as $\asymp1$ (near a pole, $R_C=r\sin\theta_0\to\pi/8$) or
 as large as $\asymp2^k$. By \eqref{eq:wcompare}, $w\asymp\sigma_0^{-\alpha}
 (1+d_C^2)^{\alpha/2}$, and Lemma~\ref{lem:circle}, \emph{whose constants are
@@ -866,12 +871,12 @@ $\sigma_0^{-\alpha}$ preserves both. The polar circles are thus handled through
 the uniformity of Lemma~\ref{lem:circle} in the circle radius, not through any
 straight-cylinder approximation at the scale $\sqrt R$.
 
-\emph{Large balls $(\rho>\sigma_0/4)$.} Apply Lemma~\ref{lem:glue} with $\nu$ the
+\emph{Large balls $(\rho>\sigma_0/10)$.} Apply Lemma~\ref{lem:glue} with $\nu$ the
 Lebesgue measure and a covering of $2B$ by cubes $Q_j$ of side
 $\ell_j=\sigma(y_j)/32$, $y_j$ the centre of $Q_j$; adjacent cubes have
 comparable sides since $\sigma$ varies by a bounded factor over distances
 $\le\sigma$, and each ball $B_j\supset\bigcup_{Q_{j'}\cap Q_j\ne\emptyset}Q_{j'}$
-has radius $\le\sigma(y_j)/4$, so it is a small ball and (G2) holds on it by the
+has radius $\le\sigma(y_j)/10$, so it is a small ball and (G2) holds on it by the
 previous paragraph. (G1), $\mu(Q_j)\asymp\nu(Q_j)=\abs{Q_j}$, is
 \eqref{eq:cellmass}. Lemma~\ref{lem:glue} gives the weak Poincar\'e inequality on
 $B$ with energy over $4B$; doubling of $\mu$ at scales $\ge\sigma/32$ follows

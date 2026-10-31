@@ -20,3 +20,6 @@ __pycache__/
 # Local working notes and development history (kept on this machine only, not published)
 history/
 notes/
+
+# Codex agent configuration (local only)
+.codex/
