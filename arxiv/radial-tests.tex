@@ -601,8 +601,8 @@ and every direction is within $\pi/(2N_k)$ in angle of one of them. In the
 meridian half-plane $(s,z)=(r\sin\theta,r\cos\theta)$ the circles are points
 forming a sheared rectangular lattice: $L_k$ layers at radial spacing
 $2^k/L_k\in\{s_k,s_k/\sqrt2\}$, each containing $M_k$ circles at angular
-spacing $\pi L_k/N_k$, that is, at physical spacing between $0.79\,s_k$ and
-$2.2\,s_k$; consecutive layers are offset by one angular step $\pi/N_k$
+spacing $\pi L_k/N_k$, that is, at physical spacing between $0.78\,s_k$ and
+$2.23\,s_k$; consecutive layers are offset by one angular step $\pi/N_k$
 (Figure~\ref{fig:lattice}a). Let $\Gamma=\bigcup_{k,i,j}\Gamma_{k,i,j}$ and
 define, for $\alpha\ge4$,
 \begin{equation}\label{eq:w}
@@ -701,8 +701,9 @@ the sphere test, on each sphere $\{\abs x=r\}$ with $r$ in shell $k$ the set of
 points at distance $\ge s_k/4$ from $\Gamma$ has a surface-measure fraction
 bounded below by a constant $c_0$ (the tubes of radius $s_k/4$ around circles
 that are at least $0.7\,s_k$ apart cover a bounded fraction of any sphere);
-there $w\ge\bigl((s_k/4)^2/(1+r+s_k^2/16)\bigr)^{\alpha/2}\ge17^{-\alpha/2}$.
-So $\fbar(r)\ge c_017^{-\alpha/2}$ and the sphere integral $\int\dd r/(r^2\fbar)$
+there, since $w$ is increasing in $d$ and $r<2s_k^2$,
+$w\ge\bigl((s_k/4)^2/(1+r+s_k^2/16)\bigr)^{\alpha/2}\ge34^{-\alpha/2}$.
+So $\fbar(r)\ge c_034^{-\alpha/2}$ and the sphere integral $\int\dd r/(r^2\fbar)$
 converges. For (c), $w\le1$ gives $V(r)\le\frac43\pi r^3$, and the same
 fraction argument applied to shells gives $V(r)\ge cr^3$. Finally, by (a) and
 (c), $\int^\infty r\dd r/V(r)<\infty$, so $(\R^3,w\dd x)$ is transient by
@@ -720,10 +721,10 @@ assembly lemma and then the inequality for one circle.
 \begin{lemma}[gluing]\label{lem:glue}
 Let $\mu$ and $\nu$ be measures on $\R^n$ with $\nu$ D+P, and let $B=B(x_0,\rho)$.
 Suppose that $2B$ is covered by cubes $Q_j$ with bounded overlap and side
-lengths $s_j\le\rho$ such that $s_j\asymp s_{j'}$ whenever $Q_j\cap Q_{j'}\ne
+lengths $s_j\le\rho/2$ such that $s_j\asymp s_{j'}$ whenever $Q_j\cap Q_{j'}\ne
 \emptyset$, and that for each $j$ there is a ball $B_j\supset\bigcup_{Q_{j'}\cap
-Q_j\ne\emptyset}Q_{j'}$ of radius $\le Cs_j$, the balls $B_j$ having bounded
-overlap in $4B$, such that
+Q_j\ne\emptyset}Q_{j'}$ of radius $\le Cs_j$, the balls $B_j$ lying in $4B$ with
+bounded overlap, such that
 \begin{enumerate}[label=\textup{(G\arabic*)},leftmargin=2.6em,itemsep=1pt]
 \item $\mu(Q_j)\asymp\nu(Q_j)$ for all $j$, and
 \item $\mu$ is doubling at scales $\le Cs_j$ around $B_j$ and satisfies
@@ -767,10 +768,12 @@ and $\mu(Q_j)^{\pm1}$ cancel, and bounded overlap of the $B_j$ gives the claim.
 Under doubling of $\mu$ the inequality with energy over $4B$ self-improves to
 \eqref{eq:poincare} \cite[Thms.~5.1 and~9.7]{hajlaszkoskela2000}; doubling of $\mu$ at scales
 above the cell size follows from (G1) and doubling of $\nu$, and at smaller
-scales from (G2). We also use that D+P is invariant under bi-Lipschitz changes
-of variables whose Jacobian is bounded above and below: images of balls are
-sandwiched between balls of comparable radii, which gives the weak form of
-\eqref{eq:poincare}, and the same self-improvement applies.
+scales from (G2). We also use that D+P transfers under a bi-Lipschitz change of
+variables whose Jacobian is bounded above and below: the bi-Lipschitz image of a
+ball is a John domain with constant controlled by the bi-Lipschitz constant, so
+\cite[Thm.~9.7]{hajlaszkoskela2000} gives \eqref{eq:poincare} on it with energy
+on the image itself, and it is sandwiched between balls of comparable radii,
+which transfers doubling.
 
 \begin{lemma}[one circle]\label{lem:circle}
 Let $C_R\subset\R^3$ be a circle of radius $R\ge0$ and $w_R(x)=(1+\dist(x,C_R)^2)^{\alpha/2}$,
@@ -780,94 +783,132 @@ $\alpha\ge0$. Then $w_R\dd x$ is D+P with constants independent of $R$.
 \begin{proof}
 Constants are independent of $R$. We use two overlapping scale ranges.
 
-\emph{Scales $\rho\le R/6$.} Let $B=B(x_0,\rho)$. If $\dist(x_0,C_R)>2\rho$ then
-$w_R$ varies on $B$ by a bounded factor and $\mu$ is comparable to Lebesgue
-measure there, so \eqref{eq:poincare} and doubling hold. Otherwise every $y\in
-B$ has $\dist(y,C_R)\le3\rho\le R/2$, strictly inside the focal distance $R$ of
-$C_R$, so the Fermi (normal-exponential) coordinates $(t,\nu)$ along the arc of
-$C_R$ nearest $B$ form a diffeomorphism onto a neighbourhood of $B$: $t$ is
-arclength, $\abs\nu=\dist(\cdot,C_R)\le R/2$, the Jacobian is
-$1-\nu_{\mathrm{in}}/R\in[\tfrac12,\tfrac32]$, and the map sending $(t,\nu)$ to
+\emph{Scales $\rho\le R/6$.} Let $B=B(x_0,\rho)$ and $\tau=\dist(x_0,C_R)$. If
+$\tau>2\rho$ then $\dist(\cdot,C_R)\in[\tau/2,3\tau/2]$ on $B$ and $\le2\tau$ on
+$2B$, so $w_R$ varies on $B$ by a factor $\le9^{\alpha/2}$ and $\max_{2B}w_R\le
+16^{\alpha/2}\min_Bw_R$: $\mu$ is comparable to Lebesgue measure on $B$, and
+\eqref{eq:poincare} and doubling hold at $B$. Otherwise every $y\in2B$ has
+$\dist(y,C_R)\le4\rho\le2R/3$, strictly inside the focal distance $R$ of $C_R$,
+so the Fermi (normal-exponential) coordinates $(t,\nu)$ along the arc of $C_R$
+nearest $B$ form a diffeomorphism onto a neighbourhood of $2B$: $t$ is
+arclength, $\abs\nu=\dist(\cdot,C_R)\le2R/3$, the Jacobian is
+$1-\nu_{\mathrm{in}}/R\in[\tfrac13,\tfrac53]$, and the map sending $(t,\nu)$ to
 the corresponding point relative to a straight line is bi-Lipschitz with
-constant $\le2$ there. As $B$ meets a single arc of length $\le2\rho\ll2\pi R$,
-no periodic identification arises. This map carries $w_R$ near $B$ to the
-cylinder weight $(1+\abs{x'}^2)^{\alpha/2}$ of Theorem~\ref{thm:cyl}, which is
-D+P by \cite[Prop.~6]{bjorn2001}; since D+P is preserved under a bi-Lipschitz
-change of variables with Jacobian bounded above and below (images of balls lie
-between balls of comparable radii), \eqref{eq:poincare} and doubling hold on $B$.
+constant $\le3$ there. As $2B$ subtends an angle $\le2\arcsin(2\rho/(R-2\rho))
+\le\pi/3$ at the centre of $C_R$, no periodic identification arises. This map
+carries $w_R$ near $2B$ to the cylinder weight $(1+\abs{x'}^2)^{\alpha/2}$ of
+Theorem~\ref{thm:cyl}, which is D+P by \cite[Prop.~6]{bjorn2001}; the preimage
+of $B$ is a John domain with constant depending only on the bi-Lipschitz
+constant, so \cite[Thm.~9.7]{hajlaszkoskela2000} gives \eqref{eq:poincare} on
+$B$ with energy on $B$, and the preimage of $2B$ lies between balls of
+comparable radii about the preimage of $x_0$, which gives doubling at $B$.
 
 \emph{Scales $\rho\ge R/6$.} Let $c$ be the centre of $C_R$ and
 $p_c(x)=(1+\abs{x-c}^2)^{\alpha/2}$, D+P by \cite[Prop.~6]{bjorn2001} with
-$k=n=3$. Apply Lemma~\ref{lem:glue} with $\nu=p_c\dd x$ and cubes of side $R/12$
-(or side $1$ if $R<12$, where $w_R$ is bounded above and below on cells, so only
-(G1) is needed). (G2) holds at the cell scale $\le R/6$ by the first part. For
-(G1) we show $\mu_R(B')\asymp\nu(B')$ for every ball $B'=B(x,\rho')$ with
-$R/12\le\rho'\le R$, which also gives doubling of $\mu_R$ there; write
-$D=\abs{x-c}$, so $R\le12\rho'$. Both measures are
+$k=n=3$. If $R\le16$, then $\abs{\abs{x-c}-R}\le\dist(x,C_R)\le\abs{x-c}+R$ gives
+$1+\dist(x,C_R)^2\asymp1+\abs{x-c}^2$ with absolute constants, so $w_R\asymp p_c$
+and $w_R\dd x$ is D+P; assume $R>16$. Apply Lemma~\ref{lem:glue} with
+$\nu=p_c\dd x$ and cubes of side $R/16\le\rho/2$. Each ball $B_j$ has radius
+$\le3\sqrt3R/32<R/6$, so (G2) holds by the first part. For (G1) we show
+$\mu_R(B')\asymp\nu(B')$ for every ball $B'=B(x,\rho')$ with $\rho'\ge R/16$;
+since a cube of side $R/16$ lies between the balls of radii $R/32$ and $R/16$
+about its centre and both measures are doubling at the scale $R/32$ (the first
+part, for $\mu_R$), this gives (G1), and it gives doubling of $\mu_R$ at all
+scales $\ge R/16$. Write $D=\abs{x-c}$, so $R\le16\rho'$. Both measures are
 $\lesssim\rho'^3\max(1,\rho',D)^\alpha$ since $\dist(y,C_R)\le\abs{y-c}+R\le
-D+13\rho'$ on $B'$. For the lower bound, if $D\ge26\rho'$ then
-$\dist(y,C_R)\ge D-\rho'-R\ge D/2$ on $B'$; if $D\le26\rho'$ then the tube
+D+17\rho'$ on $B'$. For the lower bound, if $D\ge34\rho'$ then
+$\dist(y,C_R)\ge D-\rho'-R\ge D/2$ on $B'$; if $D\le34\rho'$ then the tube
 $\{\dist(\cdot,C_R)\le\varepsilon\rho'\}$ has volume $\lesssim(R+\varepsilon
 \rho')(\varepsilon\rho')^2\le C\varepsilon^2\rho'^3$, so for $\varepsilon$ small
 a fixed fraction of $B'$ lies at distance $\ge\varepsilon\rho'$ from $C_R$, where
-$w_R\ge(\varepsilon\rho')^\alpha\gtrsim\max(1,\rho',D)^\alpha$ (for $\rho'\ge1$;
-for $\rho'<1$ all weights are $\asymp1$). This is the lower bound in both cases.
+$w_R\ge(\varepsilon\rho')^\alpha\gtrsim\max(1,\rho',D)^\alpha$ (note
+$\rho'\ge R/16>1$). This is the lower bound in both cases.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:B}(a)]
 Write $\sigma(x)^2=1+\abs x$, so $\sigma\asymp s_k$ on shell $k$ (indeed
-$\sigma\in[s_k,\sqrt2\,s_k]$ there), and recall that distinct circles are at
-distance $\ge0.7\,s_k$: in the meridian half-plane their generating points lie
-$\ge0.79\,s_k$ apart, and the distance between two coaxial circles equals the
-distance between their generating points. We first fix the local form of $w$
-and the cell mass, then treat small and large balls.
+$\sigma\in[s_k,1.44\,s_k]$ there for $k\ge4$). Recall the separation of the
+circles. The distance between two coaxial circles equals the distance between
+their generating points in the meridian half-plane; within shell $m$ the layers
+are $\ge s_m/\sqrt2$ apart radially and the circles of one layer $\ge0.78\,s_m$
+apart, and the innermost layer of shell $m+1$ lies $\ge s_m/\sqrt2$ beyond the
+outermost layer of shell $m$. Hence two distinct circles lying in shells $\ge k$
+are at distance $\ge0.7\,s_k$, while every circle of a shell $<k$ lies in
+$\{\abs x\le2^k-s_k/2\}$ (the radial gap $2^{k-1}/L_{k-1}$ below shell $k$ can be
+as small as $s_k/2$). On $\{\abs x\le32\}$ one has $34^{-\alpha/2}\le w\le1$, so
+$\mu$ is comparable to Lebesgue measure on every ball of radius $\le8$ centred in
+$\{\abs x<16\}$; below, $x_0$ lies in a shell $k\ge4$. We first fix the local
+form of $w$ and the cell mass, then treat small and large balls.
 
 \emph{Local comparison.} Let $B=B(x_0,\rho)$ with $\rho\le\sigma_0/10$ in shell
 $k$, where $\sigma_0=\sigma(x_0)$; note $\rho\le0.15\,s_k$. Then $1+\abs x$ changes
 on $B$ by $\le2\rho\le\sigma_0/5$ against $1+\abs{x_0}\ge2^k$, so
 $\sigma\asymp\sigma_0$ and $1+\abs x\ge\tfrac12\sigma_0^2$ there. Let $C$ be a
 circle nearest to $x_0$, $\tau=\dist(x_0,C)$, and $d_C=\dist(\cdot,C)$. If
-$\tau\le2\rho$, every other circle $C'$ has $\dist(x_0,C')\ge0.7\,s_k-\tau$, hence
-$\dist(y,C')\ge0.7\,s_k-3\rho\ge0.25\,s_k$ for $y\in B$: $C$ is the only circle
+$\tau\le2\rho$, then $C$ lies in shell $k$ or $k+1$: the circles of shells $<k$
+are at distance $\ge s_k/2>2\rho$ from $x_0$, and at distance $\ge s_k/2-\rho\ge
+0.35\,s_k$ from $B$; those of shells $>k+1$ are farther still. Every other circle
+$C'$ of a shell $\ge k$ has $\dist(x_0,C')\ge0.7\,s_k-\tau$, hence
+$\dist(y,C')\ge0.7\,s_k-3\rho\ge0.25\,s_k$ for $y\in B$. So $C$ is the only circle
 within $\rho$ of $B$, the distance $d=\dist(\cdot,\Gamma)$ equals $d_C$ where
 $d_C\le0.25\,s_k$, and elsewhere on $B$ both $d$ and $d_C$ lie in
 $[0.25\,s_k,\,3\rho]\subset[0.25\,s_k,\,0.45\,s_k]$. If $\tau>2\rho$, then on $B$,
 $d\ge\tau-\rho$ and $d_C\le\tau+\rho\le3(\tau-\rho)$, so $d\le d_C\le3d$. In either
-case $(1+d^2)^{\alpha/2}\asymp(1+d_C^2)^{\alpha/2}$ on all of $B$. As $d\le\sigma_0$ on
-$B$, $1+\abs x+d^2\asymp\sigma_0^2$ (both $\ge\tfrac12\sigma_0^2$ and
+case $(1+d^2)^{\alpha/2}\asymp(1+d_C^2)^{\alpha/2}$ on all of $B$. In the case
+$\tau\le2\rho$ moreover $d\le3\rho\le0.3\,\sigma_0$ on $B$, so
+$1+\abs x+d^2\asymp\sigma_0^2$ (both $\ge\tfrac12\sigma_0^2$ and
 $\le2\sigma_0^2$), whence
 \begin{equation}\label{eq:wcompare}
-w\ \asymp\ \sigma_0^{-\alpha}\,(1+d_C^2)^{\alpha/2}\qquad\text{on }B,
+w\ \asymp\ \sigma_0^{-\alpha}\,(1+d_C^2)^{\alpha/2}\qquad\text{on }B
+\text{ whenever }\dist(x_0,\Gamma)\le2\rho,
 \end{equation}
 a \emph{bounded-factor} comparison with constants depending only on $\alpha$.
 (The second factor $(1+\abs x+d^2)^{-\alpha/2}$ varies on $B$ by a bounded
 factor, not by $1+O(1/s)$, because $d^2$ as well as $\abs x$ varies across $B$.)
+No bound on $d$ in terms of $\sigma_0$ holds in general (on the axis $d$ exceeds
+$\sigma$), and none is needed: in the case $\tau>2\rho$ we use instead that
+$w=(1-\abs x/(1+\abs x+d^2))^{\alpha/2}$ is increasing in $d$ and decreasing in
+$\abs x$. Since $d\in[\tau/2,3\tau/2]$ on $B$, $d\le2\tau$ on $2B$, and $\abs x$
+changes by at most $4\rho\le0.4\,\sigma_0$ across $2B$ against $1+\abs x\ge
+\tfrac12\sigma_0^2$, the ratio $(1+d^2)/(1+\abs x+d^2)$ varies on $B$ by a factor
+$\le81$, and its maximum over $2B$ is at most $18$ times its minimum over $B$;
+hence $w$ varies on $B$ by a bounded factor and $\max_{2B}w\le18^{\alpha/2}
+\min_Bw$.
 
-\emph{Cell mass.} Let $Q$ be a cube of side $\ell\in[s_k/32,\,s_k]$ in shell $k$.
+\emph{Cell mass.} Let $Q$ be a cube of side $\ell$, or a ball of radius $\ell$,
+with $\ell\in[s_k/32,\,s_k]$ and centre in shell $k$.
 At most $C_0$ circles come within $s_k$ of $Q$ (their meridian points lie
-$\ge0.79\,s_k$ apart, so a disc of radius $2s_k$ holds $O(1)$ of them), and each
+$\ge s_k/2$ apart, so a disc of radius $2s_k$ holds $O(1)$ of them), and each
 meets the enlarged region in an arc of length $\le Cs_k$; hence
 $\{d\le\varepsilon s_k\}\cap Q$ has volume $\le C_0\,Cs_k(\varepsilon s_k)^2=
 C'\varepsilon^2 s_k^3$, a fraction $\lesssim\varepsilon^2$ of $Q$. Fix
 $\varepsilon$ so this is $\le\tfrac12$; on the remaining half of $Q$,
-$d\ge\varepsilon s_k$ gives, by \eqref{eq:wcompare} and $1+\abs x+d^2\le
-2\sigma^2\asymp s_k^2$, the bound $w\ge(\varepsilon^2/2)^{\alpha/2}=:c_\alpha>0$.
+$d\ge\varepsilon s_k$ gives, since $w$ is increasing in $d$ and $1+\abs x\le
+3s_k^2$ on $Q$, the bound $w\ge\bigl(\varepsilon^2/(4+\varepsilon^2)\bigr)^{\alpha/2}
+=:c_\alpha>0$.
 With $w\le1$,
 \begin{equation}\label{eq:cellmass}
 \mu(Q)\asymp\abs Q\qquad\text{uniformly in such }Q.
 \end{equation}
 
 \emph{Small balls $(\rho\le\sigma_0/10)$.} If no circle lies within $\rho$ of $B$,
-then $d\ge\rho$ on $B$ and $w$ varies by a bounded factor by \eqref{eq:wcompare},
-so $\mu$ is comparable to Lebesgue measure and \eqref{eq:poincare} and doubling
-hold. Otherwise the nearest circle $C$ is the only one within $\rho$ of $B$ (the
+then $\tau>2\rho$, so by the local comparison $w$ varies on $B$ by a bounded
+factor and $\max_{2B}w\le18^{\alpha/2}\min_Bw$: $\mu$ is comparable to Lebesgue
+measure on $B$, and \eqref{eq:poincare} and doubling hold at $B$. Otherwise the
+nearest circle $C$ is the only one within $\rho$ of $B$ (the
 case $\tau\le2\rho$ above), and its Euclidean radius
 $R_C$ may be as small as $\asymp1$ (near a pole, $R_C=r\sin\theta_0\to\pi/8$) or
 as large as $\asymp2^k$. By \eqref{eq:wcompare}, $w\asymp\sigma_0^{-\alpha}
-(1+d_C^2)^{\alpha/2}$, and Lemma~\ref{lem:circle}, \emph{whose constants are
-independent of $R_C$}, gives \eqref{eq:poincare} and doubling for
-$(1+d_C^2)^{\alpha/2}$ on $B$; multiplying by the bounded-factor constant
-$\sigma_0^{-\alpha}$ preserves both. The polar circles are thus handled through
+(1+d_C^2)^{\alpha/2}$ on $B$, and Lemma~\ref{lem:circle}, \emph{whose constants
+are independent of $R_C$}, gives \eqref{eq:poincare} and doubling for
+$(1+d_C^2)^{\alpha/2}$ on $B$; a bounded-factor comparison of the weights
+preserves \eqref{eq:poincare}. For doubling at $B$: if $\rho\le\sigma_0/20$,
+then $2B$ is a small ball with the same nearest circle and \eqref{eq:wcompare}
+holds on $2B$, so $\mu(2B)\lesssim\mu(B)$ follows from the doubling of
+Lemma~\ref{lem:circle}; if $\sigma_0/20<\rho\le\sigma_0/10$, then
+$\mu(2B)\le\abs{2B}=8\abs B\le16c_\alpha^{-1}\mu(B)$ by \eqref{eq:cellmass}
+applied to the ball $B$, whose radius lies in $[s_k/20,s_k]$. The polar circles
+are thus handled through
 the uniformity of Lemma~\ref{lem:circle} in the circle radius, not through any
 straight-cylinder approximation at the scale $\sqrt R$.
 
@@ -875,12 +916,16 @@ straight-cylinder approximation at the scale $\sqrt R$.
 Lebesgue measure and a covering of $2B$ by cubes $Q_j$ of side
 $\ell_j=\sigma(y_j)/32$, $y_j$ the centre of $Q_j$; adjacent cubes have
 comparable sides since $\sigma$ varies by a bounded factor over distances
-$\le\sigma$, and each ball $B_j\supset\bigcup_{Q_{j'}\cap Q_j\ne\emptyset}Q_{j'}$
-has radius $\le\sigma(y_j)/10$, so it is a small ball and (G2) holds on it by the
-previous paragraph. (G1), $\mu(Q_j)\asymp\nu(Q_j)=\abs{Q_j}$, is
+$\le\sigma$ (indeed $\abs{\nabla\sigma}\le\tfrac12$, so touching cubes have
+sides within a factor $1.03$ of each other, and $\ell_j\le0.35\,\rho$ because
+$\sigma_0<10\rho$); each ball $B_j\supset\bigcup_{Q_{j'}\cap Q_j\ne\emptyset}Q_{j'}$
+can be taken of radius $\le2.7\,\ell_j<\sigma(y_j)/10$, so it is a small ball
+and (G2) holds on it by the previous paragraph. (G1),
+$\mu(Q_j)\asymp\nu(Q_j)=\abs{Q_j}$, is
 \eqref{eq:cellmass}. Lemma~\ref{lem:glue} gives the weak Poincar\'e inequality on
 $B$ with energy over $4B$; doubling of $\mu$ at scales $\ge\sigma/32$ follows
-from (G1) and at smaller scales from the small-ball case, and the
+from \eqref{eq:cellmass} and, above the cell scale, from (G1) with the doubling
+of $\nu$, and at smaller scales from the small-ball case; the
 self-improvement \cite[Thms.~5.1, 9.7]{hajlaszkoskela2000} upgrades it to
 \eqref{eq:poincare}.
 \end{proof}
