@@ -1,0 +1,83 @@
+name = "brown_radial_tests"
+version = "0.1.0"
+defaultTargets = ["BrownRadial", "Analytic", "Radial", "Gaussian", "Rays", "Capacity", "Comparability", "Variance", "Polar", "Resistance", "Remainder", "LatticeRegularity", "SphericalA2", "WeightedBalls", "GaussianMarginal", "MultivariateGaussian", "GaussianSmooth", "LatticeGeometry", "SphereTest", "RayTest", "RayToll", "OneDim", "LatticeSeparation", "LatticeVolume", "PaperTheorems"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.24.0"
+
+[[lean_lib]]
+name = "BrownRadial"
+
+[[lean_lib]]
+name = "Analytic"
+
+[[lean_lib]]
+name = "Radial"
+
+[[lean_lib]]
+name = "Gaussian"
+
+[[lean_lib]]
+name = "Rays"
+
+[[lean_lib]]
+name = "Capacity"
+
+[[lean_lib]]
+name = "Comparability"
+
+[[lean_lib]]
+name = "Variance"
+
+[[lean_lib]]
+name = "Polar"
+
+[[lean_lib]]
+name = "Resistance"
+
+[[lean_lib]]
+name = "Remainder"
+
+[[lean_lib]]
+name = "LatticeRegularity"
+
+[[lean_lib]]
+name = "SphericalA2"
+
+[[lean_lib]]
+name = "WeightedBalls"
+
+[[lean_lib]]
+name = "GaussianMarginal"
+
+[[lean_lib]]
+name = "MultivariateGaussian"
+
+[[lean_lib]]
+name = "GaussianSmooth"
+
+[[lean_lib]]
+name = "LatticeGeometry"
+
+[[lean_lib]]
+name = "SphereTest"
+
+[[lean_lib]]
+name = "RayTest"
+
+[[lean_lib]]
+name = "RayToll"
+
+[[lean_lib]]
+name = "OneDim"
+
+[[lean_lib]]
+name = "LatticeSeparation"
+
+[[lean_lib]]
+name = "LatticeVolume"
+
+[[lean_lib]]
+name = "PaperTheorems"
