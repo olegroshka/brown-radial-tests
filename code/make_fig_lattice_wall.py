@@ -90,7 +90,7 @@ def main():
     ax2.set_xlabel("ball radius $\\rho$ (lattice: $\\rho/s_8=1,2,4,8$)"); ax2.set_ylabel("$\\lambda_1(B)\\,\\rho^2$")
     ax2.set_ylim(0.08, 8)
     ax2.legend(loc="upper center", bbox_to_anchor=(0.5, -0.16), frameon=False, handletextpad=0.4, borderaxespad=0.0, ncol=2)
-    panel_title(ax2, "(b) Poincar$\\acute{\\mathrm{e}}$ constant $1/(\\lambda_1\\rho^2)$")
+    panel_title(ax2, "(b) scaled Neumann eigenvalue $\\lambda_1\\rho^2$")
 
     fig.tight_layout(w_pad=1.5, rect=(0, 0.02, 1, 1))
     for ext in ("pdf", "png"):

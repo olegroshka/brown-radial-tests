@@ -1,5 +1,5 @@
 ﻿{
-    "checkedAtUtc":  "2026-11-11T22:07:39.8271313Z",
+    "checkedAtUtc":  "2026-11-11T22:56:02.6159904Z",
     "namedTheorems":  655,
     "status":  "PASS",
     "scope":  "Lean declarations only; full paper verification is incomplete",
@@ -157,7 +157,7 @@
                       "path":  "WeightedBalls.lean"
                   }
               ],
-    "paperSha256":  "4B226D78AA7AC7A5ED5E538FA20055A439D5DB8DE23600FD0AF90CA3A4F61042",
+    "paperSha256":  "3166D3E3356AEA062A2A7B5EDE65F15F7B5119C37A45959C92369063DAE9A961",
     "audit":  [
                   "CHECKED BrownRadial.gaussian_ballPoincare_iff._simp_1_1: []",
                   "CHECKED BrownRadial.thinBad_subset._proof_1_2: [propext, Quot.sound]",

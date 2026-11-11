@@ -129,17 +129,18 @@ def brown_integrals(w, Rmax=1e8, n=4000):
     return r, I_S, M, I_V
 
 def fig2():
-    fig, axes = plt.subplots(1, 3, figsize=(7.0, 2.35))
-    fig.subplots_adjust(left=0.065, right=0.985, top=0.86, bottom=0.21, wspace=0.42)
+    fig, axes = plt.subplots(1, 3, figsize=(7.0, 2.6))
+    fig.subplots_adjust(left=0.065, right=0.985, top=0.875, bottom=0.29, wspace=0.42)
     # (a) Brown's tests on w_log
     ax = axes[0]
     r, I_S, M, I_V = brown_integrals(w_log)
     ax.plot(r, M, color=C2); ax.plot(r, I_V, color=C3); ax.plot(r, I_S, color=C1)
     label_end(ax, r[-1], M[-1], "mean ray integral\n(diverges: 6.4.4 silent)", C2, dx=-3, dy=4, ha="right", va="bottom")
     label_end(ax, r[-1], I_V[-1], "volume test (converges)", C3, dx=-3, dy=5, ha="right", va="bottom")
-    i_mid = int(np.searchsorted(r, 3e2))
-    label_end(ax, r[i_mid], I_S[i_mid], "sphere test (converges: 6.4.3 silent)", C1, dx=0, dy=-5, ha="left", va="top")
-    ax.set_xscale("log"); ax.set_xlim(1, 1e8); ax.set_ylim(0, 3.2)
+    label_end(ax, r[-1], I_S[-1], "sphere test (converges: 6.4.3 silent)", C1, dx=-3, dy=-5, ha="right", va="top")
+    # room below the lowest curve for its label, so that it does not sit on the axis
+    ax.set_xscale("log"); ax.set_xlim(1, 1e8); ax.set_ylim(-0.45, 3.2)
+    ax.set_yticks(np.arange(0.0, 3.01, 0.5))
     ax.set_xlabel(r"$r$"); ax.set_ylabel("partial integral up to $r$", labelpad=2)
     panel_title(ax, "(a) Brown's tests on the undecided weight")
     # (b) doubling ratio, (c) spherical A2 ratio
@@ -147,29 +148,22 @@ def fig2():
                ("$(1+|t|)^{-1/2}$", w_half, C3), ("$(1+|t|)^{2}$", w_grow, C4)]
     rr = np.logspace(1, 8, 57)
     axb, axc = axes[1], axes[2]
-    place_b = {C1: (-3, -4, "right", "top"), C2: (-3, 3, "right", "bottom"),
-               C3: (-3, 4, "right", "bottom"), C4: (-3, -5, "right", "top")}
-    place_c = {C1: None, C2: (-3, 4, "right", "bottom"),
-               C3: (-3, -4, "right", "top"), C4: (-3, 3, "right", "bottom")}
     for name, w, col in weights:
         C = Cum(w)
         dbl = np.array([float(C.mu(0.0, 2 * x) / C.mu(0.5 * x, 1.5 * x)) for x in rr])
         Q = np.array([float(C.mu(0.0, x) * C.nu(0.0, x) / x ** 2) for x in rr])
         axb.plot(rr, dbl, color=col); axc.plot(rr, Q, color=col)
-        dx, dy, ha, va = place_b[col]; label_end(axb, rr[-1], dbl[-1], name, col, dx=dx, dy=dy, ha=ha, va=va)
-        if place_c[col] is None:      # leader line into the clear region between the clusters
-            i0 = int(np.searchsorted(rr, 1e4))
-            axc.annotate(name, (rr[i0], Q[i0]), xytext=(2.5e4, 1.2e3), textcoords="data", color=col,
-                         fontsize=7.5, ha="left", va="center",
-                         arrowprops=dict(arrowstyle="-", color=col, lw=0.5, shrinkA=0, shrinkB=2))
-        else:
-            dx, dy, ha, va = place_c[col]; label_end(axc, rr[-1], Q[-1], name, col, dx=dx, dy=dy, ha=ha, va=va)
     axb.set_xscale("log"); axb.set_xlim(10, 1e8); axb.set_ylim(0, 20)
-    axb.set_xlabel(r"$r$"); axb.set_ylabel(r"$\mu([0,2r])\,/\,\mu([r/2,3r/2])$", labelpad=2)
+    axb.set_xlabel(r"$r$"); axb.set_ylabel(r"$\mu_1([0,2r])\,/\,\mu_1([r/2,3r/2])$", labelpad=2)
     panel_title(axb, "(b) doubling ratio")
     axc.set_xscale("log"); axc.set_yscale("log"); axc.set_xlim(10, 1e8); axc.set_ylim(0.4, 3e8)
-    axc.set_xlabel(r"$r$"); axc.set_ylabel(r"$Q(r)=\mu([0,r])\,\nu([0,r])/r^2$", labelpad=2)
-    panel_title(axc, r"(c) spherical $A_2$ ratio")
+    axc.set_xlabel(r"$r$"); axc.set_ylabel(r"$\mu_1([0,r])\,\nu_1([0,r])/r^2$", labelpad=2)
+    panel_title(axc, r"(c) one-dimensional $A_2$ product")
+    # One legend for panels (b) and (c): at this size direct labels collided with the curves.
+    from matplotlib.lines import Line2D
+    fig.legend([Line2D([0], [0], color=col) for _, _, col in weights], [name for name, _, _ in weights],
+               loc="lower center", bbox_to_anchor=(0.69, 0.0), ncol=4, frameon=False,
+               handlelength=1.4, columnspacing=1.4, handletextpad=0.5)
     fig.savefig(os.path.join(FIGDIR, "fig2_undecided.pdf"))
     fig.savefig(os.path.join(FIGDIR, "fig2_undecided.png"), dpi=220)
     plt.close(fig)

@@ -1,6 +1,6 @@
-% Beyond Brown's radial tests -- research note, first-principles draft (2026-10-24).
-% Build: pdflatex -> bibtex -> pdflatex x2.  Figures: ../latex/figures/ (make_figures.py, make_figures_v3.py).
-% Internal pre-submission checklist lives outside this file (ar/AR-029b packet); nothing here refers to it.
+% Beyond Brown's radial tests.
+% Build: pdflatex, twice (the bibliography is inlined). Figures: ../figures/, produced by ../code/make_fig_*.py.
+\pdfoutput=1
 \documentclass[11pt]{amsart}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
@@ -10,6 +10,7 @@
 \usepackage{array}
 \usepackage{enumitem}
 \usepackage{microtype}
+\usepackage{needspace}
 \usepackage{xcolor}
 \definecolor{linkink}{HTML}{1c3f77}
 \usepackage[colorlinks=true,linkcolor=linkink,citecolor=linkink,urlcolor=linkink]{hyperref}
@@ -18,12 +19,14 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\dd}{\,\mathrm{d}}
 \newcommand{\abs}[1]{\lvert #1\rvert}
-\newcommand{\norm}[1]{\lVert #1\rvert}
+\newcommand{\norm}[1]{\lVert #1\rVert}
 \newcommand{\fbar}{\bar f}
 \DeclareMathOperator{\capa}{cap}
 \DeclareMathOperator{\dist}{dist}
 \DeclareMathOperator{\Var}{Var}
 \DeclareMathOperator{\divg}{div}
+% Lean identifiers: typewriter, breakable at underscores and dots.
+\DeclareUrlCommand\lean{\urlstyle{tt}\def\UrlBreaks{\do\_\do\.}\def\UrlBigBreaks{}}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -40,7 +43,7 @@
 \author{Oleg Roshka}
 \thanks{Independent researcher; ORCID 0009-0009-3075-9417;
 \texttt{oleg.roshka@proton.me}.}
-\date{24 October 2026}
+\date{11 November 2026}
 
 \begin{document}
 
@@ -58,7 +61,7 @@ scale-invariant Poincar\'e inequality, the sphere test is already complete:
 recurrence, Brown's sphere test and the ball-volume test are equivalent, so
 geometric criteria can add decidable cases only on the inadmissible side.
 (B)~They do add one. An explicit prior on $\R^3$ whose marginal is small along a
-lattice of circles at dyadic scales with spacing equal to the square root of the scale, is
+lattice of circles at dyadic scales with spacing equal to the square root of the scale is
 doubling and Poincar\'e, silences both of Brown's tests, and is transient by the
 ball-volume test; its generalized Bayes estimator is inadmissible. (C)~Outside
 the doubling--Poincar\'e class the zone is two-sided: the same circles placed on
@@ -152,7 +155,8 @@ The geometric literature knows the sphere test as the sphere-area parabolicity
 test \cite[Thm.~7.5]{grigoryan1999}, and knows further tests with no
 statistical counterpart: the ball-volume test of Karp, Varopoulos and
 Grigor'yan, which is an equivalence when the measure is doubling and supports a
-Poincar\'e inequality \cite[Thm.~11.1]{grigoryan1999}, and the flux test along
+Poincar\'e inequality \cite[Thm.~11.1]{grigoryan1999},
+\cite[Cor.~4.12]{sturm1996}, and the flux test along
 an arbitrary exhaustion \cite[Thm.~7.6]{grigoryan1999}. Our question is what
 these add inside Brown's undecided zone. The answer has three parts.
 
@@ -168,8 +172,8 @@ geometric criteria can only decide cases on the inadmissible side.
 on $\R^3$ whose marginal is doubling and Poincar\'e, on which both of Brown's
 tests are silent (every ray integral diverges, the sphere integral converges),
 and whose volume grows like $r^3$; the ball-volume test shows transience and
-$\delta_F$ is inadmissible. The construction places circles of radius
-$\asymp2^k$ in the shell $2^k\le\abs x<2^{k+1}$ at mutual distance $\asymp
+$\delta_F$ is inadmissible. The construction places latitude circles on spheres of radius
+$\asymp2^k$ in the shell $2^k\le\abs x<2^{k+1}$, at mutual distance $\asymp
 2^{k/2}$, so that their angular positions cover every direction while no
 coherent surface of small weight forms.
 \item[(C)] \emph{The zone is two-sided} (Section~\ref{sec:zone}). Placing the
@@ -196,11 +200,8 @@ where a prior asymptotically dominating the Jeffreys prior exists if and only if
 the Fisher manifold of the model is non-parabolic \cite{komaki2006};
 Appendix~\ref{app:komaki} records that parallel and the identity that expresses
 Komaki's risk reduction through Perelman's weighted scalar curvature.
-% TODO (pre-submission): compare with Brown & Hwang (1982), "A unified
-% admissibility proof", the standard non-radial sufficient condition, and state
-% whether the lattice prior of Theorem B is covered by it.
 
-\paragraph{Organization.} Section~\ref{sec:prelim} fixes notation, restates
+\paragraph{\textit{Organization.}} Section~\ref{sec:prelim} fixes notation, restates
 Brown's theorems in geometric language, proves the comparison lemma, and records
 the volume criterion. Section~\ref{sec:reach} proves Theorem~\ref{thm:A} and
 locates the undecided zone through the spherical $A_2$ ratio.
@@ -208,11 +209,13 @@ Section~\ref{sec:lattice} constructs the prior of Theorem~\ref{thm:B} and proves
 its properties. Section~\ref{sec:zone} gives the two further examples.
 Section~\ref{sec:numerics} reports numerical companions to the proofs, and
 Section~\ref{sec:discussion} discusses what the geometric criteria add and what
-remains open.
+remains open. Appendix~\ref{app:lean} records which statements of this note
+have been checked formally in the proof assistant Lean, and under which
+cited premises.
 
 \section{Preliminaries}\label{sec:prelim}
 
-\subsection{Notation}
+\subsection{Notation}\label{sec:notation}
 Throughout, $m\ge2$, $B(x,\rho)$ is the open Euclidean ball, $B_r=B(0,r)$, and
 $\omega_{m-1}$ the area of the unit sphere. For a positive locally integrable
 weight $w$ on $\R^m$ we write $\mu=w\dd x$ and $V(r)=\mu(B_r)$. For $r\ge1$ let
@@ -237,9 +240,17 @@ $\mathcal E(u)=\int\abs{\nabla u}^2\dd\mu$ and the weighted Brownian motion with
 generator $\Delta+\nabla\log w\cdot\nabla$. It is \emph{parabolic} if the
 capacity of some (equivalently every) ball vanishes,
 $\capa(B_1)=\inf\{\mathcal E(j):j\in C_c^\infty,\ j\ge1\text{ on }B_1\}=0$,
-equivalently if the weighted Brownian motion is recurrent
-\cite[Thm.~5.1]{grigoryan1999}; otherwise it is \emph{non-parabolic} or
-\emph{transient}.
+equivalently if the weighted Brownian motion is recurrent; otherwise it is
+\emph{non-parabolic} or \emph{transient}. For Riemannian manifolds this
+equivalence is \cite[Thm.~5.1]{grigoryan1999}. For the weighted space with $w$
+continuous and positive it follows from the characterization of recurrence of
+a Dirichlet form by a sequence $u_n\to1$ almost everywhere with
+$\mathcal E(u_n)\to0$ \cite[Thm.~1.6.3]{fukushimaoshimatakeda2011}: such a
+sequence yields test functions for $\capa(B_1)$ by truncation and a cut-off,
+and conversely test functions $j_n$ with $\mathcal E(j_n)\to0$, truncated to
+$[0,1]$, tend to $1$ in $L^2$ of every ball by the Poincar\'e inequality of
+that ball, which holds with a constant depending on the ball because $w$ is
+bounded above and below there.
 
 \subsection{Brown's theorems}
 We restate the results of \cite{brown1971} that we use, in the notation above
@@ -279,7 +290,10 @@ Brown's proofs are those of the corresponding geometric statements: (a) is the
 Dirichlet principle for the capacity of $B_1$; (d) uses the radial test
 functions $j_i(x)=c_i\int_{\abs x}^{i}\dd r/(r^{m-1}\fbar(r))$, whose energy
 tends to zero, exactly as in the sphere-area test of
-\cite[Thm.~7.5]{grigoryan1999}; (e) integrates a one-dimensional capacity
+\cite[Thm.~7.5]{grigoryan1999} (the $j_i$ are Lipschitz with compact support
+but not smooth; mollifying them gives functions of $C_c^\infty$ whose energies
+still tend to zero, so they may be used in the definition of $\capa(B_1)$
+above); (e) integrates a one-dimensional capacity
 bound along rays. (Brown's diffusion can explode in finite time if the drift
 grows faster than linearly; his correction \cite{brown1973} shows that when
 $\limsup_{\abs x\to\infty}\abs{\nabla\log f^*}/\abs x<\infty$ there is no
@@ -291,7 +305,7 @@ of positive measure has uniformly bounded ray integrals. Brown's undecided zone
 is the set of $F$ on which both are silent (Figure~\ref{fig:tests}).
 Table~\ref{tab:dict} collects the dictionary.
 
-\begin{table}[t]
+\begin{table}[b]
 \caption{Brown's admissibility theory read as potential theory of
 $W_F=(\R^m,\delta,f^*\dd x)$. Theorem numbers refer to \cite{brown1971} and
 \cite{grigoryan1999}.}
@@ -362,6 +376,7 @@ Brown's theorems concern Gaussian marginals $f^*=\varphi*F$. The weights we
 construct are explicit functions of the distance to a set, which are not
 Gaussian marginals as they stand. The following lemma removes the distinction.
 
+\needspace{14\baselineskip}% keep the statement on one page
 \begin{lemma}[comparison]\label{lem:lip}
 Let $w>0$ on $\R^m$ be locally integrable with $\log w$ Lipschitz with constant
 $L$, and let $f^*=\varphi*w$, the marginal of the prior $F=w\dd\theta$. Then
@@ -397,31 +412,50 @@ $\ell\subset\R^3$.
 The following is the theorem of the geometric literature on which
 Theorem~\ref{thm:A} rests.
 
-\begin{theorem}[Grigor'yan; Saloff-Coste; Sturm]\label{thm:volume}
-Let $w$ be D+P on $\R^m$. Then $(\R^m,w\dd x)$ is parabolic if and only if
+\begin{theorem}[Sturm; Grigor'yan; Saloff-Coste]\label{thm:volume}
+Let $w$ be a continuous positive weight on $\R^m$ that is D+P. Then
+$(\R^m,w\dd x)$ is parabolic if and only if
 \begin{equation}\label{eq:volume}
 \int_1^\infty\frac{r\dd r}{V(r)}=\infty .
 \end{equation}
 \end{theorem}
 
 \begin{proof}[Sources]
-For the weights of this note, which have Lipschitz logarithm, Lemma~\ref{lem:lip}
-lets us take $w$ smooth with bounded logarithmic gradient, so that
-$-w^{-1}\divg(w\nabla\cdot)$ is a locally uniformly elliptic operator with smooth
-coefficients, symmetric with respect to $\mu$; for general D+P weights the same
-chain of results holds for strongly local Dirichlet spaces \cite{sturm1996}.
-For such operators Saloff-Coste proved that doubling together
-with the Poincar\'e inequality is equivalent to the parabolic Harnack inequality
-\cite[Thm.~3.1]{saloffcoste1992} and implies two-sided Gaussian bounds for the
-heat kernel \cite[Thm.~4.2]{saloffcoste1992}; see also \cite{grigoryan1991}
-and, for local Dirichlet spaces, \cite{sturm1996}. In particular the upper bound
-$p(t,x,x)\le C/V(x,\sqrt t)$ holds (Figure~\ref{fig:heatkernel}), which together with doubling is equivalent to the
-relative Faber--Krahn inequality \cite[remark after Thm.~11.1]{grigoryan1999}.
-Under the relative Faber--Krahn inequality, non-parabolicity is equivalent to
-the convergence of the integral in \eqref{eq:volume}
-\cite[Thm.~11.1]{grigoryan1999}; the weighted-manifold form of these arguments is
-in \cite{grigoryan2009}. The implication ``\eqref{eq:volume} $\Rightarrow$
-parabolic'' holds without any hypothesis \cite[Thm.~7.3]{grigoryan1999}.
+Since $w$ is continuous and positive, it is bounded above and below on every
+ball. Hence the form $\mathcal E$ on $C_c^\infty(\R^m)$ is closable in
+$L^2(\mu)$, and its closure is a regular, strongly local, irreducible
+Dirichlet form, with domain the functions $u\in L^2(\mu)$ whose
+distributional gradient lies in $L^2(\mu)$, with energy measure
+$\abs{\nabla u}^2\dd\mu$, and with the Euclidean distance as intrinsic metric.
+This is the setting of Sturm \cite{sturm1994,sturm1995,sturm1996}; compare
+\cite[Example~5\,B]{sturm1996}. Closed balls are compact, doubling is his
+condition (Ib), and \eqref{eq:poincare}, which passes from $C^1$ functions to
+the whole domain because the domain is a closure, gives his Poincar\'e
+inequality (Ic). Under these conditions doubling and the Poincar\'e
+inequality are equivalent to the parabolic Harnack inequality
+\cite[Thm.~3.5]{sturm1996}, the heat kernel has two-sided Gaussian bounds, in
+particular $p(t,x,x)\asymp1/V(x,\sqrt t)$ (Figure~\ref{fig:heatkernel}), and
+the Green function satisfies
+\[
+g(x,y)\ \asymp\ \int_{\abs{x-y}}^\infty\frac{r\dd r}{\mu(B(x,r))}
+\]
+\cite[Cor.~4.11]{sturm1996}; consequently the form is recurrent if and only
+if \eqref{eq:volume} holds \cite[Cor.~4.12]{sturm1996},
+\cite[Cor.~2.9]{sturm1995}. Recurrence is parabolicity in the sense of
+Section~\ref{sec:notation}. Directly: if the integral in \eqref{eq:volume}
+converges, the upper bound for $g$ gives
+$\int_{B_1}G1_{B_1}\dd\mu<\infty$, where $G$ is the Green operator, and then
+$\mu(B_1)^2\le\bigl(\int_{B_1}G1_{B_1}\dd\mu\bigr)\,\mathcal E(u)$ for every
+test function $u\ge1$ on $B_1$ by
+\cite[Lemma~1.5.3]{fukushimaoshimatakeda2011}, so $\capa(B_1)>0$. For smooth
+weights the same results are in \cite{saloffcoste1992} (Theorems~3.1 and~4.2,
+and the Green function criterion on p.~34) and \cite{grigoryan1991}, and for
+weighted manifolds in the survey \cite{grigoryan2006}; for Riemannian
+manifolds see \cite[Thm.~11.1]{grigoryan1999}. The implication
+``\eqref{eq:volume} $\Rightarrow$ parabolic'' needs neither doubling nor the
+Poincar\'e inequality: it follows from Corollary~\ref{cor:cs} below and the
+sphere test, Theorem~\ref{thm:brown}(d) (compare
+\cite[Thm.~7.3]{grigoryan1999} for complete Riemannian manifolds).
 \end{proof}
 
 \begin{corollary}[the sphere test dominates the volume test]\label{cor:cs}
@@ -462,7 +496,8 @@ when $(\R^m,w\dd x)$ is recurrent.}
 \section{The reach of the radial tests}\label{sec:reach}
 
 \begin{theorem}[the sphere test is complete under D+P]\label{thm:A}
-Let $w$ be D+P on $\R^m$, $m\ge2$. Then the following are equivalent:
+Let $w$ be a continuous positive weight on $\R^m$, $m\ge2$, that is D+P. Then
+the following are equivalent:
 \begin{enumerate}[label=\textup{(\roman*)},leftmargin=2em,itemsep=1pt]
 \item $(\R^m,w\dd x)$ is parabolic;
 \item $\int_1^\infty\dd r/(r^{m-1}\fbar(r))=\infty$ (Brown's sphere test fires);
@@ -475,10 +510,9 @@ with the ray test silent.
 \end{theorem}
 
 \begin{proof}
-(iii)$\Leftrightarrow$(i) is Theorem~\ref{thm:volume}. (ii)$\Rightarrow$(i) is
-Brown's sphere test, Theorem~\ref{thm:brown}(d). (i)$\Rightarrow$(iii) is
-Theorem~\ref{thm:volume} again, and (iii)$\Rightarrow$(ii) is
-Corollary~\ref{cor:cs}. The statement about $\delta_F$ is
+(iii)$\Rightarrow$(ii) is Corollary~\ref{cor:cs}; (ii)$\Rightarrow$(i) is
+Brown's sphere test, Theorem~\ref{thm:brown}(d); and (i)$\Rightarrow$(iii) is
+the converse direction of Theorem~\ref{thm:volume}. The statement about $\delta_F$ is
 Theorem~\ref{thm:brown}(b) with Lemma~\ref{lem:lip} if $f^*$ is only
 comparable to a D+P weight. The last sentence is Theorem~\ref{thm:B}.
 \end{proof}
@@ -515,7 +549,7 @@ $\int_I\abs{u-u_I}^2\dd\mu_1\le C\abs I^2\int_I\abs{u'}^2\dd\mu_1$ for all
 intervals. Then, with $\nu_1=v^{-1}\dd t$,
 $\mu_1([-r,r])\,\nu_1([-r,r])\le32\,CD^3r^2$ for every $r>0$. Consequently the
 product weight $w(x)=v(x_1)$ on $\R^m$, $m\ge3$, has bounded spherical $A_2$
-ratio, and $\delta_F$ is inadmissible for every such prior whose marginal is
+ratio, and $\delta_F$ is inadmissible for every prior $F$ whose marginal is
 comparable to $w$ (Lemma~\ref{lem:lip}; e.g.\ $\log v$ Lipschitz). That one-dimensional
 $p$-admissible measures are exactly the Muckenhoupt $A_p$ weights is due to
 Bj\"orn, Buckley and Keith \cite{bbk2006}; we record the case $p=2$ with the
@@ -525,7 +559,10 @@ explicit constant used below.
 \begin{proof}
 Take $I=[-2r,2r]$ and the test function $u=0$ on $[-2r,-r]$, $u=1$ on $[r,2r]$,
 and $u(t)=\nu_1([-r,t])/\nu_1([-r,r])$ in between, which minimizes the energy
-across the middle segment: $\int_I\abs{u'}^2\dd\mu_1=1/\nu_1([-r,r])$. A function
+across the middle segment: $\int_I\abs{u'}^2\dd\mu_1=1/\nu_1([-r,r])$. This $u$
+is Lipschitz and $C^1$ except at $\pm r$, where $u'$ jumps; the Poincar\'e
+inequality, assumed for $C^1$ functions, extends to it by smoothing $u'$ near
+$\pm r$, which changes both sides by an arbitrarily small amount. A function
 equal to $0$ on a set of measure $a$ and to $1$ on a set of measure $b$ has
 weighted variance at least $ab/(a+b)\ge\frac12\min(a,b)$. Since $[-r,r]$ is
 contained in the eightfold dilates of $[r,2r]$ and of $[-2r,-r]$, doubling gives
@@ -565,13 +602,21 @@ on $\R^n$ is $p$-admissible, that is, doubling and supporting the weak
 $(1,p)$-Poincar\'e inequality. Take $n=m$, $k=m-1$, $v\equiv1$,
 $\gamma_0=\alpha$, no $a_j$, and $p=2$; since $(1+\abs{x'})^\alpha\asymp
 (1+\abs{x'}^2)^{\alpha/2}$, the weight is doubling and supports the weak
-$(1,2)$-Poincar\'e inequality in the sense of \cite[(5), p.~7]{hajlaszkoskela2000},
-which under doubling self-improves to the strong $(2,2)$ form
-\eqref{eq:poincare}: \cite[Thm.~5.1]{hajlaszkoskela2000} raises the exponent
-on the left to any $h<sp/(s-p)$, with the energy on a dilated ball, and
-\cite[Thm.~9.7]{hajlaszkoskela2000} removes the dilation on any weak John
-domain, in particular on a ball (the exponent $s$ in the lower mass bound
-exists for every doubling measure, \cite[Lemma~14.6]{hajlaszkoskela2000}). For the
+$(1,2)$-Poincar\'e inequality in the sense of \cite[(5), p.~7]{hajlaszkoskela2000}
+for locally Lipschitz functions, in particular for each pair
+$(u,\abs{\nabla u})$ with $u$ of class $C^1$. Under doubling this self-improves
+to the strong $(2,2)$ form \eqref{eq:poincare}:
+\cite[Thm.~5.1]{hajlaszkoskela2000} raises the exponent on the left to any
+$h<sp/(s-p)$ when $p<s$, with the energy on a dilated ball, and
+\cite[Cor.~9.8]{hajlaszkoskela2000} (their Theorem~9.7 for balls) removes the
+dilation. Here $p=2$; the exponent $s$ in the lower mass bound exists for
+every doubling measure and may be taken larger than $2$
+\cite[Lemma~14.6]{hajlaszkoskela2000}; and $h=2<2s/(s-2)$, so the truncation
+property, needed only at the endpoint exponent, is not involved. The constant
+in \eqref{eq:poincare} obtained in this way depends only on the doubling
+constant and on the constant of the weak inequality
+\cite[pp.~23 and~44]{hajlaszkoskela2000}; we use this uniformity in
+Lemma~\ref{lem:circle}. For the
 asymptotics parameterize the sphere $\{\abs x=r\}$ by $\abs{x'}=r\sin\theta$;
 then $\fbar(r)\asymp r^\alpha$, and for $\alpha>m-1$ the integral of $1/w$
 concentrates on the polar caps $\theta\lesssim1/r$, giving
@@ -583,7 +628,7 @@ undecided zone that are D+P must have valleys of co-dimension at least two. The
 ray test, however, is silent only if \emph{every} direction (up to a null set)
 meets cheap regions at infinitely many scales, which a single line does not
 achieve. The construction of the next section makes the valleys sweep every
-direction without ever forming a surface.
+direction without ever forming a surface (Figure~\ref{fig:wallcircle}).
 
 \section{A doubling--Poincar\'e prior that neither test decides}\label{sec:lattice}
 
@@ -609,7 +654,7 @@ $2^k/L_k\in\{s_k,s_k/\sqrt2\}$, each containing $M_k$ circles at angular
 spacing $\pi L_k/N_k$, that is, at physical spacing between $0.78\,s_k$ and
 $2.23\,s_k$; consecutive layers are offset by one angular step $\pi/N_k$
 (Figure~\ref{fig:lattice}a). Let $\Gamma=\bigcup_{k,i,j}\Gamma_{k,i,j}$ and
-define, for $\alpha\ge4$,
+define, for $\alpha\ge0$,
 \begin{equation}\label{eq:w}
 w(x)=\Bigl(\frac{1+d(x)^2}{1+\abs x+d(x)^2}\Bigr)^{\alpha/2},\qquad
 d(x)=\dist(x,\Gamma).
@@ -676,12 +721,14 @@ inequality survives with constants uniform in the scale (Theorem~\ref{thm:B}).}
 \label{fig:wallcircle}
 \end{figure}
 
+\needspace{11\baselineskip}% keep the statement on one page, below the figure
 \begin{theorem}[the lattice prior]\label{thm:B}
 Let $w$ be the weight \eqref{eq:w} on $\R^3$, $\alpha\ge4$, and $F=w\dd\theta$.
 Then:
 \begin{enumerate}[label=\textup{(\alph*)},leftmargin=2em,itemsep=2pt]
 \item $w\dd x$ is doubling and supports the scale-invariant Poincar\'e
-inequality \eqref{eq:poincare} on all balls;
+inequality \eqref{eq:poincare} on all balls (this part holds for every
+$\alpha\ge0$);
 \item Brown's sphere test is silent, $\fbar(r)\ge c>0$ for $r\ge16$; Brown's
 ray test is silent, and in fact
 $\int_{16}^\infty\dd r/(r^2w(r\varphi))=\infty$ for \emph{every} direction
@@ -694,9 +741,12 @@ although neither of Brown's radial tests applies.
 
 \begin{proof}[Proof of (b), (c) and of the consequence]
 Fix a direction $\varphi$ and a shell $k\ge5$. Some $\theta_n$ is within
-$\pi/(2N_k)$ of the polar angle of $\varphi$, so the ray passes within
-distance $r\pi/(2N_k)\le\pi/4$ of a circle of shell $k$ at some radius
-$r_0\le2^{k+1}$. For $r\in[r_0-1,r_0+1]$ one has $d^2\le1+\pi^2/16<1.62$ and
+$\delta\le\pi/(2N_k)$ of the polar angle of $\varphi$; let $r_0<2^{k+1}$ be the
+radius of the corresponding circle of shell $k$. The point of that circle in
+the meridian half-plane of $\varphi$ is at distance
+$\bigl((r-r_0)^2+2rr_0(1-\cos\delta)\bigr)^{1/2}$ from $r\varphi$, and
+$2rr_0(1-\cos\delta)\le rr_0\delta^2\le\pi^2/16$ for $r\le2^{k+1}$. So for
+$r\in[r_0-1,r_0+1]$ one has $d^2\le1+\pi^2/16<1.62$ and
 hence $w\le(2.62/r_0)^{\alpha/2}$, so
 \begin{equation}\label{eq:raybound}
 \int_{r_0-1}^{r_0+1}\frac{\dd r}{r^2w(r\varphi)}\ \ge\
@@ -726,36 +776,60 @@ Theorem~\ref{thm:brown}(b).
 
 \subsection{Proof of (a): doubling and Poincar\'e}
 The proof assembles the Poincar\'e inequality on a large ball from the
-inequality on cells containing at most one circle, where the weight is the
+inequality on cells containing at most one circle (Figure~\ref{fig:covering}),
+where the weight is the
 cylinder weight of Theorem~\ref{thm:cyl} up to constants. We first record the
-assembly lemma and then the inequality for one circle.
+assembly lemma and then the inequality for one circle. The assembly lemma is a
+variant of the discretization technique of Kanai \cite{kanai1986} and of
+Coulhon and Saloff-Coste \cite[Prop.~6.10, Thm.~7.1]{coulhonsaloffcoste1995},
+in the form given by Grigor'yan and Saloff-Coste
+\cite[Thm.~3.7]{grigoryansaloffcoste2005}, who glue Poincar\'e inequalities
+over a covering by means of a discrete Poincar\'e inequality on the graph of
+the covering. We include a proof because we need cells of variable size and
+obtain the discrete inequality from a comparison measure.
 
 \begin{lemma}[gluing]\label{lem:glue}
-Let $\mu$ and $\nu$ be measures on $\R^n$ with $\nu$ D+P, and let $B=B(x_0,\rho)$.
-Suppose that $2B$ is covered by cubes $Q_j$ with bounded overlap and side
+Let $\mu$ and $\nu$ be measures on $\R^n$ with continuous nonnegative
+densities, and let $B=B(x_0,\rho)$. Suppose that $\nu$ satisfies
+\eqref{eq:poincare} on the ball $2B$, and that the closed ball $2\bar B$ is
+covered by finitely many closed cubes $Q_j$ with bounded overlap and side
 lengths $s_j$ with $\operatorname{diam}Q_j=\sqrt n\,s_j\le\rho$; write $Q_j^*$
 for the concentric $1.01$-fold enlargement of $Q_j$ and $j'\sim j$ if
 $Q_{j'}^*\cap Q_j^*\ne\emptyset$. Suppose that $s_j\asymp s_{j'}$ whenever
 $j'\sim j$, and that for each $j$ there is a ball $B_j\supset\bigcup_{j'\sim j}
-Q_{j'}^*$ of radius $\le Cs_j$, the balls $B_j$ lying in $4B$ with bounded
-overlap, such that
+Q_{j'}^*$ of radius $\le Cs_j$ with $B_j\subset4B$, the balls $B_j$ having
+bounded overlap, such that
 \begin{enumerate}[label=\textup{(G\arabic*)},leftmargin=2.6em,itemsep=1pt]
 \item $\mu(Q_j)\asymp\nu(Q_j)$ for all $j$, and
-\item $\mu$ is doubling at scales $\le Cs_j$ around $B_j$ and satisfies
-\eqref{eq:poincare} on $B_j$,
+\item $\mu$ satisfies \eqref{eq:poincare} on $B_j$ and is doubling at every
+ball centred in $B_j$ of radius at most that of $B_j$,
 \end{enumerate}
 all with constants independent of $j$ and of $B$. Then
-$\int_B\abs{u-u_B}^2\dd\mu\le C'\rho^2\int_{4B}\abs{\nabla u}^2\dd\mu$ with $C'$
-depending only on the constants above.
+$\int_B\abs{u-u_B}^2\dd\mu\le C'\rho^2\int_{4B}\abs{\nabla u}^2\dd\mu$
+for every $u\in C^1(4\bar B)$, with $C'$ depending only on $n$ and the
+constants above. (The inclusions $B_j\subset4B$ are a hypothesis on every cube
+of the family: they do not follow from the covering and
+$\operatorname{diam}Q_j\le\rho$, and are verified wherever the lemma is
+applied.)
 \end{lemma}
 
 \begin{proof}
-Let $\bar u_j$ be the $\mu$-mean of $u$ on $Q_j$, let $\{\psi_j\}$ be a
-partition of unity subordinate to the $Q_j^*$ with
-$\abs{\nabla\psi_j}\lesssim1/s_j$, and let $U=\sum_j\bar u_j\psi_j$. For any
+Let $\bar u_j$ be the $\mu$-mean of $u$ on $Q_j$. Let $\{\psi_j\}$ be smooth
+functions with values in $[0,1]$, $\psi_j$ vanishing outside $Q_j^*$, with
+$\sum_j\psi_j=1$ on a neighbourhood of $\bigcup_jQ_j$ and
+$\abs{\nabla\psi_{j'}}\lesssim1/s_j$ on $Q_j$ for every $j'\sim j$. Such
+functions exist: by a volume count, the hypotheses (bounded overlap of the
+cubes, comparable sides of neighbours) give bounded overlap of the enlarged
+cubes and a bound on the number of neighbours of each cube. Both the identity
+$\sum_j\psi_j=1$ and the gradient bound are asked on the cubes $Q_j$ only: a
+family that sums to one on all of the enlarged cubes cannot satisfy such a
+bound there uniformly. Let $U=\sum_j\bar u_j\psi_j$, a $C^1$ function on
+$2\bar B$. For any
 constant $m$, $\int_B\abs{u-m}^2\dd\mu\le2\int_B\abs{u-U}^2\dd\mu+2\int_B\abs{U-m}^2\dd\mu$.
-On $Q_j$, $\abs{u-U}\le\sum_{j'\sim j}\psi_{j'}\abs{u-\bar u_{j'}}$, and by (G2)
-on $B_{j'}\supset Q_j$,
+On $Q_j$, $\abs{u-U}\le\sum_{j'\sim j}\psi_{j'}\abs{u-\bar u_{j'}}$. For
+$j'\sim j$ the ball $B_{j'}$ contains $Q_j$ and $Q_{j'}$, and
+$\mu(Q_j)\le\mu(B_{j'})\lesssim\mu(Q_{j'})$ by (G2); comparing $\bar u_{j'}$
+with the mean of $u$ over $B_{j'}$ and using \eqref{eq:poincare} on $B_{j'}$,
 $\int_{Q_j}\abs{u-\bar u_{j'}}^2\dd\mu\lesssim s_j^2\int_{B_{j'}}\abs{\nabla u}^2\dd\mu$;
 summing with bounded overlap, the first term is $\lesssim\rho^2\int_{4B}
 \abs{\nabla u}^2\dd\mu$. For the second term, on $Q_j$ one has
@@ -782,83 +856,146 @@ $\mu(B_j)\lesssim\mu(Q_j)$). With $\nu(Q_j)\asymp\mu(Q_j)$ the factors $s_j^{\pm
 and $\mu(Q_j)^{\pm1}$ cancel, and bounded overlap of the $B_j$ gives the claim.
 \end{proof}
 
-Under doubling of $\mu$ the inequality with energy over $4B$ self-improves to
-\eqref{eq:poincare} \cite[Thms.~5.1 and~9.7]{hajlaszkoskela2000}; doubling of $\mu$ at scales
-above the cell size follows from (G1) and doubling of $\nu$, and at smaller
-scales from (G2). We also use that D+P transfers under a bi-Lipschitz change of
-variables whose Jacobian is bounded above and below: the bi-Lipschitz image of a
-ball is a John domain with constant controlled by the bi-Lipschitz constant, so
-\cite[Thm.~9.7]{hajlaszkoskela2000} gives \eqref{eq:poincare} on it with energy
-on the image itself, and it is sandwiched between balls of comparable radii,
-which transfers doubling.
+The passage from energy over $4B$ to \eqref{eq:poincare} is not a statement
+about one ball. If $\mu$ is doubling and satisfies the inequality with energy
+over $4B$ at \emph{every} ball, with constants independent of the ball, then
+$\mu$ satisfies \eqref{eq:poincare} at every ball, with a constant depending
+only on those two constants \cite[Thm.~5.1 and Cor.~9.8, with the statements
+on the constants on pp.~23 and~44]{hajlaszkoskela2000}; see also
+\cite[Thm.~2.4]{sturm1996}. We refer to this as the \emph{self-improvement}.
+In both applications below, doubling of $\mu$ at all balls is verified
+directly.
 
 \begin{lemma}[one circle]\label{lem:circle}
 Let $C_R\subset\R^3$ be a circle of radius $R\ge0$ and $w_R(x)=(1+\dist(x,C_R)^2)^{\alpha/2}$,
-$\alpha\ge0$. Then $w_R\dd x$ is D+P with constants independent of $R$.
+$\alpha\ge0$. Then $w_R\dd x$ is D+P with constants that depend only on
+$\alpha$; in particular they are independent of $R$.
 \end{lemma}
 
 \begin{proof}
-Constants are independent of $R$. We use two overlapping scale ranges.
+All constants depend only on $\alpha$. Write $\mu_R=w_R\dd x$,
+$B=B(x_0,\rho)$ and $\tau=\dist(x_0,C_R)$.
 
-\emph{Scales $\rho\le R/6$.} Let $B=B(x_0,\rho)$ and $\tau=\dist(x_0,C_R)$. If
-$\tau>2\rho$ then $\dist(\cdot,C_R)\in[\tau/2,3\tau/2]$ on $B$ and $\le2\tau$ on
-$2B$, so $w_R$ varies on $B$ by a factor $\le9^{\alpha/2}$ and $\max_{2B}w_R\le
-16^{\alpha/2}\min_Bw_R$: $\mu$ is comparable to Lebesgue measure on $B$, and
-\eqref{eq:poincare} and doubling hold at $B$. Otherwise every $y\in2B$ has
-$\dist(y,C_R)\le4\rho\le2R/3$, strictly inside the focal distance $R$ of $C_R$,
-so the Fermi (normal-exponential) coordinates $(t,\nu)$ along the arc of $C_R$
-nearest $B$ form a diffeomorphism onto a neighbourhood of $2B$: $t$ is
-arclength, $\abs\nu=\dist(\cdot,C_R)\le2R/3$, the Jacobian is
-$1-\nu_{\mathrm{in}}/R\in[\tfrac13,\tfrac53]$, and the map sending $(t,\nu)$ to
-the corresponding point relative to a straight line is bi-Lipschitz with
-constant $\le3$ there. As $2B$ subtends an angle $\le2\arcsin(2\rho/(R-2\rho))
-\le\pi/3$ at the centre of $C_R$, no periodic identification arises. This map
-carries $w_R$ near $2B$ to the cylinder weight $(1+\abs{x'}^2)^{\alpha/2}$ of
-Theorem~\ref{thm:cyl}, which is D+P by \cite[Prop.~6]{bjorn2001}; the preimage
-of $B$ is a John domain with constant depending only on the bi-Lipschitz
-constant, so \cite[Thm.~9.7]{hajlaszkoskela2000} gives \eqref{eq:poincare} on
-$B$ with energy on $B$, and the preimage of $2B$ lies between balls of
-comparable radii about the preimage of $x_0$, which gives doubling at $B$.
+\emph{Step 1: doubling, and the case $\tau>2\rho$.} If $\tau>2\rho$ then
+$\dist(\cdot,C_R)\in[\tau/2,3\tau/2]$ on $B$ and $\le2\tau$ on $2B$, so $w_R$
+varies on $B$ by a factor $\le9^{\alpha/2}$ and
+$\sup_{2B}w_R\le16^{\alpha/2}\inf_Bw_R$: $\mu_R$ is comparable to Lebesgue
+measure on $B$, and \eqref{eq:poincare} and doubling hold at $B$. If
+$\tau\le2\rho$ then $\dist(\cdot,C_R)<4\rho$ on $2B$, so
+$\mu_R(2B)\le8\abs B(1+16\rho^2)^{\alpha/2}$; and the ball of radius $\rho/4$
+about the point at distance $\rho/2$ from $x_0$ in the direction perpendicular
+to the plane of $C_R$, away from that plane, lies in $B$ at distance
+$\ge\rho/4$ from the plane, hence from $C_R$, so
+$\mu_R(B)\ge\tfrac1{64}\abs B(1+\rho^2/16)^{\alpha/2}$ and
+$\mu_R(2B)\le512\cdot16^\alpha\mu_R(B)$. Thus $\mu_R$ is doubling at every
+ball.
 
-\emph{Scales $\rho\ge R/6$.} Let $c$ be the centre of $C_R$ and
-$p_c(x)=(1+\abs{x-c}^2)^{\alpha/2}$, D+P by \cite[Prop.~6]{bjorn2001} with
-$k=n=3$. If $R\le16$, then $\abs{\abs{x-c}-R}\le\dist(x,C_R)\le\abs{x-c}+R$ gives
-$1+\dist(x,C_R)^2\asymp1+\abs{x-c}^2$ with absolute constants, so $w_R\asymp p_c$
-and $w_R\dd x$ is D+P; assume $R>16$. Apply Lemma~\ref{lem:glue} with
-$\nu=p_c\dd x$ and cubes of side $R/16$, of diameter $\sqrt3R/16<\rho$. Each ball
-$B_j$ (the $1.01$-fold enlargements of a cube and of its $26$ neighbours lie in a
-concentric cube of side $3.01R/16$) has radius $\le0.163R<R/6$, so (G2) holds by
-the first part. For (G1) we show
+\emph{Step 2: scales $\rho\le R/6$, the case $\tau\le2\rho$.} Every $y\in2B$
+has $\dist(y,C_R)<4\rho\le2R/3$. In cylindrical coordinates $(r,\phi,z)$ about
+the axis of $C_R$, with $C_R=\{r=R,\ z=0\}$ and $\phi=0$ at $x_0$, put
+$t=R\phi$ and $\eta=(R-r,z)$. The map $\Psi\colon x\mapsto(t,\eta)$ is a
+diffeomorphism of $\{r>0,\ \abs\phi<\pi\}$ onto $\{\abs t<\pi R,\ \eta_1<R\}$
+with $\abs\eta=\dist(\cdot,C_R)$, and its differential has singular values
+$R/r,1,1$. So $\Psi$ carries $w_R$ exactly to the cylinder weight
+$(1+\abs\eta^2)^{\alpha/2}$ of Theorem~\ref{thm:cyl}, and the measure $\mu_R$ to
+$r/R$ times the cylinder measure
+$\mu_{\mathrm{cyl}}=(1+\abs\eta^2)^{\alpha/2}\dd t\dd\eta$, which satisfies
+\eqref{eq:poincare} with a constant $P_{\mathrm{cyl}}$ by
+Theorem~\ref{thm:cyl}. On $B$ one has $r\ge R-3\rho\ge R/2$, so $\Psi$ is
+$2$-Lipschitz on the convex set $B$ and $\Psi(B)$ lies in the ball $\widehat B$ of
+radius $2\rho$ about $\Psi(x_0)$. On $\widehat B$, $\abs{\eta_1}<4\rho\le2R/3$ and
+$\abs t<2\rho\le R/3$, so $\Psi^{-1}$ is defined on $\widehat B$ with no periodic
+identification, $r/R\in[\tfrac13,\tfrac53]$ there, $\Psi^{-1}$ is
+$\tfrac53$-Lipschitz on $\widehat B$, and $\Psi^{-1}(\widehat B)\subset\tfrac{10}3B\subset4B$.
+For $u\in C^1(4\bar B)$ put $v=u\circ\Psi^{-1}$ on the closure of $\widehat B$ and let $a$ be the
+$\mu_{\mathrm{cyl}}$-mean of $v$ on $\widehat B$. Since $r/R\le\tfrac32$ on $B$ and
+$\max(r/R,R/r)\le3$ on $\Psi^{-1}(\widehat B)$,
+\[
+\int_B\abs{u-a}^2\dd\mu_R\le\tfrac32\int_{\widehat B}\abs{v-a}^2\dd\mu_{\mathrm{cyl}}
+\le6P_{\mathrm{cyl}}\rho^2\int_{\widehat B}\abs{\nabla v}^2\dd\mu_{\mathrm{cyl}}
+\le18P_{\mathrm{cyl}}\rho^2\int_{4B}\abs{\nabla u}^2\dd\mu_R .
+\]
+The same inequality, with energy over $4B'$, holds at every ball $B'$ with
+$4B'\subset B$: either its centre is at distance more than twice its radius
+from $C_R$ and Step~1 applies, or $B'$ is a ball of the kind just
+treated. As $\mu_R$ is doubling at every ball, the pair $(u,\abs{\nabla u})$
+satisfies the weak $(1,2)$-Poincar\'e inequality in $B$ in the sense of
+\cite[(5), p.~7]{hajlaszkoskela2000}, and
+\cite[Thm.~9.7]{hajlaszkoskela2000}, applied with $\Omega=B$ (a ball is a John
+domain \cite[Cor.~9.5]{hajlaszkoskela2000}), gives \eqref{eq:poincare} on $B$.
+So \eqref{eq:poincare} holds at every ball of radius $\rho\le R/6$.
+
+\emph{Step 3: scales $\rho\ge R/6$.} Let $c$ be the centre of $C_R$ and
+$p_c(x)=(1+\abs{x-c}^2)^{\alpha/2}$. It is D+P: doubling and the weak
+$(1,2)$-Poincar\'e inequality are \cite[Prop.~6]{bjorn2001} with $k=n=3$, and
+\eqref{eq:poincare} follows by the self-improvement, as in the proof of
+Theorem~\ref{thm:cyl}; alternatively,
+\cite[Prop.~4.9 with Thm.~2.7]{grigoryansaloffcoste2005} gives both directly.
+If $R\le16$, then $\abs{\abs{x-c}-R}\le\dist(x,C_R)\le\abs{x-c}+R$ gives
+$1+\dist(x,C_R)^2\asymp1+\abs{x-c}^2$ with absolute constants, so
+$w_R\asymp p_c$ and $w_R\dd x$ is D+P; so assume $R>16$ (only $R>0$ is used
+below). Apply Lemma~\ref{lem:glue} with $\nu=p_c\dd x$ and the cubes
+of the grid of side $R/16$ that meet $2\bar B$; they have diameter
+$\sqrt3R/16<\rho$ and no point lies in more than $8$ of them. Let $B_j$ be the
+ball of radius $0.163R$ about the centre of $Q_j$: it contains the $1.01$-fold
+enlargements of $Q_j$ and of its $26$ neighbours, which lie in a concentric
+cube of side $3.01R/16$. Since $0.163R<R/6$, (G2) holds by Steps~1 and~2. The
+centre of $Q_j$ is within $2\rho+\sqrt3R/32$ of $x_0$, so
+$B_j\subset B(x_0,2\rho+0.22R)\subset4B$ because $R\le6\rho$; and no point lies
+in more than $6^3=216$ of the balls $B_j$. For (G1) we show
 $\mu_R(B')\asymp\nu(B')$ for every ball $B'=B(x,\rho')$ with $\rho'\ge R/16$;
 since a cube of side $R/16$ lies between the balls of radii $R/32$ and $R/16$
-about its centre and both measures are doubling at the scale $R/32$ (the first
-part, for $\mu_R$), this gives (G1), and it gives doubling of $\mu_R$ at all
-scales $\ge R/16$. Write $D=\abs{x-c}$, so $R\le16\rho'$. Both measures are
-$\lesssim\rho'^3\max(1,\rho',D)^\alpha$ since $\dist(y,C_R)\le\abs{y-c}+R\le
-D+17\rho'$ on $B'$. For the lower bound, if $D\ge34\rho'$ then
-$\dist(y,C_R)\ge D-\rho'-R\ge D/2$ on $B'$; if $D\le34\rho'$ then the tube
-$\{\dist(\cdot,C_R)\le\varepsilon\rho'\}$ has volume $\lesssim(R+\varepsilon
-\rho')(\varepsilon\rho')^2\le C\varepsilon^2\rho'^3$, so for $\varepsilon$ small
-a fixed fraction of $B'$ lies at distance $\ge\varepsilon\rho'$ from $C_R$, where
-$w_R\ge(\varepsilon\rho')^\alpha\gtrsim\max(1,\rho',D)^\alpha$ (note
-$\rho'\ge R/16>1$). This is the lower bound in both cases.
+about its centre and both measures are doubling, this gives (G1). Write
+$D=\abs{x-c}$, and recall that $R\le16\rho'$. Both measures are
+$\lesssim\rho'^3\max(1,\rho',D)^\alpha$ since
+$\dist(y,C_R)\le\abs{y-c}+R\le D+17\rho'$ on $B'$. For the lower bound, if
+$D\ge34\rho'$ then $\abs{y-c}\ge D-\rho'\ge D/2$ and
+$\dist(y,C_R)\ge D-\rho'-R\ge D/2$ on $B'$. If $D\le34\rho'$, let $x'$ be the
+point at distance $\rho'/2$ from $x$ in the direction perpendicular to the
+plane of $C_R$ and away from that plane. The ball $B(x',\rho'/4)$ lies in $B'$
+and at distance $\ge\rho'/4$ from the plane, hence from $C_R$ and from $c$; so
+$w_R,p_c\ge(1+\rho'^2/16)^{\alpha/2}\gtrsim\max(1,\rho',D)^\alpha$ on a ball of
+volume $\abs{B'}/64$. This is the lower bound in both cases.
+
+\emph{Step 4: conclusion.} By Steps~1 to~3, $\mu_R$ is doubling at every ball
+and satisfies the Poincar\'e inequality with energy over $4B$ at every ball
+$B$: for $\rho\le R/6$ even \eqref{eq:poincare}, and for $\rho\ge R/6$ by
+Lemma~\ref{lem:glue}. The constants so far depend only on $\alpha$. The
+self-improvement therefore gives \eqref{eq:poincare} at every ball, with a
+constant that depends only on the doubling constant and on the constant of
+the weak inequality, hence only on $\alpha$ and not on $R$.
 \end{proof}
+
+\begin{remark}\label{rem:keith}
+For $R>0$ and $\alpha>0$ Lemma~\ref{lem:circle} can also be derived from the
+literature. The complement of a circle in $\R^3$ is a uniform domain
+\cite[Remark~5.3.1]{vaisala1988}, with a constant independent of the radius,
+so $\dist(\cdot,C_R)^\alpha\dd x$ is doubling and supports a $1$-Poincar\'e
+inequality with constants depending only on $\alpha$ by a theorem of Keith
+\cite[Thm.~4]{keith2003}, whose example is this domain. The quotient
+$(1+d^2)^{\alpha/2}/d^\alpha$, $d=\dist(\cdot,C_R)$, is an $A_1$ weight with
+respect to that measure, with constant $\le2\cdot45^\alpha$, so
+\cite[Thm.~4]{bjorn2001} and the self-improvement apply. We keep the direct
+proof, which rests on \cite{bjorn2001} and \cite{hajlaszkoskela2000} alone.
+\end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:B}(a)]
 Write $\sigma(x)^2=1+\abs x$, so $\sigma\asymp s_k$ on shell $k$ (indeed
 $\sigma\in[s_k,1.44\,s_k]$ there for $k\ge4$). Recall the separation of the
 circles. The distance between two coaxial circles equals the distance between
-their generating points in the meridian half-plane; within shell $m$ the layers
+their generating points in the meridian half-plane, and likewise the distance
+from a point to a circle about the axis is the distance between their
+meridian points; within shell $m$ the layers
 are $\ge s_m/\sqrt2$ apart radially and the circles of one layer $\ge0.78\,s_m$
 apart, and the innermost layer of shell $m+1$ lies $\ge s_m/\sqrt2$ beyond the
 outermost layer of shell $m$. Hence two distinct circles lying in shells $\ge k$
 are at distance $\ge0.7\,s_k$, while every circle of a shell $<k$ lies in
 $\{\abs x\le2^k-s_k/2\}$ (the radial gap $2^{k-1}/L_{k-1}$ below shell $k$ can be
-as small as $s_k/2$). On $\{\abs x\le32\}$ one has $34^{-\alpha/2}\le w\le1$, so
+as small as $s_k/2$). On $\{\abs x\le32\}$ one has $33^{-\alpha/2}\le w\le1$, so
 $\mu$ is comparable to Lebesgue measure on every ball of radius $\le8$ centred in
 $\{\abs x<16\}$, and cells centred there satisfy (G1) and (G2) below trivially;
 balls of radius $>8$ centred in $\{\abs x<16\}$ are covered by the large-ball
-argument, which uses only $\sigma_0<10\rho$. In the rest of the proof $x_0$ lies
+argument, which uses only $\sigma(x_0)<10\rho$. In the rest of the proof $x_0$ lies
 in a shell $k\ge4$. We first fix the local form of $w$ and the cell mass, then
 treat small and large balls.
 
@@ -872,9 +1009,10 @@ are at distance $\ge s_k/2>2\rho$ from $x_0$, and at distance $\ge s_k/2-\rho\ge
 0.35\,s_k$ from $B$; those of shells $>k+1$ are farther still. Every other circle
 $C'$ of a shell $\ge k$ has $\dist(x_0,C')\ge0.7\,s_k-\tau$, hence
 $\dist(y,C')\ge0.7\,s_k-3\rho\ge0.25\,s_k$ for $y\in B$. So $C$ is the only circle
-within $\rho$ of $B$, the distance $d=\dist(\cdot,\Gamma)$ equals $d_C$ where
-$d_C\le0.25\,s_k$, and elsewhere on $B$ both $d$ and $d_C$ lie in
-$[0.25\,s_k,\,3\rho]\subset[0.25\,s_k,\,0.45\,s_k]$. If $\tau>2\rho$, then on $B$,
+within $\rho$ of $B$; on $B$ the distance $d=\dist(\cdot,\Gamma)$ equals $d_C$
+wherever $d_C\le0.25\,s_k$, and at the remaining points of $B$ (there are none
+unless $3\rho>0.25\,s_k$) one has $0.25\,s_k\le d\le d_C<3\rho\le0.45\,s_k$. If
+$\tau>2\rho$, then on $B$,
 $d\ge\tau-\rho$ and $d_C\le\tau+\rho\le3(\tau-\rho)$, so $d\le d_C\le3d$. In either
 case $(1+d^2)^{\alpha/2}\asymp(1+d_C^2)^{\alpha/2}$ on all of $B$. In the case
 $\tau\le2\rho$ moreover $d\le3\rho\le0.3\,\sigma_0$ on $B$, so
@@ -887,39 +1025,51 @@ w\ \asymp\ \sigma_0^{-\alpha}\,(1+d_C^2)^{\alpha/2}\qquad\text{on }B
 a \emph{bounded-factor} comparison with constants depending only on $\alpha$.
 (The second factor $(1+\abs x+d^2)^{-\alpha/2}$ varies on $B$ by a bounded
 factor, not by $1+O(1/s)$, because $d^2$ as well as $\abs x$ varies across $B$.)
-The bound $d\le\sigma_0$ need not hold (on the axis $d$ exceeds $\sigma$), and
-is not needed: in the case $\tau>2\rho$ we use instead that
+In the case $\tau>2\rho$ we use that
 $w=(1-\abs x/(1+\abs x+d^2))^{\alpha/2}$ is increasing in $d$ and decreasing in
-$\abs x$. Since $d\in[\tau/2,3\tau/2]$ on $B$, $d\le2\tau$ on $2B$, and $\abs x$
-changes by at most $4\rho\le0.4\,\sigma_0$ across $2B$ against $1+\abs x\ge
-\tfrac12\sigma_0^2$, the ratio $(1+d^2)/(1+\abs x+d^2)$ varies on $B$ by a factor
-$\le81$, and its maximum over $2B$ is at most $18$ times its minimum over $B$;
-hence $w$ varies on $B$ by a bounded factor and $\max_{2B}w\le18^{\alpha/2}
-\min_Bw$.
+$\abs x$. For $y,z\in B$ one has $d(y)\le\tau+\rho\le3(\tau-\rho)\le3d(z)$, and
+for $y\in2B$, $z\in B$, $d(y)\le\tau+2\rho\le4(\tau-\rho)\le4d(z)$; moreover
+$\abs z\le\abs y+3\rho$ and $\rho\le d(z)\le1+d(z)^2$. Hence the ratio
+$(1+d^2)/(1+\abs x+d^2)$ varies on $B$ by a factor $\le9$, and its supremum over
+$2B$ is at most $16$ times its infimum over $B$; so $w$ varies on $B$ by a
+factor $\le9^{\alpha/2}$ and $\sup_{2B}w\le16^{\alpha/2}\inf_Bw$.
 
-\emph{Cell mass.} Let $Q$ be a cube of side $\ell$, or a ball of radius $\ell$,
-with $\ell\in[s_k/32,\,s_k]$ and centre in shell $k$.
-At most $C_0$ circles come within $s_k$ of $Q$ (their meridian points lie
-$\ge s_k/2$ apart, so a disc of radius $2s_k$ holds $O(1)$ of them), and each
-meets the enlarged region in an arc of length $\le Cs_k$; hence
-$\{d\le\varepsilon s_k\}\cap Q$ has volume $\le C_0\,Cs_k(\varepsilon s_k)^2=
-C'\varepsilon^2 s_k^3$, a fraction $\lesssim\varepsilon^2$ of $Q$. Fix
-$\varepsilon$ so this is $\le\tfrac12$; on the remaining half of $Q$,
-$d\ge\varepsilon s_k$ gives, since $w$ is increasing in $d$ and $1+\abs x\le
-3s_k^2$ on $Q$, the bound $w\ge\bigl(\varepsilon^2/(4+\varepsilon^2)\bigr)^{\alpha/2}
-=:c_\alpha>0$.
-With $w\le1$,
+\emph{Cell mass.} Let $Q$ be a closed cube of side $\ell$, or a ball of radius
+$\ell$, with $\ell\in[s_k/32,\,s_k]$ and centre $x_Q$ in shell $k$. Let
+$B_0\subset Q$ be the largest ball about $x_Q$ contained in $Q$; its radius
+$\rho_0$ is $\ell/2$ or $\ell$, and $\abs{B_0}\ge\tfrac12\abs Q$. Put $r=s_k/64$,
+so that $r\le\rho_0$, and let $e$ be the unit vector of the axis. We claim that
+for every $y\in B_0$ one of the three points $y$, $y+\tfrac r2e$, $y-\tfrac r2e$
+lies at distance $\ge r/2$ from $\Gamma$. If $d(y)\ge r$, this point is $y$.
+Otherwise some circle $C$ has a point within $r$ of $y$. A second circle with
+a point within $r$ of $y$ would come within $2r=s_k/32$ of $C$. But both
+circles would lie in shells $\ge k-1$, because they come within $2s_k$ of
+$x_Q$ and $2^k-2s_k\ge2^{k-1}$, and two distinct circles of shells $\ge k-1$
+are at distance $\ge s_k/2$ (the separation statements above with $m=k-1$, as
+$s_{k-1}/\sqrt2=s_k/2$). Hence every circle other than $C$ stays at distance
+$\ge r$ from $y$, and at distance $\ge r/2$ from $y\pm\tfrac r2e$. The circle
+$C$ lies in a plane $\{x\cdot e=h\}$; with the sign chosen so that
+$y\pm\tfrac r2e$ is at distance $\ge r/2$ from this plane, the claim follows.
+Consequently the ball $B(x_Q,\rho_0-r/2)$ is covered by $G$, $G+\tfrac r2e$ and
+$G-\tfrac r2e$, where $G=\{x\in B_0:\ d(x)\ge r/2\}$, and so
+$\abs G\ge\tfrac13\abs{B(x_Q,\rho_0/2)}=\tfrac1{24}\abs{B_0}\ge\tfrac1{48}\abs Q$.
+On $G$, $d\ge s_k/128$ gives, since $w$ is increasing in $d$ and
+$1+\abs x\le3s_k^2$ on $Q$, the bound
+$w\ge\bigl(\varepsilon^2/(4+\varepsilon^2)\bigr)^{\alpha/2}$ with
+$\varepsilon=1/128$, that is, $w\ge65537^{-\alpha/2}=:c_\alpha$. With $w\le1$,
 \begin{equation}\label{eq:cellmass}
-\mu(Q)\asymp\abs Q\qquad\text{uniformly in such }Q.
+\tfrac1{48}\,c_\alpha\,\abs Q\ \le\ \mu(Q)\ \le\ \abs Q
+\qquad\text{for all such }Q.
 \end{equation}
 
-\emph{Small balls $(\rho\le\sigma_0/10)$.} If no circle lies within $\rho$ of $B$,
-then $\tau>2\rho$, so by the local comparison $w$ varies on $B$ by a bounded
-factor and $\max_{2B}w\le18^{\alpha/2}\min_Bw$: $\mu$ is comparable to Lebesgue
-measure on $B$, and \eqref{eq:poincare} and doubling hold at $B$. Otherwise the
-nearest circle $C$ is the only one within $\rho$ of $B$ (the
-case $\tau\le2\rho$ above), and its Euclidean radius
-$R_C$ may be as small as $\asymp1$ (near a pole, $R_C=r\sin\theta_0\to\pi/8$) or
+\emph{Small balls $(\rho\le\sigma_0/10)$.} If $\tau>2\rho$, then by the local
+comparison $w$ varies on $B$ by a bounded factor and
+$\sup_{2B}w\le16^{\alpha/2}\inf_Bw$: $\mu$ is comparable to Lebesgue
+measure on $B$, and \eqref{eq:poincare} and doubling hold at $B$. Otherwise
+$\tau\le2\rho$, the nearest circle $C$ is the only one within $\rho$ of $B$
+(the case $\tau\le2\rho$ above), and its Euclidean radius
+$R_C$ may be as small as $\asymp1$ (near the north pole, in the innermost
+layer, $R_C=2^k\sin(\pi/2^{k+3})\to\pi/8$ as $k\to\infty$) or
 as large as $\asymp2^k$. By \eqref{eq:wcompare}, $w\asymp\sigma_0^{-\alpha}
 (1+d_C^2)^{\alpha/2}$ on $B$, and Lemma~\ref{lem:circle}, \emph{whose constants
 are independent of $R_C$}, gives \eqref{eq:poincare} and doubling for
@@ -928,30 +1078,43 @@ preserves \eqref{eq:poincare}. For doubling at $B$: if $\rho\le\sigma_0/20$,
 then $2B$ is a small ball with the same nearest circle and \eqref{eq:wcompare}
 holds on $2B$, so $\mu(2B)\lesssim\mu(B)$ follows from the doubling of
 Lemma~\ref{lem:circle}; if $\sigma_0/20<\rho\le\sigma_0/10$, then
-$\mu(2B)\le\abs{2B}=8\abs B\le16c_\alpha^{-1}\mu(B)$ by \eqref{eq:cellmass}
+$\mu(2B)\le\abs{2B}=8\abs B\le384\,c_\alpha^{-1}\mu(B)$ by \eqref{eq:cellmass}
 applied to the ball $B$, whose radius lies in $[s_k/20,s_k]$. The polar circles
 are thus handled through
 the uniformity of Lemma~\ref{lem:circle} in the circle radius, not through any
 straight-cylinder approximation at the scale $\sqrt R$.
 
 \emph{Large balls $(\rho>\sigma_0/10)$.} Apply Lemma~\ref{lem:glue} with $\nu$ the
-Lebesgue measure and a covering of $2B$ by cubes $Q_j$ of side
-$\ell_j=\sigma(y_j)/32$, $y_j$ the centre of $Q_j$; adjacent cubes have
+Lebesgue measure and a covering of the closed ball $2\bar B$ by finitely many
+cubes $Q_j$ of side $\ell_j=\sigma(y_j)/32$ with centres $y_j\in2\bar B$. Such a
+covering exists with bounded overlap: by the Vitali covering lemma there are
+finitely many points $y_j\in2\bar B$ whose cubes of side $\sigma(y_j)/96$ are
+pairwise disjoint while the cubes of side $\sigma(y_j)/32$ cover $2\bar B$, and
+the disjointness bounds the overlap of the $Q_j$, and of the balls $B_j$
+below, by a volume count. Adjacent cubes have
 comparable sides since $\sigma$ varies by a bounded factor over distances
 $\le\sigma$ (indeed $\abs{\nabla\sigma}\le\tfrac12$, so cubes with $j'\sim j$ have
-sides within a factor $1.03$ of each other, and $\ell_j\le0.35\,\rho$, whence
-$\operatorname{diam}Q_j<\rho$, because $\sigma_0<10\rho$); each ball
-$B_j\supset\bigcup_{j'\sim j}Q_{j'}^*$
-can be taken of radius $\le2.7\,\ell_j<\sigma(y_j)/10$, so it is a small ball
-and (G2) holds on it by the previous paragraph. (G1),
+sides within a factor $1.03$ of each other, and every cube of the covering has
+$\ell_j\le0.35\,\rho$, whence $\operatorname{diam}Q_j<\rho$, because
+$\sigma_0<10\rho$ and $y_j\in2\bar B$); the ball
+$B_j=B(y_j,2.7\,\ell_j)$ contains $\bigcup_{j'\sim j}Q_{j'}^*$, lies in $4B$
+(as $2\rho+2.7\,\ell_j<3\rho$), and has radius $<\sigma(y_j)/10$, so it is a
+small ball and (G2) holds on it by the previous paragraph. (G1),
 $\mu(Q_j)\asymp\nu(Q_j)=\abs{Q_j}$, is
 \eqref{eq:cellmass} (trivial for cells centred in $\{\abs x<16\}$).
 Lemma~\ref{lem:glue} gives the weak Poincar\'e inequality on
-$B$ with energy over $4B$; doubling of $\mu$ at scales $\ge\sigma/32$ follows
-from \eqref{eq:cellmass} and, above the cell scale, from (G1) with the doubling
-of $\nu$, and at smaller scales from the small-ball case; the
-self-improvement \cite[Thms.~5.1, 9.7]{hajlaszkoskela2000} upgrades it to
-\eqref{eq:poincare}.
+$B$ with energy over $4B$. Doubling of $\mu$ holds at every ball
+$B=B(x_0,\rho)$: for $\rho\le\sigma_0/10$ by the small-ball case, and for
+$\rho\ge\sigma_0/10$ from (G1) and $w\le1$, because the cubes of the covering
+that meet $B(x_0,0.42\,\rho)$ have $\ell_j\le0.33\,\rho$ (again by
+$\abs{\nabla\sigma}\le\tfrac12$ and $\sigma_0\le10\rho$), hence diameter
+$<0.58\,\rho$, and so lie in $B$; consequently
+$\mu(B)\gtrsim\abs{B(x_0,0.42\,\rho)}\gtrsim\abs{2B}\ge\mu(2B)$.
+Thus $\mu$ is doubling and satisfies the inequality with energy over $4B$ at
+every ball, with constants depending only on $\alpha$: at large balls by the
+above, and at small balls because \eqref{eq:poincare} holds there. The
+self-improvement recalled after Lemma~\ref{lem:glue} upgrades this to
+\eqref{eq:poincare} at every ball.
 \end{proof}
 
 \begin{remark}
@@ -1068,9 +1231,10 @@ $w'\asymp(\max(1,\dist(\cdot,\Sigma))/2^k)^\alpha$ in shell $k$, with $\Sigma$ a
 Lipschitz surface of co-dimension one (with conical points on the axis). For a ball
 $B=B(x,\rho)$: if $\rho\le\dist(x,\Sigma)/2$ the weight varies on $B$ by a
 bounded factor, so $\mu$ is comparable to Lebesgue measure; if
-$\rho>\dist(x,\Sigma)/2$ the ball straddles $\Sigma$, and the slab bound
-$\abs{\{\dist(\cdot,\Sigma)\in[\sigma,2\sigma]\}\cap B}\asymp\rho^2\sigma$ summed
-over dyadic $\sigma\le\rho$ gives $\int_B\dist(\cdot,\Sigma)^\alpha\asymp
+$\rho>\dist(x,\Sigma)/2$ then $\dist(\cdot,\Sigma)<3\rho$ on $B$, and the slab
+bound $\abs{\{\dist(\cdot,\Sigma)\le\sigma\}\cap B}\lesssim\rho^2\sigma$ for
+$\sigma\le\rho$ shows that a fixed fraction of $B$ lies at distance $\ge c\rho$
+from $\Sigma$; hence $\int_B\dist(\cdot,\Sigma)^\alpha\asymp
 \rho^{\alpha+3}$, uniformly including near the boundary of $\Sigma$; for
 $\rho\le1$ the weight is $\asymp2^{-k\alpha}$ near $\Sigma$. In every case with
 $\rho\le\abs x/2$,
@@ -1122,8 +1286,10 @@ The resolvent at the origin, $h(\lambda)=\int_0^\infty e^{-\lambda t}p^W_t(0,0)\
 is the characteristic function of the string $\widetilde M$ in Krein's
 correspondence \cite[eqs.~(5), (10)]{kasahara1975}, and Kasahara's Tauberian
 theorem \cite[Thm.~2(iii), case $\alpha=1$]{kasahara1975} (see also
-\cite{kotaniwatanabe1982,kasaharawatanabe2010}) states that $\widetilde M$ is slowly varying at
-infinity if and only if $h(\lambda)\sim c/(\lambda\widetilde M(1/\lambda))$ as
+\cite{kotaniwatanabe1982,kasaharawatanabe2010}) relates the slowly varying
+factor of $\widetilde M$ at infinity to that of $\lambda h(\lambda)$ at zero
+through an inverse function; for $\widetilde M(s)\sim\frac18\log^2s$ the
+relation reduces to $h(\lambda)\sim c/(\lambda\widetilde M(1/\lambda))$ as
 $\lambda\to0$, with an absolute constant $c$. Karamata's theorem then gives
 $p^W_t(0,0)\sim c'/\widetilde M(t)\asymp1/\log^2t$, hence
 \[
@@ -1141,8 +1307,8 @@ This is an instance of the phenomenon of Johnstone and Lalley
 \cite[Thm.~1.1]{johnstonelalley1984}: for every null-recurrent one-dimensional
 generalized Bayes component there is a product partner for which the product
 estimator is inadmissible; their construction uses a different one-dimensional
-factor. Table~\ref{tab:zone} summarizes the three members of the undecided zone
-exhibited in this note.
+factor. Table~\ref{tab:zone} and Figure~\ref{fig:zonemap} summarize the three members
+of the undecided zone exhibited in this note.
 
 \begin{table}[t]
 \caption{Three priors on $\R^3$ in Brown's undecided zone. Each has Lipschitz
@@ -1172,11 +1338,11 @@ scattered circles, spacing $2^{k/2}$ (Thm.~\ref{thm:B}) & yes & yes & transient;
   \node[rotate=90] at (-0.09,1.5) {doubling};
   \node[rotate=90] at (-0.09,0.5) {not doubling};
   \node[align=center,text width=3.2cm] at (0.5,1.5)
-       {scattered circles\\[1pt]\textbf{transient}\\[1pt]\small volume test (Thm~\ref{thm:A})};
+       {scattered circles\\[1pt]\textbf{transient}\\[1pt]\small volume test (Thm.~\ref{thm:volume})};
   \node[align=center,text width=3.2cm] at (1.5,1.5)
-       {coherent wall\\[1pt]\textbf{recurrent}\\[1pt]\small flux bound (Prop~\ref{prop:wall})};
+       {coherent wall\\[1pt]\textbf{recurrent}\\[1pt]\small flux bound (Prop.~\ref{prop:wall})};
   \node[align=center,text width=3.2cm] at (0.5,0.5)
-       {log-product\\[1pt]\textbf{transient}\\[1pt]\small product kernels\\(Prop~\ref{prop:log})};
+       {log-product\\[1pt]\textbf{transient}\\[1pt]\small product kernels\\(Prop.~\ref{prop:log})};
   \node[align=center,text width=3.2cm] at (1.5,0.5) {\emph{open}};
   \draw[very thick] (0,1) rectangle (1,2);
 \end{tikzpicture}
@@ -1196,7 +1362,7 @@ this section were used to find the constructions and to check the uniformity
 claims that a proof sketch can hide. All numbers are produced by short Python
 scripts available with this note.
 
-\paragraph{Poincar\'e constants as eigenvalues.}
+\paragraph{\textit{Poincar\'e constants as eigenvalues.}}
 The best constant in \eqref{eq:poincare} on a region is $1/(\lambda_1\rho^2)$,
 with $\lambda_1$ the first nonzero Neumann eigenvalue of the weighted Laplacian.
 We discretize by finite volumes on a uniform grid (face conductance equal to
@@ -1239,12 +1405,12 @@ ring weight, $\rho=8,16,32,64$ & $0.975$ & $0.497$ & $0.256$ & $0.129$ \\
 
 Table~\ref{tab:eigen} and Figure~\ref{fig:lattice}b show the outcome. For the
 lattice weight $\lambda_1\rho^2$ stays between $1.5$ and $3.1$ from one spacing
-to eight spacings and across two shells, about two thirds of the Lebesgue
-value, with no downward trend; the values are converged to two digits under
+to eight spacings and across two shells, between one third and two thirds of the
+Lebesgue value, with no downward trend; the values are converged to two digits under
 mesh refinement. For the one-circle weight of Lemma~\ref{lem:circle} the
 eigenvalue is bounded below uniformly in $R$ and in $\rho/R$, with a dip at
-$\rho=2R$ that is the same for $R=4$ and $R=16$, as the scaling argument in the
-proof predicts. For the ring weight of Proposition~\ref{prop:wall} the
+$\rho=2R$ of nearly the same depth for $R=4$ and $R=16$, in line with the
+uniformity in $R$ of Lemma~\ref{lem:circle}. For the ring weight of Proposition~\ref{prop:wall} the
 eigenvalue halves with every doubling of $\rho$, i.e.\ decays like
 $\rho^{-(\alpha-1)}$, the two-region quotient of the proof. For the
 two-dimensional factor $(1+\abs y^2)^2$ of Theorem~\ref{thm:cyl},
@@ -1257,7 +1423,7 @@ between circles, $1.57$ and $1.42$; centred on the axis, $1.34$ and $1.69$
 (control for a cube, $\pi^2/4=2.47$); where two meshes were run, up to
 $2.6\cdot10^5$ cells, the values agree to within $0.3\%$.
 
-\paragraph{Brown's tests and the volume.}
+\paragraph{\textit{Brown's tests and the volume.}}
 For the lattice weight with $\alpha=4$, the smallest of $802$ ray integrals
 per shell, over random directions, the directions exactly between consecutive
 $\theta_n$, the poles and the equator, is between $0.94$ and $1.92$ for
@@ -1275,7 +1441,7 @@ shell, as in the proof of Proposition~\ref{prop:wall}; the two-region quotient
 divided by $\rho^{\alpha-1}$ is flat at $0.041$ ($\alpha=2$) and $0.013$
 ($\alpha=3$) for $\rho$ between $16$ and $128$.
 
-\paragraph{The one-dimensional heat kernel.}
+\paragraph{\textit{The one-dimensional heat kernel.}}
 For Proposition~\ref{prop:log} a Crank--Nicolson computation of $p^W_t(0,0)$
 (control $v\equiv1$ reproduces $(4\pi t)^{-1/2}$ to five digits) gives
 $\log^2t\cdot p^W_t(0,0)=2.58,\,2.95,\,3.18,\,3.33,\,3.44$ at
@@ -1301,8 +1467,9 @@ ring weight.}
 Proposition~\ref{prop:log}: the sphere integral and the volume integral
 converge, the direction-averaged ray integral diverges like $\log\log r$.
 (b) The doubling ratio $\mu_1([0,2r])/\mu_1([r/2,3r/2])$ of four
-one-dimensional weights $v(t)$. (c) Their spherical $A_2$ ratio on $\R^3$:
-bounded only for $(1+\abs t)^{-1/2}$, the one weight that is both doubling and
+one-dimensional weights $v(t)$. (c) Their one-dimensional $A_2$ product
+$\mu_1([0,r])\,\nu_1([0,r])/r^2$, which controls the spherical $A_2$ ratio of
+the product weight on $\R^3$: bounded only for $(1+\abs t)^{-1/2}$, the one weight that is both doubling and
 Poincar\'e (Lemma~\ref{lem:1d}); $(1+\abs t)^2$ is doubling but fails the
 Poincar\'e inequality, $(1+\abs t)^{-1}$ is Poincar\'e but not doubling.}
 \label{fig:oned}
@@ -1384,7 +1551,7 @@ non-parabolic (his Theorems~1 and~2; Theorem~3 derives this from negative
 sectional curvature for $d\ge3$ through Aomoto's result \cite{aomoto1966}). For
 the normal location model the Fisher manifold is flat $\R^d$, the Green
 function exists iff $d\ge3$, and the Green prior is Stein's harmonic prior
-$\norm\mu^{-(d-2)}$: the predictive analogue of the dichotomy $m\le2$ versus
+$\norm\theta^{-(d-2)}$: the predictive analogue of the dichotomy $m\le2$ versus
 $m\ge3$ of Table~\ref{tab:dict}.
 
 The quantity that Komaki's expansion produces has a name in geometry. The pair
@@ -1429,11 +1596,13 @@ curvature itself has no statistical counterpart:
 The prior-independent $O(N^{-2})$ term of the risk of the Jeffreys predictive
 density is not proportional to $R$, and $\mathcal F$ is not the integrated risk
 reduction: whenever the boundary term of one integration by parts vanishes,
-\begin{multline}\label{eq:k2}
-\int\bigl(\mathrm{Risk}_N(\pi_J)-\mathrm{Risk}_N(f)\bigr)e^{-\Phi}\dd V
-=\frac{1}{2N^2}\int\abs{\nabla\Phi}^2_ge^{-\Phi}\dd V+o(N^{-2})\\
-=\frac{1}{2N^2}\Bigl[\mathcal F(g,\Phi)-\int R\,e^{-\Phi}\dd V\Bigr]+o(N^{-2}).
-\end{multline}
+the coefficient of $N^{-2}$ in \eqref{eq:k1}, integrated against
+$e^{-\Phi}\dd V$, is
+\begin{equation}\label{eq:k2}
+\frac12\int\bigl(2\Delta_g\Phi-\abs{\nabla\Phi}^2_g\bigr)e^{-\Phi}\dd V
+=\frac12\int\abs{\nabla\Phi}^2_ge^{-\Phi}\dd V
+=\frac12\Bigl[\mathcal F(g,\Phi)-\int R\,e^{-\Phi}\dd V\Bigr].
+\end{equation}
 \end{proposition}
 
 \begin{proof}
@@ -1446,10 +1615,10 @@ curved exponential family being the simplest instance \cite{efron1975}, while
 every intrinsic curvature of a one-dimensional Riemannian manifold vanishes.
 Equation \eqref{eq:k2} follows from \eqref{eq:k1} and
 $\int\Delta_g\Phi\,e^{-\Phi}\dd V=\int\abs{\nabla\Phi}^2e^{-\Phi}\dd V$. The
-integrated form is an identity of leading coefficients; integrating the
-pointwise $o(N^{-2})$ remainder against $e^{-\Phi}\dd V$ requires in addition a
-dominated or uniformly integrable remainder bound, which we do not establish for
-improper~$\Phi$.
+statement concerns the leading coefficient only: integrating the
+pointwise $o(N^{-2})$ remainder against $e^{-\Phi}\dd V$ would require in
+addition a dominated or uniformly integrable remainder bound, which we do not
+establish for improper~$\Phi$.
 \end{proof}
 
 Two remarks complete the parallel. First, Komaki's treatment of vague priors
@@ -1463,12 +1632,145 @@ parabolic despite that positive curvature. Second, in both theories the geometry
 prior enters through recurrence or transience of a diffusion, Brown's on the
 sample space and Komaki's on the parameter space, and not through curvature in
 a risk formula. On $\R^3$ the scattered valleys of Theorem~\ref{thm:B} are
-decided by the volume criterion under $D{+}P$ although neither of Brown's
+decided by the volume criterion under D+P although neither of Brown's
 one-sided radial tests fires (both the sphere and the volume integrals converge
 there). Whether such weights have an analogue on a Fisher manifold, where
 Komaki's criterion would then separate the existence of a shrinkage prior from
 the sphere-area growth of the model, is open.
 
+\section{Formal verification}\label{app:lean}
+
+Part of the mathematics of this note has been formalized and checked in the
+proof assistant Lean~4 \cite{demouraullrich2021} with the library Mathlib
+\cite{mathlib2020}. This appendix states exactly what the check covers. The
+development is the folder \texttt{lean/} of the repository
+\url{https://github.com/olegroshka/brown-radial-tests} (commit
+\texttt{f70bc53}; Lean and Mathlib \texttt{v4.24.0}; 37 modules, 655 named
+theorems). One command, the PowerShell script \texttt{check.ps1}, rebuilds it
+with \texttt{lake build}, audits every theorem and records the result with the
+hashes of the sources. Table~\ref{tab:leanstatus} gives the status of each
+result, Table~\ref{tab:leanpremises} the premises, and
+Table~\ref{tab:leanconstants} the explicit constants that are certified.
+
+\paragraph{\textit{What a certificate means here.}}
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2em,itemsep=2pt]
+\item \emph{Vocabulary.} The Lean statements are statements of potential
+theory about a continuous positive weight $w$ on a Euclidean space.
+\emph{Parabolic} means $\capa(B_1)=0$ with test functions in $C_c^\infty$, as
+in Section~\ref{sec:prelim}; doubling and \eqref{eq:poincare} are as defined
+there, with $C^1$ test functions on closed balls. No Lean statement mentions
+an estimator, admissibility or a diffusion: the statistical conclusions of
+this note follow from the certified statements through
+Theorem~\ref{thm:brown}(a) and~(b), which are cited.
+\item \emph{Foundations.} Every theorem is checked by the Lean kernel and
+depends only on the three standard axioms of Lean's classical logic
+(\lean{propext}, \lean{Classical.choice}, \lean{Quot.sound}). No further
+axiom is declared and no proof is left open; the audit enforces both.
+\item \emph{Cited theorems are premises.} No cited theorem is formalized.
+Where a proof uses one, the Lean theorem carries it as an explicit, named
+hypothesis. Table~\ref{tab:leanpremises} lists these \emph{premises} with
+their sources, and ``modulo'' in Table~\ref{tab:leanstatus} refers to them.
+\item \emph{What is not a formal fact.} That a Lean statement renders the
+statement printed here, and that a premise renders its source, was checked
+by reading. One premise is not a published theorem: premise~(N), which is
+Step~2 of the proof of Lemma~\ref{lem:circle}. It is proved there by hand and
+is not formalized.
+\end{enumerate}
+The formalization was carried out on an earlier version of this note (commit
+\texttt{36e9c61} of the repository). The corrections it led to are
+incorporated in the present text, and line numbers quoted inside the Lean
+sources refer to that earlier version.
+
+\begin{table}[ht]
+\caption{Status of the results of this note in the Lean development.
+\emph{Certified}: proved in Lean with no hypothesis beyond those printed.
+\emph{Modulo}: proved in Lean with the listed premises of
+Table~\ref{tab:leanpremises} as hypotheses.}
+\label{tab:leanstatus}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.27\textwidth}>{\raggedright\arraybackslash}p{0.32\textwidth}>{\raggedright\arraybackslash}p{0.35\textwidth}@{}}
+\toprule
+result & status & Lean statement \\
+\midrule
+Theorem~\ref{thm:brown}(d) & certified, as ``sphere integral diverges $\Rightarrow\capa(B_1)=0$'' & \lean{sphere_test_capacity_zero} \\
+Theorem~\ref{thm:brown}(e) & certified, as ``uniform ray condition $\Rightarrow\capa(B_1)>0$'' & \lean{ray_test_capacity_pos} \\
+Theorem~\ref{thm:brown}(a)--(c) & cited, not formalized & --- \\
+Lemma~\ref{lem:lip} & certified (the analytic content of (i)--(iv)) & \lean{gaussian_weight_comparison}, \lean{gaussianAverage_log_derivative_bound} \\
+Theorem~\ref{thm:volume}, ``\eqref{eq:volume} $\Rightarrow$ parabolic'' & certified & \lean{volume_test_capacity_zero} \\
+Theorem~\ref{thm:volume}, converse & cited; premise (V) & --- \\
+Corollary~\ref{cor:cs} & certified & \lean{sphere_volume_corollary} \\
+Theorem~\ref{thm:A} & (iii)$\Rightarrow$(ii)$\Rightarrow$(i) certified; (i)$\Rightarrow$(iii) is the cited direction of Theorem~\ref{thm:volume} & \lean{theorem_A_proved_implications}, \lean{theorem_A_modulo_volume_criterion} \\
+Lemma~\ref{lem:a2} & certified & \lean{lemma_a2} \\
+Lemma~\ref{lem:1d} & the bound with constant $32$ certified; the consequence for product weights not formalized & \lean{one_dimensional_doubling_poincare_A2} \\
+Theorem~\ref{thm:cyl} & not formalized (rests on cited theorems) & --- \\
+Lemma~\ref{lem:glue} & certified & \lean{gluing_lemma_of_local_doubling} \\
+Lemma~\ref{lem:circle}, $R>0$ & modulo (R), (S), (N) & \lean{circle_lemma_final} \\
+Theorem~\ref{thm:B}: construction, (b), (c) & certified & \lean{theorem_B_tests_silent}, \lean{theorem_B_volume_growth} \\
+Theorem~\ref{thm:B}(a), every $\alpha\ge0$ & modulo (R), (S), (N) & \lean{theorem_B_a_final} \\
+Theorem~\ref{thm:B}: $w$ and $f^*$ are not parabolic & modulo (R), (S), (N), (V) & \lean{theorem_B_final}, \lean{theorem_B_statement_final} \\
+Lemma~\ref{lem:thomson}; Propositions~\ref{prop:wall}, \ref{prop:log}, \ref{prop:komaki}, \ref{prop:noR} & not formalized & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\caption{The premises: statements that enter the Lean development as
+named hypotheses, all for continuous positive weights on $\R^3$. The doubling
+parts of (R) and (N) are certified; only the Poincar\'e inequalities are
+assumed.}
+\label{tab:leanpremises}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.035\textwidth}>{\raggedright\arraybackslash}p{0.33\textwidth}>{\raggedright\arraybackslash}p{0.30\textwidth}>{\raggedright\arraybackslash}p{0.25\textwidth}@{}}
+\toprule
+ & Lean name & statement & source \\
+\midrule
+(R) & \lean{RadialPoincarePremise} & $(1+\abs{x-c}^2)^{\alpha/2}\dd x$ satisfies \eqref{eq:poincare} on all balls, with a constant independent of $c$ & \cite[Prop.~6]{bjorn2001} with the self-improvement; \cite[Prop.~4.9]{grigoryansaloffcoste2005} \\
+(S) & \lean{SelfImprovementUniformPremise} & the self-improvement stated after Lemma~\ref{lem:glue}, including the dependence of its constant & \cite[Thm.~5.1, Cor.~9.8]{hajlaszkoskela2000} \\
+(N) & \lean{CircleNearPoincarePremise} & \eqref{eq:poincare} for $w_R\dd x$ at every ball with $\rho\le R/6$ and $\dist(x_0,C_R)\le2\rho$, with a constant independent of $R$ and of the ball & Step~2 of the proof of Lemma~\ref{lem:circle}; proved by hand, not formalized \\
+(V) & \lean{VolumeCriterionPremise} & for a D+P weight, parabolic implies \eqref{eq:volume} & \cite[Cor.~4.11, 4.12]{sturm1996} with \cite[Lemma~1.5.3]{fukushimaoshimatakeda2011} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\caption{Explicit constants and numerical claims of the text that are
+certified in Lean.}
+\label{tab:leanconstants}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}@{}}
+\toprule
+where & claim & Lean statement \\
+\midrule
+Lemma~\ref{lem:1d} & $\mu_1([-r,r])\,\nu_1([-r,r])\le32\,CD^3r^2$ & \lean{one_dimensional_doubling_poincare_A2} \\
+Section~\ref{sec:construction} & $\abs{\nabla\log w}\le\alpha/2$; circles $\ge0.78\,s_k$ apart in a layer and $\ge0.7\,s_k$ apart in a shell & \lean{latticeWeight_log_lipschitz}, \lean{lattice_same_layer_separated}, \lean{lattice_same_shell_separated} \\
+Theorem~\ref{thm:B}(b), (c) & \eqref{eq:raybound}; every ray integral diverges; the sphere integral converges; $cr^3\le V(r)\le\frac43\pi r^3$ & \lean{lattice_ray_bound_displayed}, \lean{lattice_ray_integral_diverges}, \lean{lattice_sphere_integral_converges}, \lean{theorem_B_volume_growth} \\
+Lemma~\ref{lem:circle}, Step~1 & the factors $9^{\alpha/2}$, $16^{\alpha/2}$; doubling with $512\cdot16^\alpha$ & \lean{circle_far_variation}, \lean{circle_far_sup_le_inf}, \lean{circle_near_doubling} \\
+Lemma~\ref{lem:circle}, Step~3 & the grid: overlaps $8$ and $216$, $0.163R<R/6$, $B_j\subset4B$; $\mu_R(B')\asymp\nu(B')$ & \lean{grid_gluing_hypotheses}, \lean{circle_mass_ball_comparable} \\
+Theorem~\ref{thm:B}(a), local comparison & $33^{-\alpha/2}\le w\le1$ on $\{\abs x\le32\}$; \eqref{eq:wcompare}; the factors $9$ and $16$ & \lean{lattice_local_near_origin}, \lean{lattice_local_near_comparison}, \lean{lattice_local_far_variation}, \lean{lattice_local_far_sup_le_inf} \\
+Theorem~\ref{thm:B}(a), cell mass & \eqref{eq:cellmass} with $c_\alpha=65537^{-\alpha/2}$; the doubling bound of the small-ball step (with $192$ in place of $384$) & \lean{lattice_shell_cube_mass}, \lean{lattice_shell_ball_mass}, \lean{lattice_shell_ball_doubling} \\
+Theorem~\ref{thm:B}(a), large balls & the covering exists; $1.03$, $\ell_j\le0.35\,\rho$, $2.7\,\ell_j$, $B_j\subset4B$, bounded overlap & \lean{lattice_covering_large_ball}, \lean{lattice_covering_gluing_hypotheses} \\
+used throughout & Lebesgue measure satisfies \eqref{eq:poincare} on balls of $\R^n$ with constant $2^{n+2}$ & \lean{haar_poincareAt_ball} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{\textit{Limits of the check.}} In Lean, Lemma~\ref{lem:glue} is proved for
+measures with continuous densities with respect to Lebesgue measure, which
+covers every use made of it here; Lemma~\ref{lem:circle} is proved for
+circles in a horizontal plane (the general case is a rigid motion away), and
+its case $R=0$ is premise~(R); Theorem~\ref{thm:B}(a) is proved through the
+arguments printed in Section~\ref{sec:lattice}, except that doubling at large
+balls is obtained there from a direct lower bound for $\mu(B)$. Three
+groups of numerical claims are not certified in the form printed: the
+constants $34^{-\alpha/2}$ and $1-2/\pi$ in the proof of
+Theorem~\ref{thm:B}(b), which Lean replaces by cruder ones; the constants
+$\tfrac{10}3$ and $18P_{\mathrm{cyl}}$ in Step~2 of the proof of
+Lemma~\ref{lem:circle}; and the factor $0.42$ in the proof of
+Theorem~\ref{thm:B}(a). The last two groups were derived by hand twice,
+independently. Nothing in Sections~\ref{sec:zone} and~\ref{sec:numerics} or in
+Appendix~\ref{app:komaki} is formalized.
+
+\clearpage
 % Bibliography inlined (amsplain output with repeated-author dashes written out);
 % the source list is references.bib.
 {\small
@@ -1509,6 +1811,11 @@ Lawrence~D. Brown and Jiunn~T. Hwang, \emph{A unified admissibility proof},
   Statistical Decision Theory and Related Topics III, vol.~1, Academic Press,
   1982, pp.~205--230.
 
+\bibitem{coulhonsaloffcoste1995}
+Thierry Coulhon and Laurent Saloff-Coste, \emph{Vari\'et\'es riemanniennes
+  isom\'etriques \`a l'infini}, Rev. Mat. Iberoamericana \textbf{11} (1995),
+  no.~3, 687--726.
+
 \bibitem{eaton1992}
 Morris~L. Eaton, \emph{A statistical diptych: admissible
   inferences---recurrence of symmetric {M}arkov chains}, Ann. Statist.
@@ -1519,14 +1826,20 @@ Bradley Efron, \emph{Defining the curvature of a statistical problem (with
   applications to second order efficiency)}, Ann. Statist. \textbf{3} (1975),
   no.~6, 1189--1242.
 
+\bibitem{fukushimaoshimatakeda2011}
+Masatoshi Fukushima, Yoichi Oshima, and Masayoshi Takeda, \emph{Dirichlet
+  forms and symmetric {M}arkov processes}, second revised and extended ed.,
+  De Gruyter Studies in Mathematics, vol.~19, Walter de Gruyter, Berlin, 2011.
+
 \bibitem{grigoryan1999}
 Alexander Grigor'yan, \emph{Analytic and geometric background of recurrence and
   non-explosion of the {B}rownian motion on {R}iemannian manifolds}, Bull.
   Amer. Math. Soc. (N.S.) \textbf{36} (1999), no.~2, 135--249.
 
-\bibitem{grigoryan2009}
-Alexander Grigor'yan, \emph{Heat kernel and analysis on manifolds}, AMS/IP
-  Studies in Advanced Mathematics, vol.~47, American Mathematical Society, 2009.
+\bibitem{grigoryan2006}
+Alexander Grigor'yan, \emph{Heat kernels on weighted manifolds and
+  applications}, The Ubiquitous Heat Kernel, Contemp. Math., vol. 398,
+  American Mathematical Society, 2006, pp.~93--191.
 
 \bibitem{grigoryan1985}
 Alexander~A. Grigor'yan, \emph{The existence of positive fundamental solutions
@@ -1536,6 +1849,11 @@ Alexander~A. Grigor'yan, \emph{The existence of positive fundamental solutions
 \bibitem{grigoryan1991}
 Alexander~A. Grigor'yan, \emph{The heat equation on noncompact {R}iemannian
   manifolds}, Mat. Sb. \textbf{182} (1991), no.~1, 55--87.
+
+\bibitem{grigoryansaloffcoste2005}
+Alexander Grigor'yan and Laurent Saloff-Coste, \emph{Stability results for
+  {H}arnack inequalities}, Ann. Inst. Fourier (Grenoble) \textbf{55} (2005),
+  no.~3, 825--890.
 
 \bibitem{hajlaszkoskela2000}
 Piotr Haj{\l}asz and Pekka Koskela, \emph{Sobolev met {P}oincar\'e}, Mem. Amer.
@@ -1551,6 +1869,10 @@ Iain~M. Johnstone and Steven~P. Lalley, \emph{On independent statistical
   decision problems and products of diffusions}, Z. Wahrsch. Verw. Gebiete
   \textbf{68} (1984), 29--47.
 
+\bibitem{kanai1986}
+Masahiko Kanai, \emph{Rough isometries and the parabolicity of {R}iemannian
+  manifolds}, J. Math. Soc. Japan \textbf{38} (1986), no.~2, 227--238.
+
 \bibitem{kasahara1975}
 Yuji Kasahara, \emph{Spectral theory of generalized second order differential
   operators and its applications to {M}arkov processes}, Japan. J. Math. (N.S.)
@@ -1560,6 +1882,10 @@ Yuji Kasahara, \emph{Spectral theory of generalized second order differential
 Yuji Kasahara and Shinzo Watanabe, \emph{Asymptotic behavior of spectral
   measures of {K}rein's and {K}otani's strings}, Kyoto J. Math. \textbf{50}
   (2010), no.~3, 623--644.
+
+\bibitem{keith2003}
+Stephen Keith, \emph{Modulus and the {P}oincar\'e inequality on metric measure
+  spaces}, Math. Z. \textbf{245} (2003), 255--292.
 
 \bibitem{komaki2006}
 Fumiyasu Komaki, \emph{Shrinkage priors for {B}ayesian prediction}, Ann.
@@ -1579,6 +1905,16 @@ Shinichi Kotani and Shinzo Watanabe, \emph{Kre{\u\i}n's spectral theory of
 Terry Lyons and Dennis Sullivan, \emph{Function theory, random paths and
   covering spaces}, J. Differential Geom. \textbf{19} (1984), 299--323.
 
+\bibitem{mathlib2020}
+The mathlib Community, \emph{The {L}ean mathematical library}, Proceedings of
+  the 9th ACM SIGPLAN International Conference on Certified Programs and
+  Proofs, ACM, 2020, pp.~367--381.
+
+\bibitem{demouraullrich2021}
+Leonardo de~Moura and Sebastian Ullrich, \emph{The {L}ean 4 theorem prover and
+  programming language}, Automated Deduction -- CADE 28, Lecture Notes in
+  Comput. Sci., Springer, 2021, pp.~625--635.
+
 \bibitem{perelman2002}
 Grisha Perelman, \emph{The entropy formula for the {R}icci flow and its
   geometric applications}, 2002, arXiv:math/0211159.
@@ -1597,6 +1933,16 @@ Charles Stein, \emph{Inadmissibility of the usual estimator for the mean of a
   multivariate normal distribution}, Proc. Third Berkeley Symp. Math. Statist.
   Prob., vol.~1, Univ. California Press, 1956, pp.~197--206.
 
+\bibitem{sturm1994}
+Karl-Theodor Sturm, \emph{Analysis on local {D}irichlet spaces. {I}.
+  {R}ecurrence, conservativeness and {$L^p$}-{L}iouville properties}, J. Reine
+  Angew. Math. \textbf{456} (1994), 173--196.
+
+\bibitem{sturm1995}
+Karl-Theodor Sturm, \emph{Analysis on local {D}irichlet spaces. {II}. {U}pper
+  {G}aussian estimates for the fundamental solutions of parabolic equations},
+  Osaka J. Math. \textbf{32} (1995), 275--312.
+
 \bibitem{sturm1996}
 Karl-Theodor Sturm, \emph{Analysis on local {D}irichlet spaces. {III}. {T}he
   parabolic {H}arnack inequality}, J. Math. Pures Appl. (9) \textbf{75} (1996),
@@ -1605,6 +1951,10 @@ Karl-Theodor Sturm, \emph{Analysis on local {D}irichlet spaces. {III}. {T}he
 \bibitem{takanashi2023}
 Kosaku Takanashi and Kenichiro McAlinn, \emph{Inadmissibility and transience},
   2023, arXiv:2310.17891.
+
+\bibitem{vaisala1988}
+Jussi V{\"a}is{\"a}l{\"a}, \emph{Uniform domains}, Tohoku Math. J. (2)
+  \textbf{40} (1988), no.~1, 101--118.
 
 \end{thebibliography}
 }
