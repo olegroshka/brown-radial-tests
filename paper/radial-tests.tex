@@ -64,7 +64,7 @@ geometric criteria can add decidable cases only on the inadmissible side.
 lattice of circles at dyadic scales with spacing equal to the square root of the scale is
 doubling and Poincar\'e, silences both of Brown's tests, and is transient by the
 ball-volume test; its generalized Bayes estimator is inadmissible. (C)~Outside
-the doubling--Poincar\'e class the zone is two-sided: the same circles placed on
+the doubling--Poincar\'e class the zone is two-sided: similar circles placed on
 one surface per scale give an admissible estimator, decided by a flux bound along
 a non-spherical exhaustion, and a logarithmic product prior gives an inadmissible
 one, decided by product heat kernels. A comparison lemma shows that any positive
@@ -176,8 +176,8 @@ $\delta_F$ is inadmissible. The construction places latitude circles on spheres 
 $\asymp2^k$ in the shell $2^k\le\abs x<2^{k+1}$, at mutual distance $\asymp
 2^{k/2}$, so that their angular positions cover every direction while no
 coherent surface of small weight forms.
-\item[(C)] \emph{The zone is two-sided} (Section~\ref{sec:zone}). Placing the
-same circles on one surface per shell produces a prior on which both tests are
+\item[(C)] \emph{The zone is two-sided} (Section~\ref{sec:zone}). Placing
+similar circles on one surface per shell produces a prior on which both tests are
 silent and which is nevertheless recurrent, hence admissible; the proof is a
 flux bound along the surfaces. A logarithmic product prior is transient, hence
 inadmissible, by product heat kernels. Neither prior is doubling and Poincar\'e,
@@ -218,7 +218,7 @@ cited premises.
 \subsection{Notation}\label{sec:notation}
 Throughout, $m\ge2$, $B(x,\rho)$ is the open Euclidean ball, $B_r=B(0,r)$, and
 $\omega_{m-1}$ the area of the unit sphere. For a positive locally integrable
-weight $w$ on $\R^m$ we write $\mu=w\dd x$ and $V(r)=\mu(B_r)$. For $r\ge1$ let
+weight $w$ on $\R^m$ we write $\mu=w\dd x$, $V(x,\rho)=\mu(B(x,\rho))$ and $V(r)=V(0,r)$. For $r\ge1$ let
 $\fbar(r)$ and $A(r)$ be the means of $w$ and of $1/w$ over the sphere
 $\{\abs x=r\}$, and $Q(r)=\fbar(r)A(r)\ge1$ (Jensen) the \emph{spherical $A_2$
 ratio}. The measure $\mu$ is \emph{doubling} if $\mu(B(x,2\rho))\le
@@ -307,7 +307,7 @@ Table~\ref{tab:dict} collects the dictionary.
 
 \begin{table}[b]
 \caption{Brown's admissibility theory read as potential theory of
-$W_F=(\R^m,\delta,f^*\dd x)$. Theorem numbers refer to \cite{brown1971} and
+$W_F=(\R^m,\delta_{ij},f^*\dd x)$. Theorem numbers refer to \cite{brown1971} and
 \cite{grigoryan1999}.}
 \label{tab:dict}
 \small
@@ -552,8 +552,8 @@ product weight $w(x)=v(x_1)$ on $\R^m$, $m\ge3$, has bounded spherical $A_2$
 ratio, and $\delta_F$ is inadmissible for every prior $F$ whose marginal is
 comparable to $w$ (Lemma~\ref{lem:lip}; e.g.\ $\log v$ Lipschitz). That one-dimensional
 $p$-admissible measures are exactly the Muckenhoupt $A_p$ weights is due to
-Bj\"orn, Buckley and Keith \cite{bbk2006}; we record the case $p=2$ with the
-explicit constant used below.
+Bj\"orn, Buckley and Keith \cite{bbk2006}; we record the case $p=2$ with an
+explicit constant.
 \end{lemma}
 
 \begin{proof}
@@ -581,7 +581,7 @@ Both hypotheses are needed: $v(t)=(1+\abs t)^2$ is doubling but fails the
 Poincar\'e inequality, because the valley at $0$ is a bottleneck between two
 heavy sides, and $v(t)=(1+\abs t)^{-1}$ satisfies the Poincar\'e inequality
 but is not doubling; $\mu_1\nu_1/r^2$ grows like $r$ in the first case and like
-$\log r$ in the second (Figure~\ref{fig:oned}b,c). The mechanism of Lemma~\ref{lem:1d} is that a valley
+$\log r$ in the second (Figure~\ref{fig:oned}b,c in Section~\ref{sec:numerics}). The mechanism of Lemma~\ref{lem:1d} is that a valley
 in one dimension has co-dimension one and disconnects the interval. In $\R^m$,
 $m\ge3$, a valley along a curve has co-dimension two, does not disconnect, and
 the lemma fails:
@@ -653,16 +653,16 @@ forming a sheared rectangular lattice: $L_k$ layers at radial spacing
 $2^k/L_k\in\{s_k,s_k/\sqrt2\}$, each containing $M_k$ circles at angular
 spacing $\pi L_k/N_k$, that is, at physical spacing between $0.78\,s_k$ and
 $2.23\,s_k$; consecutive layers are offset by one angular step $\pi/N_k$
-(Figure~\ref{fig:lattice}a). Let $\Gamma=\bigcup_{k,i,j}\Gamma_{k,i,j}$ and
+(Figure~\ref{fig:lattice}a in Section~\ref{sec:numerics}). Let $\Gamma=\bigcup_{k,i,j}\Gamma_{k,i,j}$ and
 define, for $\alpha\ge0$,
 \begin{equation}\label{eq:w}
 w(x)=\Bigl(\frac{1+d(x)^2}{1+\abs x+d(x)^2}\Bigr)^{\alpha/2},\qquad
 d(x)=\dist(x,\Gamma).
 \end{equation}
 
-Write $s(r)^2=1+r$. Near a circle at radius $r$, $w\asymp(1+d^2)^{\alpha/2}/s^\alpha$
-for $d\le s/2$: the cylinder weight of Theorem~\ref{thm:cyl} normalized by the
-local spacing. For $d\ge s$, $w$ is bounded below by $2^{-\alpha/2}$. The set
+Write $\sigma(r)^2=1+r$. Near a circle at radius $r$,
+$w\asymp(1+d^2)^{\alpha/2}/\sigma^\alpha$ for $d\le\sigma/2$: the cylinder weight of Theorem~\ref{thm:cyl} normalized by the
+local spacing. For $d\ge\sigma$, $w$ is bounded below by $2^{-\alpha/2}$. The set
 where $w$ is small is therefore a union of thin tubes around circles that are
 $\asymp s_k$ apart; no surface of small weight exists at any scale. Two
 features of the construction are forced. The spacing $s_k\asymp2^{k/2}$ comes
@@ -821,11 +821,11 @@ $\abs{\nabla\psi_{j'}}\lesssim1/s_j$ on $Q_j$ for every $j'\sim j$. Such
 functions exist: by a volume count, the hypotheses (bounded overlap of the
 cubes, comparable sides of neighbours) give bounded overlap of the enlarged
 cubes and a bound on the number of neighbours of each cube. Both the identity
-$\sum_j\psi_j=1$ and the gradient bound are asked on the cubes $Q_j$ only: a
+$\sum_j\psi_j=1$ and the gradient bound are required on the cubes $Q_j$ only: a
 family that sums to one on all of the enlarged cubes cannot satisfy such a
 bound there uniformly. Let $U=\sum_j\bar u_j\psi_j$, a $C^1$ function on
 $2\bar B$. For any
-constant $m$, $\int_B\abs{u-m}^2\dd\mu\le2\int_B\abs{u-U}^2\dd\mu+2\int_B\abs{U-m}^2\dd\mu$.
+constant $a$, $\int_B\abs{u-a}^2\dd\mu\le2\int_B\abs{u-U}^2\dd\mu+2\int_B\abs{U-a}^2\dd\mu$.
 On $Q_j$, $\abs{u-U}\le\sum_{j'\sim j}\psi_{j'}\abs{u-\bar u_{j'}}$. For
 $j'\sim j$ the ball $B_{j'}$ contains $Q_j$ and $Q_{j'}$, and
 $\mu(Q_j)\le\mu(B_{j'})\lesssim\mu(Q_{j'})$ by (G2); comparing $\bar u_{j'}$
@@ -833,16 +833,16 @@ with the mean of $u$ over $B_{j'}$ and using \eqref{eq:poincare} on $B_{j'}$,
 $\int_{Q_j}\abs{u-\bar u_{j'}}^2\dd\mu\lesssim s_j^2\int_{B_{j'}}\abs{\nabla u}^2\dd\mu$;
 summing with bounded overlap, the first term is $\lesssim\rho^2\int_{4B}
 \abs{\nabla u}^2\dd\mu$. For the second term, on $Q_j$ one has
-$\abs{U-m}^2\le2\abs{\bar u_j-m}^2+2\abs{U-\bar u_j}^2$ and
+$\abs{U-a}^2\le2\abs{\bar u_j-a}^2+2\abs{U-\bar u_j}^2$ and
 $\abs{U-\bar u_j}\le\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}$, so by (G1)
 \[
-\int_B\abs{U-m}^2\dd\mu\ \lesssim\ \sum_j\nu(Q_j)\abs{\bar u_j-m}^2+
+\int_B\abs{U-a}^2\dd\mu\ \lesssim\ \sum_j\nu(Q_j)\abs{\bar u_j-a}^2+
 \sum_j\nu(Q_j)\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}^2 .
 \]
 The sums run over the cubes meeting $B$, which lie in $2B$ since
-$\operatorname{diam}Q_j\le\rho$. Choosing $m$ to be the $\nu$-mean of $U$ on $2B$
+$\operatorname{diam}Q_j\le\rho$. Choosing $a$ to be the $\nu$-mean of $U$ on $2B$
 and using
-$\nu(Q_j)\abs{\bar u_j-m}^2\le2\int_{Q_j}\abs{U-m}^2\dd\nu+2\nu(Q_j)\sup_{Q_j}\abs{U-\bar u_j}^2$
+$\nu(Q_j)\abs{\bar u_j-a}^2\le2\int_{Q_j}\abs{U-a}^2\dd\nu+2\nu(Q_j)\sup_{Q_j}\abs{U-\bar u_j}^2$
 together with the Poincar\'e inequality for $\nu$ on $2B$ and
 $\abs{\nabla U}^2\lesssim s_j^{-2}\sum_{j'\sim j}\abs{\bar u_{j'}-\bar u_j}^2$ on
 $Q_j$, everything is bounded by
@@ -985,10 +985,10 @@ $\sigma\in[s_k,1.44\,s_k]$ there for $k\ge4$). Recall the separation of the
 circles. The distance between two coaxial circles equals the distance between
 their generating points in the meridian half-plane, and likewise the distance
 from a point to a circle about the axis is the distance between their
-meridian points; within shell $m$ the layers
-are $\ge s_m/\sqrt2$ apart radially and the circles of one layer $\ge0.78\,s_m$
-apart, and the innermost layer of shell $m+1$ lies $\ge s_m/\sqrt2$ beyond the
-outermost layer of shell $m$. Hence two distinct circles lying in shells $\ge k$
+meridian points; within shell $k'$ the layers
+are $\ge s_{k'}/\sqrt2$ apart radially and the circles of one layer
+$\ge0.78\,s_{k'}$ apart, and the innermost layer of shell $k'+1$ lies
+$\ge s_{k'}/\sqrt2$ beyond the outermost layer of shell $k'$. Hence two distinct circles lying in shells $\ge k$
 are at distance $\ge0.7\,s_k$, while every circle of a shell $<k$ lies in
 $\{\abs x\le2^k-s_k/2\}$ (the radial gap $2^{k-1}/L_{k-1}$ below shell $k$ can be
 as small as $s_k/2$). On $\{\abs x\le32\}$ one has $33^{-\alpha/2}\le w\le1$, so
@@ -1016,15 +1016,16 @@ $\tau>2\rho$, then on $B$,
 $d\ge\tau-\rho$ and $d_C\le\tau+\rho\le3(\tau-\rho)$, so $d\le d_C\le3d$. In either
 case $(1+d^2)^{\alpha/2}\asymp(1+d_C^2)^{\alpha/2}$ on all of $B$. In the case
 $\tau\le2\rho$ moreover $d\le3\rho\le0.3\,\sigma_0$ on $B$, so
-$1+\abs x+d^2\asymp\sigma_0^2$ (both $\ge\tfrac12\sigma_0^2$ and
-$\le2\sigma_0^2$), whence
+$1+\abs x+d^2\asymp\sigma_0^2$ (it lies between $\tfrac12\sigma_0^2$ and
+$2\sigma_0^2$), whence
 \begin{equation}\label{eq:wcompare}
 w\ \asymp\ \sigma_0^{-\alpha}\,(1+d_C^2)^{\alpha/2}\qquad\text{on }B
 \text{ whenever }\dist(x_0,\Gamma)\le2\rho,
 \end{equation}
 a \emph{bounded-factor} comparison with constants depending only on $\alpha$.
-(The second factor $(1+\abs x+d^2)^{-\alpha/2}$ varies on $B$ by a bounded
-factor, not by $1+O(1/s)$, because $d^2$ as well as $\abs x$ varies across $B$.)
+(The second factor $(1+\abs x+d^2)^{-\alpha/2}$ is not nearly constant on $B$,
+because $d^2$ as well as $\abs x$ varies across $B$; it varies by a bounded
+factor, which is all that is used.)
 In the case $\tau>2\rho$ we use that
 $w=(1-\abs x/(1+\abs x+d^2))^{\alpha/2}$ is increasing in $d$ and decreasing in
 $\abs x$. For $y,z\in B$ one has $d(y)\le\tau+\rho\le3(\tau-\rho)\le3d(z)$, and
@@ -1045,7 +1046,7 @@ Otherwise some circle $C$ has a point within $r$ of $y$. A second circle with
 a point within $r$ of $y$ would come within $2r=s_k/32$ of $C$. But both
 circles would lie in shells $\ge k-1$, because they come within $2s_k$ of
 $x_Q$ and $2^k-2s_k\ge2^{k-1}$, and two distinct circles of shells $\ge k-1$
-are at distance $\ge s_k/2$ (the separation statements above with $m=k-1$, as
+are at distance $\ge s_k/2$ (the separation statements above with $k'=k-1$, as
 $s_{k-1}/\sqrt2=s_k/2$). Hence every circle other than $C$ stays at distance
 $\ge r$ from $y$, and at distance $\ge r/2$ from $y\pm\tfrac r2e$. The circle
 $C$ lies in a plane $\{x\cdot e=h\}$; with the sign chosen so that
@@ -1081,8 +1082,7 @@ Lemma~\ref{lem:circle}; if $\sigma_0/20<\rho\le\sigma_0/10$, then
 $\mu(2B)\le\abs{2B}=8\abs B\le384\,c_\alpha^{-1}\mu(B)$ by \eqref{eq:cellmass}
 applied to the ball $B$, whose radius lies in $[s_k/20,s_k]$. The polar circles
 are thus handled through
-the uniformity of Lemma~\ref{lem:circle} in the circle radius, not through any
-straight-cylinder approximation at the scale $\sqrt R$.
+the uniformity of Lemma~\ref{lem:circle} in the circle radius.
 
 \emph{Large balls $(\rho>\sigma_0/10)$.} Apply Lemma~\ref{lem:glue} with $\nu$ the
 Lebesgue measure and a covering of the closed ball $2\bar B$ by finitely many
@@ -1176,7 +1176,9 @@ $V(r)\asymp r^3$. The opposite is true.
 Let $w$ be a positive weight on $\R^m$ and let $\{S_t\}_{t\in T}$ be pairwise
 disjoint regions, each fibred by nested closed Lipschitz surfaces $S_t^{(s)}$,
 $s\in[s_0,s_1]$, all enclosing $B_1$, with volume element
-$\dd V=\cos(\mathrm{tilt})\dd A\dd s$ along the fibration. Then every vector
+$\dd V=\cos(\mathrm{tilt})\dd A\dd s$ along the fibration, the tilt being the
+angle between the normal to the surface and the direction of the fibration.
+Then every vector
 field $J$ with $\divg J=0$ outside $B_1$ and unit flux out of $B_1$ satisfies
 \[
 \int\frac{\abs J^2}{w}\dd V\ \ge\ \sum_{t\in T}\int_{s_0}^{s_1}\frac{\dd s}{\tilde F_t(s)},
@@ -1222,18 +1224,18 @@ For the Poincar\'e failure take a ball $B$ of radius $\rho$ centred on
 $\Sigma_k$ at $\theta=\pi/2$ with $4\ll\rho\ll2^k$, and the two-region test
 function $u=\min(1,\max(0,(s+1)/2))$ in the signed normal distance $s$ to
 $\Sigma_k$. On either side of the wall $w'\asymp(\abs s/2^k)^\alpha$, so
-$\Var_\mu(u;B)\asymp\rho^3(\rho/2^k)^\alpha$, whereas the energy is carried by
+$\Var_\mu(u;B)=\int_B\abs{u-u_B}^2\dd\mu\asymp\rho^3(\rho/2^k)^\alpha$, whereas the energy is carried by
 the layer $\abs s\le1$ and is $\asymp\rho^2\,4^{-k\alpha/2}$. Hence
 $\Var_\mu(u;B)/(\rho^2\int_B\abs{\nabla u}^2\dd\mu)\asymp\rho^{\alpha-1}$ is
-unbounded. For doubling, the circles cover $\Sigma$ up to the mesh $\le3.2$, so
+unbounded. For doubling, the circles cover $\Sigma=\bigcup_k\Sigma_k$ up to the mesh $\le3.2$, so
 $1+\dist(\cdot,\Gamma')^2\asymp\max(1,\dist(\cdot,\Sigma))^2$ and
 $w'\asymp(\max(1,\dist(\cdot,\Sigma))/2^k)^\alpha$ in shell $k$, with $\Sigma$ a
 Lipschitz surface of co-dimension one (with conical points on the axis). For a ball
 $B=B(x,\rho)$: if $\rho\le\dist(x,\Sigma)/2$ the weight varies on $B$ by a
 bounded factor, so $\mu$ is comparable to Lebesgue measure; if
 $\rho>\dist(x,\Sigma)/2$ then $\dist(\cdot,\Sigma)<3\rho$ on $B$, and the slab
-bound $\abs{\{\dist(\cdot,\Sigma)\le\sigma\}\cap B}\lesssim\rho^2\sigma$ for
-$\sigma\le\rho$ shows that a fixed fraction of $B$ lies at distance $\ge c\rho$
+bound $\abs{\{\dist(\cdot,\Sigma)\le t\}\cap B}\lesssim\rho^2t$ for
+$t\le\rho$ shows that a fixed fraction of $B$ lies at distance $\ge c\rho$
 from $\Sigma$; hence $\int_B\dist(\cdot,\Sigma)^\alpha\asymp
 \rho^{\alpha+3}$, uniformly including near the boundary of $\Sigma$; for
 $\rho\le1$ the weight is $\asymp2^{-k\alpha}$ near $\Sigma$. In every case with
@@ -1274,7 +1276,7 @@ $\mu_1([x,b])\,\nu_1([\xi,x])\le(b-x)(x-\xi)$, and Muckenhoupt's weighted Hardy
 inequality gives $\int_I\abs{u-u_I}^2\dd\mu_1\le\abs I^2\int_I\abs{u'}^2\dd\mu_1$
 on every interval $I$ (split $I$ at $0$ when it contains $0$); by tensorization
 the Poincar\'e inequality holds on cubes of $\R^3$. The inequality on balls, which
-is what \eqref{eq:poincare} asks, is not needed here and is not claimed. For
+is what \eqref{eq:poincare} requires, is not needed here and is not claimed. For
 transience, the
 weighted Brownian motion is the product of the one-dimensional diffusion $W$
 with generator $v^{-1}(vu')'$ and a standard Brownian motion on $\R^2$, and it
@@ -1298,7 +1300,7 @@ $p^W_t(0,0)\sim c'/\widetilde M(t)\asymp1/\log^2t$, hence
 The same asymptotic is given by Shimizu and Nakano
 \cite[Thm.~1.3]{shimizunakano2017}, for a reflected Bessel-like diffusion on
 $[0,\infty)$ in the boundary case $\rho=0$ with speed measure of infinite mass.
-The constant is $4$ for the full-line kernel $p^W_t(0,0)$ with respect to
+The limit of $\log^2t\cdot p^W_t(0,0)$ is $4$ for the full-line kernel with respect to
 $v\dd t$ used here; it is confirmed numerically in Section~\ref{sec:numerics},
 and the transience conclusion does not depend on it.
 \end{proof}
@@ -1359,7 +1361,7 @@ cubes (Proposition~\ref{prop:log}).}
 
 The proofs above are complete modulo the cited results; the computations in
 this section were used to find the constructions and to check the uniformity
-claims that a proof sketch can hide. All numbers are produced by short Python
+claims that are easy to get wrong by hand. All numbers are produced by short Python
 scripts available with this note.
 
 \paragraph{\textit{Poincar\'e constants as eigenvalues.}}
@@ -1373,10 +1375,10 @@ square $[-R,R]^2$ and $\lambda_1\rho^2=4.333$ for the axisymmetric modes on a
 ball in $\R^3$, are reproduced to three digits on the square and, on the ball,
 to within $2\%$ at the meshes of Table~\ref{tab:eigen} and to three digits at the
 finest mesh. For a ball centred on the
-symmetry axis of an axisymmetric weight, the azimuthal modes $e^{im\phi}g(s,z)$,
-$m\ge1$, satisfy $\int\abs{\nabla u}^2\dd\mu\ge\int\abs{u}^2s^{-2}\dd\mu\ge
+symmetry axis of an axisymmetric weight, the azimuthal modes $e^{iq\phi}g(s,z)$,
+$q\ge1$, satisfy $\int\abs{\nabla u}^2\dd\mu\ge\int\abs{u}^2s^{-2}\dd\mu\ge
 \rho^{-2}\int\abs u^2\dd\mu$ with mean zero, so they obey \eqref{eq:poincare}
-with constant $1$ for any weight; the $m=0$ problem on the meridian half-disc,
+with constant $1$ for any weight; the $q=0$ problem on the meridian half-disc,
 with measure $2\pi s\,w\dd s\dd z$, is then the whole statement, and it is a
 two-dimensional computation that reaches balls of radius $256$ at mesh $0.5$.
 
@@ -1384,7 +1386,7 @@ two-dimensional computation that reaches balls of radius $256$ at mesh $0.5$.
 \caption{Neumann eigenvalues $\lambda_1\rho^2$ (axisymmetric modes; Lebesgue
 value $4.33$). Lattice weight \eqref{eq:w} with $\alpha=4$ on balls centred on
 the axis at $\abs x=1.5\cdot2^k$; one-circle weight $w_R$ of
-Lemma~\ref{lem:circle} on balls centred at the circle's centre; ring weight
+Lemma~\ref{lem:circle} with $\alpha=4$ on balls centred at the circle's centre; ring weight
 \eqref{eq:wall} with $\alpha=2$ on balls centred on the axis at $z_0=256$,
 which $\Sigma_8$ crosses.}
 \label{tab:eigen}
@@ -1527,7 +1529,13 @@ the numerical scripts, and drafted the text under the author's direction; Gemini
 which came the cylinder weight of Theorem~\ref{thm:cyl} and the first, coherent
 candidate of Section~\ref{sec:wall}, whose failure led to the lattice. Their
 main help was speed: ideas could be built, tested, and discarded quickly, which
-is what made a study of this size feasible. Every statement was checked against
+is what made a study of this size feasible. The Lean development described in
+Appendix~\ref{app:lean} was written with the help of Claude Fable~5.2
+(Anthropic) and GPT~6 Astra (OpenAI), under the author's direction. There the
+proofs are checked by the Lean kernel and do not rest on trust in the models
+that wrote them; what remains a matter of human reading, and the author's
+responsibility, is that the formal statements and the named premises say what
+this note says. Every statement was checked against
 the cited sources by the author, who is responsible for the errors that remain.
 The author thanks The Open University Library for access to the primary sources.
 The scripts that produce every number and figure in Section~\ref{sec:numerics}
@@ -1540,7 +1548,8 @@ are available in the public repository
 
 Brown's criterion is not the only place where parabolicity decides a
 statistical question. Let $\{p(x\mid\theta):\theta\in\Theta\subset\R^d\}$ be a
-regular parametric model with Fisher metric $g$, Jeffreys prior
+regular parametric model with Fisher metric $g$ (we write $(M,g)$ for $\Theta$
+with this metric, the Fisher manifold), Jeffreys prior
 $\pi_J\propto\abs g^{1/2}$ and Laplace--Beltrami operator $\Delta_g$
 \cite{amari2000}. For a prior $f=e^{-\Phi}\pi_J$, let $\mathrm{Risk}_N(f)$ be
 the Kullback--Leibler risk of the Bayesian predictive density built from $N$
@@ -1618,7 +1627,7 @@ $\int\Delta_g\Phi\,e^{-\Phi}\dd V=\int\abs{\nabla\Phi}^2e^{-\Phi}\dd V$. The
 statement concerns the leading coefficient only: integrating the
 pointwise $o(N^{-2})$ remainder against $e^{-\Phi}\dd V$ would require in
 addition a dominated or uniformly integrable remainder bound, which we do not
-establish for improper~$\Phi$.
+establish for improper priors $f=e^{-\Phi}\pi_J$.
 \end{proof}
 
 Two remarks complete the parallel. First, Komaki's treatment of vague priors
@@ -1831,6 +1840,15 @@ Masatoshi Fukushima, Yoichi Oshima, and Masayoshi Takeda, \emph{Dirichlet
   forms and symmetric {M}arkov processes}, second revised and extended ed.,
   De Gruyter Studies in Mathematics, vol.~19, Walter de Gruyter, Berlin, 2011.
 
+\bibitem{grigoryan1985}
+Alexander Grigor'yan, \emph{The existence of positive fundamental solutions
+  of the {L}aplace equation on {R}iemannian manifolds}, Mat. Sb. (N.S.)
+  \textbf{128(170)} (1985), 354--363.
+
+\bibitem{grigoryan1991}
+Alexander Grigor'yan, \emph{The heat equation on noncompact {R}iemannian
+  manifolds}, Mat. Sb. \textbf{182} (1991), no.~1, 55--87.
+
 \bibitem{grigoryan1999}
 Alexander Grigor'yan, \emph{Analytic and geometric background of recurrence and
   non-explosion of the {B}rownian motion on {R}iemannian manifolds}, Bull.
@@ -1841,15 +1859,6 @@ Alexander Grigor'yan, \emph{Heat kernels on weighted manifolds and
   applications}, The Ubiquitous Heat Kernel, Contemp. Math., vol. 398,
   American Mathematical Society, 2006, pp.~93--191.
 
-\bibitem{grigoryan1985}
-Alexander~A. Grigor'yan, \emph{The existence of positive fundamental solutions
-  of the {L}aplace equation on {R}iemannian manifolds}, Mat. Sb. (N.S.)
-  \textbf{128(170)} (1985), 354--363.
-
-\bibitem{grigoryan1991}
-Alexander~A. Grigor'yan, \emph{The heat equation on noncompact {R}iemannian
-  manifolds}, Mat. Sb. \textbf{182} (1991), no.~1, 55--87.
-
 \bibitem{grigoryansaloffcoste2005}
 Alexander Grigor'yan and Laurent Saloff-Coste, \emph{Stability results for
   {H}arnack inequalities}, Ann. Inst. Fourier (Grenoble) \textbf{55} (2005),
@@ -1857,7 +1866,7 @@ Alexander Grigor'yan and Laurent Saloff-Coste, \emph{Stability results for
 
 \bibitem{hajlaszkoskela2000}
 Piotr Haj{\l}asz and Pekka Koskela, \emph{Sobolev met {P}oincar\'e}, Mem. Amer.
-  Math. Soc. \textbf{145} (2000), no.~688, x+101.
+  Math. Soc. \textbf{145} (2000), no.~688, x+101~pp.
 
 \bibitem{johnstone1986}
 Iain~M. Johnstone, \emph{Admissible estimation, {D}irichlet principles and
