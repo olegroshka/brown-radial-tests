@@ -29,6 +29,10 @@ import LatticeSmallBalls
 import LatticeCovering
 import LatticeDP
 import LebesguePoincare
+import CircleLocal
+import CubeGrid
+import CircleLemma
+import ThmBFinal
 import Lean.Util.CollectAxioms
 
 open Lean in

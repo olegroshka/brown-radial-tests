@@ -1,6 +1,6 @@
 name = "brown_radial_tests"
 version = "0.1.0"
-defaultTargets = ["BrownRadial", "Analytic", "Radial", "Gaussian", "Rays", "Capacity", "Comparability", "Variance", "Polar", "Resistance", "Remainder", "LatticeRegularity", "SphericalA2", "WeightedBalls", "GaussianMarginal", "MultivariateGaussian", "GaussianSmooth", "LatticeGeometry", "SphereTest", "RayTest", "RayToll", "OneDim", "LatticeSeparation", "LatticeVolume", "PaperTheorems", "DoublingPoincare", "LatticeLocal", "CubePartition", "Gluing", "LatticeSmallBalls", "LatticeCovering", "LatticeDP", "LebesguePoincare"]
+defaultTargets = ["BrownRadial", "Analytic", "Radial", "Gaussian", "Rays", "Capacity", "Comparability", "Variance", "Polar", "Resistance", "Remainder", "LatticeRegularity", "SphericalA2", "WeightedBalls", "GaussianMarginal", "MultivariateGaussian", "GaussianSmooth", "LatticeGeometry", "SphereTest", "RayTest", "RayToll", "OneDim", "LatticeSeparation", "LatticeVolume", "PaperTheorems", "DoublingPoincare", "LatticeLocal", "CubePartition", "Gluing", "LatticeSmallBalls", "LatticeCovering", "LatticeDP", "LebesguePoincare", "CircleLocal", "CubeGrid", "CircleLemma", "ThmBFinal"]
 
 [[require]]
 name = "mathlib"
@@ -105,3 +105,15 @@ name = "LatticeDP"
 
 [[lean_lib]]
 name = "LebesguePoincare"
+
+[[lean_lib]]
+name = "CircleLocal"
+
+[[lean_lib]]
+name = "CubeGrid"
+
+[[lean_lib]]
+name = "CircleLemma"
+
+[[lean_lib]]
+name = "ThmBFinal"
