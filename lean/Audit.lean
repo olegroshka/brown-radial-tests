@@ -21,6 +21,14 @@ import OneDim
 import LatticeSeparation
 import LatticeVolume
 import PaperTheorems
+import DoublingPoincare
+import LatticeLocal
+import CubePartition
+import Gluing
+import LatticeSmallBalls
+import LatticeCovering
+import LatticeDP
+import LebesguePoincare
 import Lean.Util.CollectAxioms
 
 open Lean in

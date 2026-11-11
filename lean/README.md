@@ -28,8 +28,18 @@ zero capacity of the unit ball):
   tests are silent; (c) the volume grows like `r^3`; the separation of the
   circles.
 
-Not certified: `thm:B`(a) (doubling and Poincare for the lattice weight),
-everything statistical, and every cited theorem.
+Certified modulo named premises (`LatticeDP.lean`, `LebesguePoincare.lean`):
+`thm:B`(a), doubling and Poincare for the lattice weight on all balls, for
+every `alpha >= 0`, given the Hajlasz--Koskela self-improvement and the
+paper's own `lem:circle` for the lattice circles
+(`theorem_B_a_modulo_circle_and_self_improvement`); and the conclusion of
+`thm:B`, not parabolic, given those and the cited volume criterion
+(`theorem_B_modulo_circle_self_improvement_and_volume`). The premises are
+hypotheses of the Lean theorems, not proved. `lem:glue` and the Poincare
+inequality of Lebesgue measure on balls are proved outright.
+
+Not certified: `lem:circle`, everything statistical, and every cited
+theorem.
 
 ## Run
 
@@ -70,6 +80,14 @@ toolchain". VS Code with the `lean4` extension is the reference editor.
 | `RayToll` | Every ray integral of the lattice weight diverges; ray test silent |
 | `LatticeVolume` | Volume growth and sphere-mean lower bound of the lattice weight |
 | `PaperTheorems` | Paper-facing statements assembled from the above |
+| `DoublingPoincare` | For `thm:B`(a): doubling and Poincare at one ball (`doublingAt`, `poincareAt`), transfer under comparison of weights on the ball only, and the premises of the series as statements (`LebesguePoincarePremise`, `SelfImprovementPremise`, `CircleLemmaPremise`) |
+| `LatticeLocal` | For `thm:B`(a): local comparison `(eq:wcompare)`, far case, weight near the origin, cell mass `(eq:cellmass)` and mass of large balls |
+| `CubePartition` | For `lem:glue`: cubes, smooth bumps, partition of unity on a finite family of cubes with gradient bounds |
+| `Gluing` | `lem:glue`: Poincare inequality on a ball with energy over the 4-fold ball, glued from Poincare inequalities on small balls by comparison with a reference weight |
+| `LatticeSmallBalls` | For `thm:B`(a): doubling and Poincare for the lattice weight at balls of radius at most `sigma(x0)/10`, modulo `LebesguePoincarePremise` and `CircleLemmaPremise` |
+| `LatticeCovering` | For `thm:B`(a): for each large ball, a finite covering of `2B` by cubes of side `sigma/32` with the properties `lem:glue` asks for |
+| `LatticeDP` | `thm:B`(a) modulo the premises: weak Poincare and doubling at large balls, doubling and Poincare on all balls, `VolumeCriterionPremise`, and the conclusion of `thm:B` |
+| `LebesguePoincare` | The Poincare inequality of Haar measure on balls of a finite-dimensional normed space, constant `2^(n+2)`; `LebesguePoincarePremise` holds; the `thm:B` statements without that premise |
 | `Remainder` | Pointwise little-o need not integrate (context for `prop:noR`) |
 | `Audit` | Foundation audit over all theorems |
 

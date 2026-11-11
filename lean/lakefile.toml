@@ -1,6 +1,6 @@
 name = "brown_radial_tests"
 version = "0.1.0"
-defaultTargets = ["BrownRadial", "Analytic", "Radial", "Gaussian", "Rays", "Capacity", "Comparability", "Variance", "Polar", "Resistance", "Remainder", "LatticeRegularity", "SphericalA2", "WeightedBalls", "GaussianMarginal", "MultivariateGaussian", "GaussianSmooth", "LatticeGeometry", "SphereTest", "RayTest", "RayToll", "OneDim", "LatticeSeparation", "LatticeVolume", "PaperTheorems"]
+defaultTargets = ["BrownRadial", "Analytic", "Radial", "Gaussian", "Rays", "Capacity", "Comparability", "Variance", "Polar", "Resistance", "Remainder", "LatticeRegularity", "SphericalA2", "WeightedBalls", "GaussianMarginal", "MultivariateGaussian", "GaussianSmooth", "LatticeGeometry", "SphereTest", "RayTest", "RayToll", "OneDim", "LatticeSeparation", "LatticeVolume", "PaperTheorems", "DoublingPoincare", "LatticeLocal", "CubePartition", "Gluing", "LatticeSmallBalls", "LatticeCovering", "LatticeDP", "LebesguePoincare"]
 
 [[require]]
 name = "mathlib"
@@ -81,3 +81,27 @@ name = "LatticeVolume"
 
 [[lean_lib]]
 name = "PaperTheorems"
+
+[[lean_lib]]
+name = "DoublingPoincare"
+
+[[lean_lib]]
+name = "LatticeLocal"
+
+[[lean_lib]]
+name = "CubePartition"
+
+[[lean_lib]]
+name = "Gluing"
+
+[[lean_lib]]
+name = "LatticeSmallBalls"
+
+[[lean_lib]]
+name = "LatticeCovering"
+
+[[lean_lib]]
+name = "LatticeDP"
+
+[[lean_lib]]
+name = "LebesguePoincare"
